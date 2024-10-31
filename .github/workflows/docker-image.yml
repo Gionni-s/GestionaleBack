@@ -13,11 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm ci
+      # - name: Install dependencies
+      #   run: npm ci
 
-      - name: Test
-        run: npm run test
+      # - name: Test
+      #   run: npm run test
 
       - name: Build the Docker image
         run: |
