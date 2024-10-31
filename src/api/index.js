@@ -1,5 +1,5 @@
 const express = require('express');
-const { ip, port, env } = require('../config');
+const { port, env } = require('../config');
 const cors = require('cors');
 const fs = require('fs');
 const appRoot = require('app-root-path');
@@ -39,5 +39,5 @@ app.use('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  logger.info(`\x1B[0;34mExpress:\x1B[0m Server listening on \x1B[0;32mhttp://${ip}:${port}\x1B[0m, in ${env} mode`);
+  logger.info(`\x1B[0;34mExpress:\x1B[0m Server listening on port\x1B[0;32mh ${port}\x1B[0m, in ${env} mode`);
 });
