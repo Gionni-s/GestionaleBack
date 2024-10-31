@@ -1,16 +1,67 @@
-const express = require("express")
-const { activity } = require("./controller")
-const { token } = require("../../services/token")
+const express = require('express');
+const { actions } = require('./controller');
+const { token } = require('../../services/token');
 
-const router = express.Router()
+const router = express.Router();
 
-//get all foods
-router.get("/", token({ required: true }), activity.getFoods)
+/**
+ * @api {get} /foods Request All Foods
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/', token({ required: true }), actions.index);
 
-//get food from id
-router.get("/:id", token({ required: true }), activity.getSpecificFood)
+/**
+ * @api {get} /foods/:id Request Food information
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/:id', token({ required: true }), actions.show);
 
-//insert new food
-router.post("/", token({ required: true }), activity.createFood)
+/**
+ * @api {post} /foods Create Food
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.post('/', token({ required: true }), actions.create);
 
-module.exports = router 
+/**
+ * @api {put} /foods/:id Update Food information
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.put('/:id', token({ required: true }), actions.update);
+
+/**
+ * @api {delete} /foods/:id Delete Food
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.delete('/:id', token({ required: true }), actions.destroy);
+
+module.exports = router;

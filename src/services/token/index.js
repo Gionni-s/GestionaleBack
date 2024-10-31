@@ -3,39 +3,39 @@ const { privateKey } = require('../../config');
 
 const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, next) => {
   try {
-    const token = req.headers.authorization
+    const token = req.headers.authorization;
 
     if (!required) {
-      return next()
+      return next();
     }
 
     if (required && !token) {
-      return res.status(401).send("")
+      return res.status(401).send('');
     }
 
     //TODO: add role control for token
-    req.params['idPropietario'] = verifyToken(token)
-    return next()
+    req.idPropietario = verifyToken(token);
+    return next();
   } catch (err) {
-    logger.error(err.message)
-    return res.status(401).send({ message: err.message })
+    logger.error(err.message);
+    return res.status(401).send({ message: err.message });
   }
 };
 
 function createToken(object) {
-  var token = jwt.sign(object, privateKey, { expiresIn: "7d" });
-  return { "token": token }
+  var token = jwt.sign(object, privateKey, { expiresIn: '7d' });
+  return { 'token': token };
 }
 
 function verifyToken(token) {
-  var decoded = undefined
+  var decoded = undefined;
   try {
-    decoded = jwt.verify(token.split(" ")[1], privateKey);
+    decoded = jwt.verify(token.split(' ')[1], privateKey);
   } catch (err) {
-    throw new Error(err.message)
+    throw new Error(err.message);
   }
 
-  return decoded["id"]
+  return decoded['id'];
 }
 
 module.exports = {
@@ -43,4 +43,4 @@ module.exports = {
   // verifyToken,
   // tokenValidation,
   token
-}
+};

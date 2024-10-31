@@ -1,17 +1,44 @@
-const express = require("express")
-const { token } = require("../../services/token")
-const { activity } = require("./controller")
+const express = require('express');
+const { token } = require('../../services/token');
+const { actions } = require('./controller');
 
-const router = express.Router()
+const router = express.Router();
 
-//get all alimenti
-router.get("/", token({ required: true }), activity.getLocations)
+/**
+ * @api {get} /locations  Show all locations
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/', token({ required: true }), actions.index);
 
-//get alimento from id
-router.get("/:id", token({ require: true }), activity.getSpecificLocation)
+/**
+ * @api {get} /locations/:id Select Specific Location
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/:id', token({ require: true }), actions.show);
 
-//insert new alimento
-router.post("/", token({ required: true }), activity.createLocation)
+/**
+ * @api {post} /locations Create Location
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.post('/', token({ required: true }), actions.create);
 
 
-module.exports = router 
+module.exports = router;

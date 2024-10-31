@@ -1,8 +1,8 @@
-const mongoose = require('./services/mongoose')
+const mongoose = require('./services/mongoose');
 const express = require('express');
 const http = require('http');
 const api = require('./api');
-const { port, ip, mongo, env } = require('./config');
+const { mongo } = require('./config');
 
 const app = express(api);
 
@@ -15,7 +15,7 @@ setImmediate(async () => {
       {}
     );
   } else {
-
+    logger.info('\x1B[0;34mMongoose:\x1B[0m DB disabled by .env roule \x1B[0;32m');
   }
 });
 

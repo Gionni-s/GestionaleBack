@@ -1,8 +1,6 @@
-const { default: mongoose } = require("mongoose");
+const { default: { model }, Schema } = require('mongoose');
 
-const Schema = require("mongoose").Schema
-
-let modelSchema = new Schema({
+const Entity = model('food', {
   name: {
     type: String,
     required: true,
@@ -14,8 +12,6 @@ let modelSchema = new Schema({
     type: Schema.ObjectId,
     required: true,
   }
-})
+});
 
-const model = mongoose.model('food', modelSchema);
-
-module.exports = model
+module.exports = Entity;

@@ -12,7 +12,6 @@ const requireProcessEnv = (name) => {
   return process.env[name];
 };
 
-const isWin = process.platform == 'win32';
 const APP_NAME = requireProcessEnv('APP_NAME');
 const mongoUrl = process.env.MONGO_URL || 'mongodb://root:example@localhost:27017/';
 
@@ -21,8 +20,8 @@ const config = {
     appName: _.capitalize(APP_NAME),
     port: process.env.PORT || 9000,
     privateKey: requireProcessEnv('PRIVATE_KEY'),
-    ip: process.env.URL || "http://localhost",
-    env: process.env.ENV || "develop",
+    ip: requireProcessEnv('URL'),
+    env: requireProcessEnv('ENV'),
     mongo: {
       createMongo: requireProcessEnv('CREATE_MONGO') === 'true',
       options: {

@@ -1,6 +1,6 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose } = require('mongoose');
 
-const Schema = require("mongoose").Schema
+const Schema = require('mongoose').Schema;
 
 let alimentiSchema = new Schema({
   fkFood: {
@@ -11,7 +11,7 @@ let alimentiSchema = new Schema({
     type: Number,
     required: true
   }
-})
+});
 
 let modelSchema = new Schema({
   name: {
@@ -30,8 +30,8 @@ let modelSchema = new Schema({
     type: Schema.ObjectId,
     required: true,
   }
-})
+});
 
 const model = mongoose.model('recipe', modelSchema);
 
-module.exports = model
+module.exports = model;

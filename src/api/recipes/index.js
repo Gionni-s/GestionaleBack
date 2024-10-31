@@ -1,16 +1,43 @@
-const express = require("express")
-const { activity } = require("./controller")
-const { token } = require("../../services/token")
+const express = require('express');
+const { actions } = require('./controller');
+const { token } = require('../../services/token');
 
-const router = express.Router()
+const router = express.Router();
 
-//get all foods
-router.get("/", token({ required: true }), activity.getRecipes)
+/**
+ * @api {get} /recipes Get All Recipes
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/', token({ required: true }), actions.index);
 
-//get food from id
-router.get("/:id", token({ required: true }), activity.getSpecificRecipe)
+/**
+ * @api {get} /recipes/:id get Specific recipe
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/:id', token({ required: true }), actions.show);
 
-//insert new food
-router.post("/", token({ required: true }), activity.createRecipe)
+/**
+ * @api {post} /recipes Create a recipe
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.post('/', token({ required: true }), actions.create);
 
-module.exports = router 
+module.exports = router;

@@ -1,13 +1,7 @@
-const { default: mongoose } = require("mongoose");
+const { default: { model } } = require('mongoose');
+const { RolesEnum } = require('../_utils/enum');
 
-const Schema = require("mongoose").Schema
-
-const RolesEnum = {
-  USER: 'user',
-  ADMIN: 'admin',
-};
-
-let modelSchema = new Schema({
+const Entity = model('user', {
   name: {
     type: String,
     required: true,
@@ -58,8 +52,6 @@ let modelSchema = new Schema({
     type: Boolean,
     default: false
   }
-})
+});
 
-const model = mongoose.model('user', modelSchema);
-
-module.exports = { model, RolesEnum }
+module.exports = Entity;
