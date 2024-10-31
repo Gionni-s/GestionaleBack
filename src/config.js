@@ -21,8 +21,8 @@ const config = {
     appName: _.capitalize(APP_NAME),
     port: process.env.PORT || 9000,
     privateKey: requireProcessEnv('PRIVATE_KEY'),
-    ip: requireProcessEnv('URL'),
-    env: requireProcessEnv('ENV'),
+    ip: process.env.URL || "http://localhost",
+    env: process.env.ENV || "develop",
     mongo: {
       createMongo: requireProcessEnv('CREATE_MONGO') === 'true',
       options: {
