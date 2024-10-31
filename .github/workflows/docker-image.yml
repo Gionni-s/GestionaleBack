@@ -21,7 +21,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile --tag ${{secrets.APPNAME}}:latest
+          docker build . --file Dockerfile --tag ${{secrets.APP_NAME}}:latest
 
       - name: Log in to DockerHub
         uses: docker/login-action@v2
@@ -31,8 +31,8 @@ jobs:
 
       - name: Push to DockerHub
         run: |
-          docker tag ${{secrets.APPNAME}}:latest ${{ secrets.DOCKER_USERNAME }}/${{secrets.APPNAME}}:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{secrets.APPNAME}}:latest
+          docker tag ${{secrets.APP_NAME}}:latest ${{ secrets.DOCKER_USERNAME }}/${{secrets.APP_NAME}}:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{secrets.APP_NAME}}:latest
 
       - name: Trigger deployment on Render via Deploy Hook
         run: |
