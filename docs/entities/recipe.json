@@ -1,0 +1,30 @@
+{
+  "name": "russel.metz53",
+  "fkBook": "66d71f0a6df4866850e3a4b9",
+  "ingridients": [
+    {
+      "fkFood": "66d71f0a6df4866850e3a4b3",
+      "quantity": 3
+    },
+    {
+      "fkFood": "66d71f0a6df4866850e3a4b4",
+      "quantity": 66
+    },
+    {
+      "fkFood": "66d71f0a6df4866850e3a4b5",
+      "quantity": 9
+    },
+    {
+      "fkFood": "66d71f0a6df4866850e3a4b6",
+      "quantity": 59
+    },
+    {
+      "fkFood": "66d71f0a6df4866850e3a4b7",
+      "quantity": 55
+    },
+    {
+      "fkFood": "66d71f0a6df4866850e3a4b8",
+      "quantity": 62
+    }
+  ]
+}
