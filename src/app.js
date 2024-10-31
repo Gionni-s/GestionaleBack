@@ -9,15 +9,14 @@ const app = express(api);
 const server = http.createServer(app);
 
 setImmediate(async () => {
-  await mongoose.connect(
-    mongo.uri,
-    {}
-  );
+  if (mongo.createMongo) {
+    await mongoose.connect(
+      mongo.uri,
+      {}
+    );
+  } else {
 
-  // server.listen(port, ip, () => {
-  //   logger.info(`\x1B[0;34mExpress:\x1B[0m Server listening on http://${ip}:${port}, in ${env} mode`);
-  // });
-
+  }
 });
 
 module.exports = app;

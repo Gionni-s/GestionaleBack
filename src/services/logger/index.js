@@ -1,5 +1,6 @@
 const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, printf, colorize } = format;
+const expressWinston = require('express-winston');
 
 // formatting console message 
 const consoleFormat = printf(({ level, message, timestamp }) => {
@@ -36,5 +37,13 @@ const logger = createLogger({
   ]
 });
 
+/* eslint-disable */
+logger.expressLogger = expressWinston.logger({
+  winstonInstance: logger,
+  msg:
+    '{{req.method}} {{res.statusCode}} {{res.responseTime}}ms user:{{req.idPropietario?req.idPropietario:"Anonymous"}} {{req.url.split("?")[0]}}',
+  colorize: true
+});
 
-module.exports = logger
+
+module.exports = logger;
