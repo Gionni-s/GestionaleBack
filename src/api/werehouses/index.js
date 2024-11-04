@@ -40,4 +40,28 @@ router.get('/:id', token({ required: true }), actions.show);
  */
 router.post('/', token({ required: true }), actions.create);
 
+/**
+ * @api {put} /warehouses/:id Update Warehouse
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.put('/', token({ required: true }), actions.update);
+
+/**
+ * @api {delete} /warehouses/:id Delete Warehouse
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.delete('/', token({ required: true }), actions.destroy);
+
 module.exports = router;
