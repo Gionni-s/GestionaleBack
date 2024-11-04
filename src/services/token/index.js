@@ -14,7 +14,7 @@ const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, 
     }
 
     //TODO: add role control for token
-    req.idProprietario = verifyToken(token);
+    req.idPropietario = verifyToken(token);
     return next();
   } catch (err) {
     logger.error(err.message);

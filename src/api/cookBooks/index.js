@@ -40,28 +40,4 @@ router.get('/:id', token({ required: true }), actions.show);
  */
 router.post('/', token({ required: true }), actions.create);
 
-/**
- * @api {put} /cookBooks/:id Update Book
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.put('/:id', token({ required: true }), actions.update);
-
-/**
- * @api {delete} /cookBooks/:id Destroy Book
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.delete('/:id', token({ required: true }), actions.destroy);
-
 module.exports = router;

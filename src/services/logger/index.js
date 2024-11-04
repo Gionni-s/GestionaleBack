@@ -41,7 +41,7 @@ const logger = createLogger({
 logger.expressLogger = expressWinston.logger({
   winstonInstance: logger,
   msg:
-    '{{req.method}} {{res.statusCode}} {{res.responseTime}}ms user:{{req.idProprietario?req.idProprietario:"Anonymous"}} {{req.url.split("?")[0]}}',
+    '{{req.method}} {{res.statusCode}} {{res.responseTime}}ms user:{{req.idPropietario?req.idPropietario:"Anonymous"}} {{req.url.split("?")[0]}}',
   colorize: true
 });
 

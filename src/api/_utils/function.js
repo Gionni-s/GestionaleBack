@@ -1,7 +1,7 @@
 module.exports = function FunctionGeneration(Entity) {
 
-  async function index({ idProprietario }, res) {
-    const fkProprietario = idProprietario;
+  async function index({ idPropietario }, res) {
+    const fkProprietario = idPropietario;
     let result = await Entity.find({ fkProprietario: fkProprietario });
     if (result.length == 0) {
       result = { message: 'No element Found' };
@@ -9,8 +9,8 @@ module.exports = function FunctionGeneration(Entity) {
     return res.status(200).send(result);
   };
 
-  async function show({ params, idProprietario }, res) {
-    const fkProprietario = idProprietario;
+  async function show({ params, idPropietario }, res) {
+    const fkProprietario = idPropietario;
     let result = await Entity.findOne({ fkProprietario: fkProprietario, _id: params.id });
     if (result.length == 0) {
       result = { message: 'No element Found' };
@@ -18,22 +18,9 @@ module.exports = function FunctionGeneration(Entity) {
     return res.status(200).send(result);
   };
 
-  async function showMe({ idProprietario }, res) {
+  async function create({ body, idPropietario }, res) {
     try {
-      let result = await Entity.findOne({ _id: idProprietario });
-      if (result.length == 0) {
-        result = { message: 'No element Found' };
-      }
-      return res.status(200).send(result);
-    } catch (e) {
-      logger.error(e.message);
-      return res.status(500).send({ message: e.message });
-    }
-  };
-
-  async function create({ body, idProprietario }, res) {
-    try {
-      let fkProprietario = idProprietario;
+      let fkProprietario = idPropietario;
 
       let create = await Entity.create({ ...body, fkProprietario });
       return res.status(200).send(create);
@@ -43,8 +30,8 @@ module.exports = function FunctionGeneration(Entity) {
     }
   };
 
-  async function update({ body, idProprietario, params }, res) {
-    let fkProprietario = idProprietario;
+  async function update({ body, idPropietario, params }, res) {
+    let fkProprietario = idPropietario;
     let updated = await Entity.findOneAndUpdate({ _id: params.id, fkProprietario }, body, { new: true });
     if (!updated) {
       return res.status(400).send({ message: 'no items found to modify' });
@@ -52,16 +39,8 @@ module.exports = function FunctionGeneration(Entity) {
     return res.status(200).send(updated);
   };
 
-  async function updateMe({ body, idProprietario }, res) {
-    let updated = await Entity.findOneAndUpdate({ _id: idProprietario }, body, { new: true });
-    if (!updated) {
-      return res.status(400).send({ message: 'no items found to modify' });
-    }
-    return res.status(200).send(updated);
-  };
-
-  async function destroy({ body, idProprietario, params }, res) {
-    let fkProprietario = idProprietario;
+  async function destroy({ body, idPropietario, params }, res) {
+    let fkProprietario = idPropietario;
     await Entity.deleteOne({ _id: params.id, fkProprietario }, body);
     return res.status(200).send({ message: 'delete successfully' });
   };
@@ -69,10 +48,8 @@ module.exports = function FunctionGeneration(Entity) {
   return {
     index: index,
     show: show,
-    showMe: showMe,
     create: create,
     update: update,
-    updateMe: updateMe,
     destroy: destroy,
     destroyMe: destroy
   };

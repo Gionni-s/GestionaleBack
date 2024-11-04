@@ -1,6 +1,6 @@
 const express = require('express');
 const { token } = require('../../services/token');
-const { actions } = require('./controller');
+const { activity } = require('./controller');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: false }), actions.login);
+router.get('/', token({ required: false }), activity.login);
 
 /**
  * @api {get} /users/newToken Request New Token
@@ -26,20 +26,7 @@ router.get('/', token({ required: false }), actions.login);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/newToken', token({ required: true }), actions.refreshToken);
-
-/**
- * @api {get} /users/me Show me
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.get('/me', token({ required: true }), actions.show);
-
+router.get('/newToken', token({ required: true }), activity.refreshToken);
 
 /**
  * @api {post} /users Create User
@@ -51,18 +38,6 @@ router.get('/me', token({ required: true }), actions.show);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.post('/', token({ required: false }), actions.createUser);
-
-/**
- * @api {put} /users/me Update user
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.put('/me', token({ required: true }), actions.updateMe);
+router.post('/', token({ required: false }), activity.createUser);
 
 module.exports = router;
