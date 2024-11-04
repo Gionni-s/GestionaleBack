@@ -29,6 +29,10 @@ let modelSchema = new Schema({
   fkBook: {
     type: Schema.ObjectId,
     required: true,
+  },
+  fkProprietario: {
+    type: Schema.ObjectId,
+    required: true,
   }
 });
 

@@ -1,34 +1,22 @@
 {
-  "name": "dewayne_rempel",
-  "fkBook": "67237f0e4fbbf52624cbe385",
+  "name": "patricia63",
+  "fkBook": "6727d7832ff6294b80030cd7",
   "ingridients": [
     {
-      "fkFood": "67237f0e4fbbf52624cbe37e",
+      "fkFood": "6727d7832ff6294b80030cd3",
+      "quantity": 4
+    },
+    {
+      "fkFood": "6727d7832ff6294b80030cd4",
       "quantity": 77
     },
     {
-      "fkFood": "67237f0e4fbbf52624cbe37f",
-      "quantity": 49
+      "fkFood": "6727d7832ff6294b80030cd5",
+      "quantity": 13
     },
     {
-      "fkFood": "67237f0e4fbbf52624cbe380",
-      "quantity": 70
-    },
-    {
-      "fkFood": "67237f0e4fbbf52624cbe381",
-      "quantity": 63
-    },
-    {
-      "fkFood": "67237f0e4fbbf52624cbe382",
-      "quantity": 67
-    },
-    {
-      "fkFood": "67237f0e4fbbf52624cbe383",
-      "quantity": 15
-    },
-    {
-      "fkFood": "67237f0e4fbbf52624cbe384",
-      "quantity": 63
+      "fkFood": "6727d7832ff6294b80030cd6",
+      "quantity": 65
     }
   ]
 }

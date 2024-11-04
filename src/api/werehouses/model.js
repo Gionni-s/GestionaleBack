@@ -1,6 +1,6 @@
 const { default: mongoose } = require('mongoose');
 
-const Schema = require('mongoose').Schema
+const Schema = require('mongoose').Schema;
 
 let modelSchema = new Schema({
   name: {
@@ -13,9 +13,14 @@ let modelSchema = new Schema({
   fkProprietario: {
     type: Schema.ObjectId,
     required: true,
+  },
+  default: {
+    type: Boolean,
+    required: true,
+    default: false
   }
-})
+});
 
 const model = mongoose.model('warehouse', modelSchema);
 
-module.exports = model
+module.exports = model;

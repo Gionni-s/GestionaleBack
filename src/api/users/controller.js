@@ -1,8 +1,9 @@
+const FunctionGeneration = require('../_utils/function.js');
 const { createToken } = require('../../services/token');
 const { findUser, addUser } = require('./middleware/express');
 const Entity = require('./model');
 
-let activity = {};
+let actions = FunctionGeneration(Entity);
 
 function basicAuth({ authorization: auth }) {
   const authorization = auth.split(' ')[1];
@@ -13,7 +14,7 @@ function basicAuth({ authorization: auth }) {
   return { mail, psw };
 }
 
-activity.login = async ({ headers }, res) => {
+actions.login = async ({ headers }, res) => {
   try {
     if (!headers.authorization) {
       throw ({ status: 404, message: 'Need to send username and password' });
@@ -32,7 +33,7 @@ activity.login = async ({ headers }, res) => {
   }
 };
 
-activity.refreshToken = async (req, res) => {
+actions.refreshToken = async (req, res) => {
   try {
     //TODO: ripensare questa funzione
     let user = await findUser({ mail, psw });
@@ -51,7 +52,28 @@ activity.refreshToken = async (req, res) => {
   }
 };
 
-activity.createUser = async (req, res) => {
+actions.show = async ({ idProprietario }, res) => {
+  try {
+    let result = await Entity.findOne({ _id: idProprietario });
+    if (result.length == 0) {
+      result = { message: 'No element Found' };
+    }
+    return res.status(200).send(result);
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).send({ message: e.message });
+  }
+};
+
+actions.updateMe = async ({ body, idProprietario }, res) => {
+  let updated = await Entity.findOneAndUpdate({ _id: idProprietario }, body, { new: true });
+  if (!updated) {
+    return res.status(400).send({ message: 'no items found to modify' });
+  }
+  return res.status(200).send(updated);
+};
+
+actions.createUser = async (req, res) => {
   try {
     let { name, surname, phone, psw, mail } = req.body;
 
@@ -75,4 +97,4 @@ activity.createUser = async (req, res) => {
   }
 };
 
-module.exports = { activity };
+module.exports = { actions };
