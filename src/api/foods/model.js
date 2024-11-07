@@ -1,6 +1,7 @@
-const { default: { model }, Schema } = require('mongoose');
+const { default: { mongoose }, Schema } = require('mongoose');
+const ModelGenerator = require('../_utils/modelGenerator');
 
-const Entity = model('food', {
+const schema = {
   name: {
     type: String,
     required: true,
@@ -8,10 +9,20 @@ const Entity = model('food', {
     lowercase: true,
     unique: true
   },
-  fkProprietario: {
+  userId: {
     type: Schema.ObjectId,
     required: true,
   }
-});
+};
 
-module.exports = Entity;
+const model = ModelGenerator(mongoose)(
+  {
+    schema,
+    collectionName: 'foods',
+    modelName: 'Food'
+  }
+);
+
+module.exports = model;
+
+// module.exports = Entity;

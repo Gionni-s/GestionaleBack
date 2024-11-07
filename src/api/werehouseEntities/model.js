@@ -1,8 +1,9 @@
 const { default: mongoose } = require('mongoose');
+const ModelGenerator = require('../_utils/modelGenerator');
 
 const Schema = require('mongoose').Schema;
 
-let modelSchema = new Schema({
+let schema = {
   quantita: {
     type: Number,
     required: true
@@ -11,24 +12,30 @@ let modelSchema = new Schema({
     type: Date,
     required: true
   },
-  fkFood: {
+  foodId: {
     type: Schema.ObjectId,
     required: true,
   },
-  fkLocation: {
+  locationId: {
     type: Schema.ObjectId,
     required: true,
   },
-  fkWarehouse: {
+  warehouseId: {
     type: Schema.ObjectId,
     required: true,
   },
-  fkProprietario: {
+  userId: {
     type: Schema.ObjectId,
     required: true
   }
-});
+};
 
-const model = mongoose.model('warehouseEntity', modelSchema);
+const model = ModelGenerator(mongoose)(
+  {
+    schema,
+    collectionName: 'warehouseEntities',
+    modelName: 'WarehouseEntity'
+  }
+);
 
 module.exports = model;

@@ -1,8 +1,9 @@
 const { default: mongoose } = require('mongoose');
+const ModelGenerator = require('../_utils/modelGenerator');
 
 const Schema = require('mongoose').Schema;
 
-let modelSchema = new Schema({
+let schema = {
   name: {
     type: String,
     required: true,
@@ -10,12 +11,19 @@ let modelSchema = new Schema({
     lowercase: true,
     unique: true
   },
-  fkProprietario: {
+  userId: {
     type: Schema.ObjectId,
     required: true,
   }
-});
+};
 
-const model = mongoose.model('location', modelSchema);
+
+const model = ModelGenerator(mongoose)(
+  {
+    schema,
+    collectionName: 'locations',
+    modelName: 'Location'
+  }
+);
 
 module.exports = model;

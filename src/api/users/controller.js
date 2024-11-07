@@ -52,9 +52,9 @@ actions.refreshToken = async (req, res) => {
   }
 };
 
-actions.show = async ({ idProprietario }, res) => {
+actions.show = async ({ userId }, res) => {
   try {
-    let result = await Entity.findOne({ _id: idProprietario });
+    let result = await Entity.findOne({ _id: userId });
     if (result.length == 0) {
       result = { message: 'No element Found' };
     }
@@ -65,8 +65,8 @@ actions.show = async ({ idProprietario }, res) => {
   }
 };
 
-actions.updateMe = async ({ body, idProprietario }, res) => {
-  let updated = await Entity.findOneAndUpdate({ _id: idProprietario }, body, { new: true });
+actions.updateMe = async ({ body, userId }, res) => {
+  let updated = await Entity.findOneAndUpdate({ _id: userId }, body, { new: true });
   if (!updated) {
     return res.status(400).send({ message: 'no items found to modify' });
   }

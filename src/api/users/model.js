@@ -1,7 +1,8 @@
-const { default: { model } } = require('mongoose');
+const { default: { mongoose } } = require('mongoose');
 const { RolesEnum } = require('../_utils/enum');
+const ModelGenerator = require('../_utils/modelGenerator');
 
-const Entity = model('user', {
+const schema = {
   name: {
     type: String,
     required: true,
@@ -52,6 +53,14 @@ const Entity = model('user', {
     type: Boolean,
     default: false
   }
-});
+};
 
-module.exports = Entity;
+const model = ModelGenerator(mongoose)(
+  {
+    schema,
+    collectionName: 'users',
+    modelName: 'User'
+  }
+);
+
+module.exports = model;

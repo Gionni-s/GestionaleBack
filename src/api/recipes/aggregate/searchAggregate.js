@@ -3,7 +3,7 @@ const { default: mongoose } = require('mongoose');
 const searchAggregate = (foodIds) => [
   {
     $match: {
-      'ingridients.fkFood': {
+      'ingridients.foodId': {
         $in: foodIds.map(val => new mongoose.Types.ObjectId(val))
       }
     }
@@ -12,7 +12,7 @@ const searchAggregate = (foodIds) => [
   {
     $lookup: {
       from: 'foods',
-      localField: 'ingridients.fkFood',
+      localField: 'ingridients.foodId',
       foreignField: '_id',
       as: 'foodDetails'
     }
@@ -22,9 +22,9 @@ const searchAggregate = (foodIds) => [
     $group: {
       _id: '$_id',
       name: { $first: '$name' },
-      fkBook: { $first: '$fkBook' },
-      fkProprietario: {
-        $first: '$fkProprietario'
+      bookId: { $first: '$bookId' },
+      userId: {
+        $first: '$userId'
       },
       ingridients: {
         $push: {
