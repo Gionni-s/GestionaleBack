@@ -15,7 +15,7 @@ function ModelGenerator(mongoose) {
           filter[i] = new mongoose.Types.ObjectId(filter[i]);
         }
       }
-      return await model.aggregate(createAggregate(entitySchema, { filter: filter }));
+      return await model.aggregate(createAggregate(entitySchema, { filter }));
     };
     model.view = view;
 
@@ -42,7 +42,7 @@ function createAggregate(keys, { filter = {} }) {
       addField['$addFields'][i.slice(0, -2)] = { $arrayElemAt: ['$' + i.slice(0, -2), 0] };
     }
   };
-
+  console.log(filter);
   if (filter != {}) {
     return [{ '$match': filter }, ...lookup, addField];
   }

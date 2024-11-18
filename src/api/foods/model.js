@@ -7,7 +7,6 @@ const schema = {
     required: true,
     trim: true,
     lowercase: true,
-    unique: true
   },
   userId: {
     type: Schema.ObjectId,
