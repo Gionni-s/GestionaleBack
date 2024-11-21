@@ -2,6 +2,8 @@ const FunctionGeneration = require('../_utils/function.js');
 const { createToken } = require('../../services/token');
 const { findUser, addUser } = require('./middleware/express');
 const Entity = require('./model');
+const UploadFile = require('../upload/model.js');
+const showUser = require('./middleware/aggregate.js');
 
 let actions = FunctionGeneration(Entity);
 
@@ -52,9 +54,9 @@ actions.refreshToken = async (req, res) => {
   }
 };
 
-actions.show = async ({ userId }, res) => {
+actions.showMe = async ({ userId }, res) => {
   try {
-    let result = await Entity.findOne({ _id: userId });
+    let result = (await Entity.aggregate(showUser(userId)))[0];
     if (result.length == 0) {
       result = { message: 'No element Found' };
     }
@@ -66,6 +68,10 @@ actions.show = async ({ userId }, res) => {
 };
 
 actions.updateMe = async ({ body, userId }, res) => {
+  let image = body.profileImage;
+  let updateImage =
+    await UploadFile.findOneAndUpdate({ userId, type: 'profileImage' }, { file: image }, { new: true });
+  body.profileImage = updateImage._id;
   let updated = await Entity.findOneAndUpdate({ _id: userId }, body, { new: true });
   if (!updated) {
     return res.status(400).send({ message: 'no items found to modify' });
@@ -75,14 +81,18 @@ actions.updateMe = async ({ body, userId }, res) => {
 
 actions.createUser = async (req, res) => {
   try {
-    let { name, surname, phone, psw, mail } = req.body;
+    let { name, surname, phone, psw, mail, profileImage } = req.body;
 
     let exist = await Entity.find({ 'email': mail });
     if (exist.length >= 1) {
       throw ({ code: 1000, status: 400, message: 'Utente già presente' });
     }
+    let result = await addUser({ name, surname, phone, psw, mail, profileImage: imageUpload._id });
 
-    let result = await addUser({ name, surname, phone, psw, mail });
+    let imageUpload =
+      await UploadFile.insert({ file: profileImage, type: 'profileImage', userId: result._id });
+
+    await Entity.findOneAndUpdate({ _id: result._id }, { profileImage: imageUpload._id }, { new: true });
 
     if (result) {
       logger.info('Utente inserito correttamente');

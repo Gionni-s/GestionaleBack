@@ -31,6 +31,9 @@ const schema = {
     minlength: 6,
     select: false
   },
+  profileImage: {
+    type: mongoose.Types.ObjectId
+  },
   role: {
     type: String,
     enum: RolesEnum,

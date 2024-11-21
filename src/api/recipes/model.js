@@ -4,7 +4,7 @@ const ModelGenerator = require('../_utils/modelGenerator');
 const Schema = require('mongoose').Schema;
 
 let alimentiSchema = new Schema({
-  idFood: {
+  foodId: {
     type: Schema.ObjectId,
     required: true
   },
@@ -45,7 +45,3 @@ const model = ModelGenerator(mongoose)(
 );
 
 module.exports = model;
-
-// const model = mongoose.model('recipe', modelSchema);
-
-// module.exports = model;

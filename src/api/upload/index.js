@@ -1,11 +1,11 @@
 const express = require('express');
-const { token } = require('../../services/token');
 const { actions } = require('./controller');
+const { token } = require('../../services/token');
 
 const router = express.Router();
 
 /**
- * @api {get} /users Login
+ * @api {get} /profileImage Get All ProfileImges
  * @apiName GetUser
  * @apiGroup User
  *
@@ -14,10 +14,10 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: false }), actions.login);
+router.get('/', token({ required: true }), actions.index);
 
 /**
- * @api {get} /users/newToken Request New Token
+ * @api {get} /profileImage/:id Get Specific ProfileImg
  * @apiName GetUser
  * @apiGroup User
  *
@@ -26,10 +26,10 @@ router.get('/', token({ required: false }), actions.login);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/newToken', token({ required: true }), actions.refreshToken);
+router.get('/:id', token({ required: true }), actions.show);
 
 /**
- * @api {get} /users/me Show me
+ * @api {post} /profileImage Create ProfileImg
  * @apiName GetUser
  * @apiGroup User
  *
@@ -38,23 +38,10 @@ router.get('/newToken', token({ required: true }), actions.refreshToken);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/me', token({ required: true }), actions.showMe);
-
-
-/**
- * @api {post} /users Create User
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.post('/', token({ required: false }), actions.createUser);
+router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /users/me Update user
+ * @api {put} /profileImage/:id Update ProfileImg
  * @apiName GetUser
  * @apiGroup User
  *
@@ -63,6 +50,18 @@ router.post('/', token({ required: false }), actions.createUser);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.put('/me', token({ required: true }), actions.updateMe);
+router.put('/', token({ required: true }), actions.update);
+
+/**
+ * @api {delete} /profileImage/:id Delete ProfileImg
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.delete('/', token({ required: true }), actions.destroy);
 
 module.exports = router;
