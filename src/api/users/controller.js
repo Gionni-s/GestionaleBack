@@ -4,6 +4,8 @@ const { findUser, addUser } = require('./middleware/express');
 const Entity = require('./model');
 const UploadFile = require('../upload/model.js');
 const showUser = require('./middleware/aggregate.js');
+const fs = require('fs');
+const appRoute = require('app-root-path');
 
 let actions = FunctionGeneration(Entity);
 
@@ -14,6 +16,12 @@ function basicAuth({ authorization: auth }) {
   const mail = result.split(':')[0];
   const psw = result.slice(result.indexOf(':') + 1, result.length);
   return { mail, psw };
+}
+
+function convertImageToBase64(name) {
+  const data = fs.readFileSync(appRoute.toString() + '/src' + name);
+  let base64Image = Buffer.from(data, 'binary').toString('base64');
+  return 'data:image/jpeg;base64,'+base64Image;
 }
 
 actions.login = async ({ headers }, res) => {
@@ -57,7 +65,7 @@ actions.refreshToken = async (req, res) => {
 actions.showMe = async ({ userId }, res) => {
   try {
     let result = (await Entity.aggregate(showUser(userId)))[0];
-    if (result.length == 0) {
+    if (!result || result.length == 0) {
       result = { message: 'No element Found' };
     }
     return res.status(200).send(result);
@@ -80,6 +88,8 @@ actions.updateMe = async ({ body, userId }, res) => {
 };
 
 actions.createUser = async (req, res) => {
+  let result;
+  let imageUpload;
   try {
     let { name, surname, phone, psw, mail, profileImage } = req.body;
 
@@ -87,21 +97,29 @@ actions.createUser = async (req, res) => {
     if (exist.length >= 1) {
       throw ({ code: 1000, status: 400, message: 'Utente già presente' });
     }
-    let result = await addUser({ name, surname, phone, psw, mail, profileImage: imageUpload._id });
+    result = await addUser({ name, surname, phone, psw, mail });
 
-    let imageUpload =
-      await UploadFile.insert({ file: profileImage, type: 'profileImage', userId: result._id });
+    imageUpload =
+      await UploadFile.create(
+        {
+          file: profileImage || convertImageToBase64('/image/defaultProfile.jpg'),
+          type: 'profileImage',
+          userId: result._id
+        }
+      );
 
     await Entity.findOneAndUpdate({ _id: result._id }, { profileImage: imageUpload._id }, { new: true });
 
     if (result) {
       logger.info('Utente inserito correttamente');
       let user = await findUser({ mail, psw });
-      return res.status(200).send(createToken({ 'id': (user[0])['_id'] }));
+      console.log({ user });
+      return res.status(200).send(createToken({ 'id': (user)['_id'] }));
     }
-
     throw ({ code: 1000, status: 400, message: 'Utente non inserito' });
   } catch (err) {
+    if (result) await Entity.deleteOne({ _id: result._id }, {});
+    if (imageUpload) await UploadFile.deleteOne({ _id: imageUpload._id }, {});
     logger.error(err.message);
     return res.status(err.status || 500).send({ code: err.code || 9000, message: err.message });
   }
