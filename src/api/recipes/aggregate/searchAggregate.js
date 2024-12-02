@@ -99,8 +99,7 @@ const populateAggregate = (userId) => [
       ingridients: { $push: '$ingridients' },
       name: { $first: '$name' },
       userId: { $first: '$userId' },
-      bookId: { $first: '$bookId' },
-      bookInfo: { $first: '$bookInfo' },
+      book: { $first: '$bookInfo' },
       __v: { $first: '$__v' }
     }
   }
