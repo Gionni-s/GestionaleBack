@@ -3,7 +3,7 @@ const { createToken } = require('../../services/token');
 const { findUser, addUser } = require('./middleware/express');
 const Entity = require('./model');
 const UploadFile = require('../upload/model.js');
-const showUser = require('./middleware/aggregate.js');
+const { showUser, showAll } = require('./middleware/aggregate.js');
 const fs = require('fs');
 const appRoute = require('app-root-path');
 
@@ -21,7 +21,7 @@ function basicAuth({ authorization: auth }) {
 function convertImageToBase64(name) {
   const data = fs.readFileSync(appRoute.toString() + '/src' + name);
   let base64Image = Buffer.from(data, 'binary').toString('base64');
-  return 'data:image/jpeg;base64,'+base64Image;
+  return 'data:image/jpeg;base64,' + base64Image;
 }
 
 actions.login = async ({ headers }, res) => {
@@ -59,6 +59,19 @@ actions.refreshToken = async (req, res) => {
   } catch (err) {
     logger.error(err.message);
     return res.status(err.status || 500).send({ code: err.code || 9000, message: err.message });
+  }
+};
+
+actions.show = async (res) => {
+  try {
+    let result = (await Entity.aggregate(showAll()))[0];
+    if (!result || result.length == 0) {
+      result = { message: 'No element Found' };
+    }
+    return res.status(200).send(result);
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).send({ message: e.message });
   }
 };
 
@@ -113,7 +126,6 @@ actions.createUser = async (req, res) => {
     if (result) {
       logger.info('Utente inserito correttamente');
       let user = await findUser({ mail, psw });
-      console.log({ user });
       return res.status(200).send(createToken({ 'id': (user)['_id'] }));
     }
     throw ({ code: 1000, status: 400, message: 'Utente non inserito' });

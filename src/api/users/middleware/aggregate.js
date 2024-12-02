@@ -25,4 +25,22 @@ const showUser = (id) => [
   }
 ];
 
-module.exports = showUser;
+const showAll = () => {
+  return [
+    {
+      $lookup: {
+        from: 'uploads',
+        localField: 'profileImage',
+        foreignField: '_id',
+        pipeline: [
+          { $project: { file: 1, _id: 0 } }
+        ],
+        as: 'profileImage'
+      }
+    },
+    { $unwind: '$profileImage' },
+    { $set: { profileImage: '$profileImage.file' } }
+  ];
+};
+
+module.exports = { showUser, showAll };

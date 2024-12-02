@@ -14,7 +14,19 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: false }), actions.login);
+router.get('/', token({ required: false }), actions.show);
+
+/**
+ * @api {get} /users/login Login
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/login', token({ required: false }), actions.login);
 
 /**
  * @api {get} /users/newToken Request New Token
