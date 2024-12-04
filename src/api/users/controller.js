@@ -64,7 +64,7 @@ actions.refreshToken = async (req, res) => {
 
 actions.show = async (req, res) => {
   try {
-    let result = (await Entity.aggregate(showAll()))[0];
+    let result = (await Entity.aggregate(showAll()));
     if (!result || result.length == 0) {
       result = { message: 'No element Found' };
     }
