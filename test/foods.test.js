@@ -1,55 +1,55 @@
-const { default: mongoose } = require("mongoose");
-const { addUser, deleteUser } = require("../src/api/users/middleware/express");
-const { createNewFood, deleteFood } = require("../src/api/foods/middleware");
-const logger = require("../src/services/logger");
-const mongoUrl = require("../src/config").mongo.uri;
+const { default: mongoose } = require('mongoose');
+const User = require('../src/api/users/controller');
+const Food = require('../src/api/foods/controller');
+const logger = require('../src/services/logger');
+const mongoUrl = require('../src/config').mongo.uri;
 
-global.logger = logger
+global.logger = logger;
 
-let createdUser
-let food
+let createdUser;
+let food;
 
 beforeEach(async () => {
-  await mongoose.connect(mongoUrl)
-  createdUser = await addUser(user)
+  await mongoose.connect(mongoUrl);
+  createdUser = await User.create(user);
   food = {
-    fkProprietario: createdUser["_id"]
-  }
-})
+    fkProprietario: createdUser['_id']
+  };
+});
 afterEach(async () => {
-  await deleteUser(createdUser)
-  await mongoose.disconnect()
-})
+  await User.destroy(createdUser._id);
+  await mongoose.disconnect();
+});
 
 let user = {
-  name: "nome",
-  cognome: "surname",
-  psw: "psw",
-  mail: "mail@mail2.com",
-  phone: "123123123"
-}
+  name: 'nome',
+  cognome: 'surname',
+  password: 'psw',
+  email: 'mail',
+  phone: '123123123'
+};
 
 
 
 
-describe("Foods", () => {
+describe('Foods', () => {
   it('Food no data', async () => {
     try {
-      await createNewFood(food)
+      await Food.create(food);
     } catch (err) {
-      expect(err).toBeDefined()
+      expect(err).toBeDefined();
     }
-  })
+  });
 
   it('Food correct', async () => {
-    let foodCreate
-    food.name = "test"
+    let foodCreate;
+    food.name = 'test';
     try {
-      foodCreate = await createNewFood(food)
+      foodCreate = await Food.create(food);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    expect(foodCreate).toBeTruthy()
-    await deleteFood(foodCreate)
-  })
-})
+    expect(foodCreate).toBeTruthy();
+    await Food.destroy(foodCreate._id);
+  });
+});

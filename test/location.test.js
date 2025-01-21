@@ -1,55 +1,54 @@
-const { default: mongoose } = require("mongoose");
-const { addUser, deleteUser } = require("../src/api/users/middleware/express");
-const { createNewLocation, deleteLocation } = require("../src/api/locations/middleware");
-const logger = require("../src/services/logger");
-const mongoUrl = require("../src/config").mongo.uri;
+const { default: mongoose } = require('mongoose');
+const User = require('../src/api/users/controller');
+const Location = require('../src/api/locations/controller');
+const logger = require('../src/services/logger');
+const mongoUrl = require('../src/config').mongo.uri;
 
-global.logger = logger
+global.logger = logger;
 
-let createdUser
-let location
+let createdUser;
+let location;
 
 beforeEach(async () => {
-  await mongoose.connect(mongoUrl)
-  createdUser = await addUser(user)
+  await mongoose.connect(mongoUrl);
+  createdUser = await User.create(user);
   location = {
-    fkProprietario: createdUser["_id"]
-  }
-})
+    fkProprietario: createdUser['_id']
+  };
+});
 afterEach(async () => {
-  await deleteUser(createdUser)
-  await mongoose.disconnect()
-})
+  await User.destroy(createdUser._id);
+  await mongoose.disconnect();
+});
 
 let user = {
-  name: "nome",
-  cognome: "surname",
-  psw: "psw",
-  mail: "mail@mail3.com",
-  phone: "123123123"
-}
+  name: 'nome',
+  cognome: 'surname',
+  password: 'psw',
+  email: 'mail',
+  phone: '123123123'
+};
 
 
 
-
-describe("Locations", () => {
+describe('Locations', () => {
   it('Location no data', async () => {
     try {
-      await createNewLocation(location)
+      await Location.create(location);
     } catch (err) {
-      expect(err).toBeDefined()
+      expect(err).toBeDefined();
     }
-  })
+  });
 
   it('Location correct', async () => {
-    let locationCreate
-    location.name = "temp"
+    let locationCreate;
+    location.name = 'temp';
     try {
-      locationCreate = await createNewLocation(location)
+      locationCreate = await Location.create(location);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    expect(locationCreate).toBeTruthy()
-    await deleteLocation(locationCreate)
-  })
-})
+    expect(locationCreate).toBeTruthy();
+    await deleteLocation(locationCreate._id);
+  });
+});

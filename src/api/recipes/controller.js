@@ -8,7 +8,7 @@ module.exports = {
   actions
 };
 
-actions.index = async ({ params, userId }, res) => {
+actions.index = async ({ userId }, res) => {
   let result = await Entity.aggregate(populateAggregate(userId));
   if (result.length == 0) {
     result = { message: 'No element Found' };

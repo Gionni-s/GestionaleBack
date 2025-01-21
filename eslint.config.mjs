@@ -37,7 +37,8 @@ export default [
     //escludere alcuni controlli da alcuni file/cartelle
     files: ['**/*.test.js', 'documentation/**'],
     rules: {
-      'no-console': 'off'
+      'no-console': 'off',
+      'no-undef': 'off'
     }
   }
 ];

@@ -9,7 +9,6 @@ module.exports = function FunctionGeneration(Entity) {
   };
 
   async function show({ params, userId }, res) {
-    // let result = await Entity.findOne({ userId: userId, _id: params.id });
     let result = await Entity.view({ userId, _id: params.id });
     if (result.length == 0) {
       result = { message: 'No element Found' };
@@ -43,7 +42,7 @@ module.exports = function FunctionGeneration(Entity) {
   async function update({ body, userId, params }, res) {
     let updated = await Entity.findOneAndUpdate({ _id: params.id, userId }, body, { new: true });
     if (!updated) {
-      return res.status(400).send({ message: 'no items found to modify' });
+      return res.status(400).send({ message: 'No elements found to modify' });
     }
     return res.status(200).send(updated);
   };
@@ -51,15 +50,26 @@ module.exports = function FunctionGeneration(Entity) {
   async function updateMe({ body, userId }, res) {
     let updated = await Entity.findOneAndUpdate({ _id: userId }, body, { new: true });
     if (!updated) {
-      return res.status(400).send({ message: 'no items found to modify' });
+      return res.status(400).send({ message: 'No elements found to modify' });
     }
     return res.status(200).send(updated);
   };
 
   async function destroy({ body, userId, params }, res) {
-    await Entity.deleteOne({ _id: params.id, userId }, body);
-    return res.status(200).send({ message: 'delete successfully' });
+    let destroied = await Entity.deleteOne({ _id: params.id, userId }, body);
+    if (!destroied) {
+      return res.status(400).send({ message: 'Error during elimination of user' });
+    }
+    return res.status(200).send({ message: 'Delete successfully' });
   };
+
+  async function destroyMe({ userId }, res) {
+    let destroied = await Entity.deleteOne({ _id: userId });
+    if (!destroied) {
+      return res.status(400).send({ message: 'Error during elimination of user' });
+    }
+    return res.status(200).send({ message: 'Delete successfully' });
+  }
 
   return {
     index: index,
@@ -69,6 +79,6 @@ module.exports = function FunctionGeneration(Entity) {
     update: update,
     updateMe: updateMe,
     destroy: destroy,
-    destroyMe: destroy
+    destroyMe: destroyMe
   };
 };

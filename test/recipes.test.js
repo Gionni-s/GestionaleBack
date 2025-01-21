@@ -1,79 +1,78 @@
-const { default: mongoose } = require("mongoose");
-const { addUser, deleteUser } = require("../src/api/users/middleware/express");
-const { createNewRecipe, deleteRecipe } = require("../src/api/recipes/middleware");
-const { createNewFood, deleteFood } = require("../src/api/foods/middleware");
-const { createNewBook, deleteBook } = require("../src/api/cookBooks/middleware");
-const logger = require("../src/services/logger");
-const mongoUrl = require("../src/config").mongo.uri;
+const { default: mongoose } = require('mongoose');
+const User = require('../src/api/users/controller');
+const Recipe = require('../src/api/recipes/controller');
+const Food = require('../src/api/foods/controller');
+const CookBook = require('../src/api/cookBooks/controller');
+const logger = require('../src/services/logger');
+const mongoUrl = require('../src/config').mongo.uri;
 
-global.logger = logger
+global.logger = logger;
 
-let createdUser
-let createdBook
-let createdFood
+let createdUser;
+let createdBook;
+let createdFood;
 
-let recipe
-let book
-let food
+let recipe;
+let book;
+let food;
 
 beforeEach(async () => {
-  await mongoose.connect(mongoUrl)
-  createdUser = await addUser(user)
+  await mongoose.connect(mongoUrl);
+  createdUser = await User.create(user);
 
   food = {
-    name: "temp",
-    fkProprietario: createdUser["_id"]
-  }
+    name: 'temp',
+    fkProprietario: createdUser['_id']
+  };
 
   book = {
-    name: "temp",
-    fkProprietario: createdUser["_id"]
-  }
+    name: 'temp',
+    fkProprietario: createdUser['_id']
+  };
 
-  createdBook = await createNewBook(book)
-  createdFood = await createNewFood(food)
+  createdBook = await CookBook.create(book);
+  createdFood = await Food.create(food);
 
   recipe = {
-    ingridients: [{ fkFood: createdFood["_id"], quantity: 1 }],
-    fkBook: createdBook["_id"]
-  }
-})
+    ingridients: [{ fkFood: createdFood['_id'], quantity: 1 }],
+    fkBook: createdBook['_id']
+  };
+});
 afterEach(async () => {
-  await deleteUser(createdUser)
-  await deleteBook(createdBook)
-  await deleteFood(createdFood)
-  await mongoose.disconnect()
-})
+  await User.destroy(createdUser._id);
+  await CookBook.destroy(createdBook._id);
+  await Food.destroy(createdFood._id);
+  await mongoose.disconnect();
+});
 
 let user = {
-  name: "nome",
-  cognome: "surname",
-  psw: "psw",
-  mail: "mail@mail4.com",
-  phone: "123123123"
-}
+  name: 'nome',
+  cognome: 'surname',
+  password: 'psw',
+  email: 'mail',
+  phone: '123123123'
+};
 
 
 
-
-describe("Recipes", () => {
+describe('Recipes', () => {
   it('Recipe no data', async () => {
     try {
-      await createNewRecipe(recipe)
+      await Recipe.create(recipe);
     } catch (err) {
-      expect(err).toBeDefined()
+      expect(err).toBeDefined();
     }
-  })
+  });
 
   it('Recipe correct', async () => {
-    let recipeCreate
-    recipe.name = "temp"
+    let recipeCreate;
+    recipe.name = 'temp';
     try {
-      recipeCreate = await createNewRecipe(recipe)
+      recipeCreate = await Recipe.create(recipe);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    expect(recipeCreate).toBeTruthy()
-    await deleteRecipe(recipeCreate)
-  })
-})
+    expect(recipeCreate).toBeTruthy();
+    await Recipe.destroy(recipeCreate._id);
+  });
+});

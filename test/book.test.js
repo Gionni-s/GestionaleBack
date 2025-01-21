@@ -1,55 +1,54 @@
-const { default: mongoose } = require("mongoose");
-const { addUser, deleteUser } = require("../src/api/users/middleware/express");
-const { createNewBook, deleteBook } = require("../src/api/cookBooks/middleware/");
-const logger = require("../src/services/logger");
-const mongoUrl = require("../src/config").mongo.uri;
+const { default: mongoose } = require('mongoose');
+const User = require('../src/api/users/controller');
+const CookBook = require('../src/api/cookBooks/controller');
+const logger = require('../src/services/logger');
+const mongoUrl = require('../src/config').mongo.uri;
 
-global.logger = logger
+global.logger = logger;
 
-let createdUser
-let book
+let createdUser;
+let book;
 
 beforeEach(async () => {
-  await mongoose.connect(mongoUrl)
-  createdUser = await addUser(user)
+  await mongoose.connect(mongoUrl);
+  createdUser = await User.create(user);
   book = {
-    fkProprietario: createdUser["_id"]
-  }
-})
+    fkProprietario: createdUser['_id']
+  };
+});
 afterEach(async () => {
-  await deleteUser(createdUser)
-  await mongoose.disconnect()
-})
+  await User.destroy(createdUser._id);
+  await mongoose.disconnect();
+});
 
 let user = {
-  name: "nome",
-  cognome: "surname",
-  psw: "psw",
-  mail: "mail@mail1.com",
-  phone: "123123123"
-}
+  name: 'nome',
+  cognome: 'surname',
+  password: 'psw',
+  email: 'mail',
+  phone: '123123123'
+};
 
 
 
-
-describe("Books", () => {
+describe('Books', () => {
   it('Book no data', async () => {
     try {
-      await createNewBook(book)
+      await CookBook.create(book);
     } catch (err) {
-      expect(err).toBeDefined()
+      expect(err).toBeDefined();
     }
-  })
+  });
 
   it('Book correct', async () => {
-    let bookCreate
-    book.name = "temp"
+    let bookCreate;
+    book.name = 'temp';
     try {
-      bookCreate = await createNewBook(book)
+      bookCreate = await CookBook.create(book);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    expect(bookCreate).toBeTruthy()
-    await deleteBook(bookCreate)
-  })
-})
+    expect(bookCreate).toBeTruthy();
+    await CookBook.destroy(bookCreate._id);
+  });
+});

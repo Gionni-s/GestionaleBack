@@ -33,7 +33,7 @@ actions.login = async ({ headers }, res) => {
 
     let user = await findUser({ mail, psw });
     if (_.isNil(user)) {
-      throw ({ code: 1000, status: 400, message: 'Nessun utente trovato' });
+      throw ({ code: 1000, status: 202, message: '' });
     }
 
     return res.status(200).send(createToken({ 'id': user._id }));

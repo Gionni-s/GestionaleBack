@@ -1,6 +1,6 @@
 const { default: mongoose } = require('mongoose');
-const { addUser, deleteUser } = require('../src/api/users/middleware/express');
 const logger = require('../src/services/logger');
+const { actions } = require('../src/api/users/controller');
 const mongoUrl = require('../src/config').mongo.uri;
 
 global.logger = logger;
@@ -14,16 +14,16 @@ afterEach(async () => {
 
 let user = {
   name: 'nome',
-  cognome: 'surname',
-  psw: 'psw',
-  mail: 'mail',
+  surname: 'surname',
+  psw: 'pswasd12Sa@',
+  mail: 'mail12',
   phone: '123123123'
 };
 
 describe('User', () => {
   it('User no data', async () => {
     try {
-      await addUser(user);
+      await actions.createUser(user);
     } catch (error) {
       expect(error).toBeDefined();
     }
@@ -31,13 +31,14 @@ describe('User', () => {
 
   it('User correct', async () => {
     let userCreate;
-    user.mail = 'mail@gmail.com';
+    user.mail = 'mail12@gmail.com';
     try {
-      userCreate = await addUser(user);
+      userCreate = await actions.createUser(user);
     } catch (err) {
       console.log(err);
     }
     expect(userCreate).toBeTruthy();
-    await deleteUser(userCreate);
+    await actions.destroy(userCreate._id);
+
   });
 });
