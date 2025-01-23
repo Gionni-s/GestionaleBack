@@ -26,7 +26,7 @@ let schema = {
     default: undefined,
     required: true
   },
-  bookId: {
+  cookbookId: {
     type: Schema.ObjectId,
     required: true,
   },

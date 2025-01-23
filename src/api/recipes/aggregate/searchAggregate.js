@@ -57,7 +57,7 @@ const populateAggregate = (userId) => [
   {
     $lookup: {
       from: 'cookbooks',
-      localField: 'bookId',
+      localField: 'cookbookId',
       foreignField: '_id',
       as: 'bookInfo'
     }

@@ -4,20 +4,6 @@ const bcrypt = require('bcrypt');
 async function addUser({ name, surname, psw, mail, phone }) {
   let saltRounds = bcrypt.genSaltSync(10);
 
-  //TODO: ADD VALIDATION MAIL AND PASSWORD
-
-  //valido la mail
-  // if (!mailValidation(mail)) {
-  //   res.status(500).send('mail inviata non corretta, controllare')
-  //   return
-  // }
-
-  //valido la password
-  // if (!passwordValidation(psw)) {
-  //   res.status(500).send('Password inserita non abbastanza sicura, deve avere tra i 6 e i 15 caratteri, avere caratteri speciali (@,!,$,%), avere numeri e lettere maiuscole')
-  //   return
-  // }
-
   //crypted password
   let hashPassword = await bcrypt.hash(psw, saltRounds);
 
