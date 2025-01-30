@@ -23,7 +23,6 @@ let schema = {
   },
   ingridients: {
     type: [alimentiSchema],
-    default: undefined,
     required: true
   },
   cookbookId: {

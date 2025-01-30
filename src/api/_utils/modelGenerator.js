@@ -1,3 +1,4 @@
+const SchemaGeneration = require('./schema');
 
 function ModelGenerator(mongoose) {
   return function (modelParams) {
@@ -7,7 +8,7 @@ function ModelGenerator(mongoose) {
       modelName
     } = modelParams;
 
-    let model = mongoose.model(modelName, entitySchema);
+    let model = mongoose.model(modelName, SchemaGeneration(entitySchema));
 
     const view = async (filter = {}) => {
       for (let i in filter) {
