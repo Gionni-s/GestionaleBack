@@ -20,7 +20,7 @@ const model = ModelGenerator(mongoose)(
   {
     schema,
     collectionName: 'cookBooks',
-    modelName: 'CookBook'
+    modelName: 'Cookbook'
   }
 );
 

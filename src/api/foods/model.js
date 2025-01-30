@@ -11,6 +11,17 @@ const schema = {
   userId: {
     type: Schema.ObjectId,
     required: true,
+
+    virtual: true,
+    virtualPopulation: {
+      odinAutoPopulation: true,
+      options: {
+        ref: 'User',
+        foreignField: 'userId',
+        localField: '_id',
+        justOne: false,
+      },
+    },
   }
 };
 

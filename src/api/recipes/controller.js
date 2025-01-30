@@ -1,19 +1,11 @@
 const FunctionGeneration = require('../_utils/function.js');
-const { searchAggregate, populateAggregate } = require('./aggregate/searchAggregate.js');
+const { searchAggregate } = require('./aggregate/searchAggregate.js');
 const Entity = require('./model');
 
 let actions = FunctionGeneration(Entity);
 
 module.exports = {
   actions
-};
-
-actions.index = async ({ userId }, res) => {
-  let result = await Entity.aggregate(populateAggregate(userId));
-  if (result.length == 0) {
-    result = { message: 'No element Found' };
-  }
-  return res.status(200).send(result);
 };
 
 actions.searchRecipe = async ({ body: { foodIds } }, res) => {
