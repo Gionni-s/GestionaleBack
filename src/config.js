@@ -13,7 +13,6 @@ const requireProcessEnv = (name) => {
 };
 
 const APP_NAME = requireProcessEnv('APP_NAME');
-const mongoUrl = process.env.MONGO_URL || 'mongodb://root:example@localhost:27017/';
 
 const config = {
   all: {
