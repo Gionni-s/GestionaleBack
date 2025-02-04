@@ -31,13 +31,14 @@ async function addUser({ name, surname, psw, mail, phone }) {
 
 async function findUser({ mail, psw }) {
   let user = await Entity.findOne({ 'email': mail }, { password: 1 });
+
   if (_.isNil(user)) {
-    throw ({ code: 1000, status: 400, message: 'Nessun utente trovato' });
+    throw ({ code: 1000, status: 201, message: '' });
   }
 
   let hash = user.password;
   if (!await bcrypt.compare(psw, hash)) {
-    throw ({ code: 1000, status: 400, message: 'Password non corretta' });
+    throw ({ code: 1000, status: 400, message: 'Password o/e Email corretta' });
   }
 
   return user;

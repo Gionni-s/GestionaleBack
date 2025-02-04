@@ -30,11 +30,7 @@ actions.login = async ({ headers }, res) => {
       throw ({ status: 404, message: 'Need to send username and password' });
     }
     const { mail, psw } = basicAuth(headers);
-
     let user = await findUser({ mail, psw });
-    if (_.isNil(user)) {
-      throw ({ code: 1000, status: 202, message: '' });
-    }
 
     return res.status(200).send(createToken({ 'id': user._id }));
   } catch (err) {

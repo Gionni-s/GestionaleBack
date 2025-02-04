@@ -40,8 +40,7 @@ const config = {
   },
   development: {
     mongo: {
-      uri: `${mongoUrl}${APP_NAME}-dev`,
-      // uri: `${mongoUrl}`,
+      uri: process.env.MONGODB_URI || `mongodb://localhost:27888/${APP_NAME}-dev`,
       options: {
         debug: true,
       }
@@ -52,9 +51,8 @@ const config = {
     port: process.env.PORT || 8080,
     expressSSLRedirect: process.env.DISABLE_SSL_REDIRECT !== 'true',
     mongo: {
-      uri: `${mongoUrl}${APP_NAME}`
+      uri: process.env.MONGODB_URI || `mongodb://localhost:27888/${APP_NAME}`,
     }
   }
 };
-
 module.exports = _.merge(config.all, config[config.all.env]);
