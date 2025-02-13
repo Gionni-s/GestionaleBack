@@ -15,9 +15,9 @@ const showUser = (id) => [
       as: 'profileImage'
     }
   },
-  {
-    $unwind: '$profileImage'
-  },
+  // {
+  //   $unwind: '$profileImage'
+  // },
   {
     $set: {
       profileImage: '$profileImage.file'

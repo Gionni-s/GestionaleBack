@@ -1,4 +1,4 @@
-const FunctionGeneration = require('../_utils/function.js');
+const FunctionGeneration = require('../_generator/function.js');
 const { searchAggregate } = require('./aggregate/searchAggregate.js');
 const Entity = require('./model');
 

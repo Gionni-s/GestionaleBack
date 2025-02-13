@@ -1,6 +1,7 @@
-const { default: { mongoose } } = require('mongoose');
+const { default: { mongoose }, Schema } = require('mongoose');
 const { RolesEnum } = require('../_utils/enum');
-const ModelGenerator = require('../_utils/modelGenerator');
+const ModelGenerator = require('../_generator/modelGenerator');
+const generateHexColor = require('../_utils/function');
 
 const schema = {
   name: {
@@ -55,6 +56,10 @@ const schema = {
   isDeleted: {
     type: Boolean,
     default: false
+  },
+  color: {
+    type: String,
+    default: generateHexColor()
   }
 };
 

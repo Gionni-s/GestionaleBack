@@ -1,4 +1,4 @@
-const FunctionGeneration = require('../_utils/function.js');
+const FunctionGeneration = require('../_generator/function.js');
 const { createToken } = require('../../services/token');
 const { findUser, addUser } = require('./middleware/express');
 const Entity = require('./model');
@@ -31,7 +31,7 @@ actions.login = async ({ headers }, res) => {
     }
     const { mail, psw } = basicAuth(headers);
     let user = await findUser({ mail, psw });
-
+    await Entity.updateOne({ _id: user._id }, { $set: { lastLogin: new Date() } });
     return res.status(200).send(createToken({ 'id': user._id }));
   } catch (err) {
     logger.error(err.message);
@@ -88,6 +88,7 @@ actions.updateMe = async ({ body, userId }, res) => {
   let image = body.profileImage;
   let updateImage =
     await UploadFile.findOneAndUpdate({ userId, type: 'profileImage' }, { file: image }, { new: true });
+
   body.profileImage = updateImage._id;
   let updated = await Entity.findOneAndUpdate({ _id: userId }, body, { new: true });
   if (!updated) {

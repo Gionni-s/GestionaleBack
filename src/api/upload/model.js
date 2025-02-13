@@ -1,5 +1,5 @@
 const { default: mongoose } = require('mongoose');
-const ModelGenerator = require('../_utils/modelGenerator');
+const ModelGenerator = require('../_generator/modelGenerator');
 
 const Schema = require('mongoose').Schema;
 
