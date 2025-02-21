@@ -1,84 +1,123 @@
 module.exports = function FunctionGeneration(Entity) {
+  const notFoundMessage = { message: 'No element Found' };
+  const noModificationMessage = { message: 'No elements found to modify' };
+  const deleteSuccessMessage = { message: 'Delete successfully' };
+
+  // Funzione di utilità per gestire gli errori
+  const handleError = (res, err, statusCode = 500) => {
+    logger.error(err.message);
+    return res.status(statusCode).send({ message: err.message });
+  };
+
+  // Funzione di utilità per gestire i risultati
+  const handleResult = (res, result) => {
+    if (!result || (Array.isArray(result) && result.length === 0)) {
+      return res.status(404).send(notFoundMessage);
+    }
+    return res.status(200).send(result);
+  };
 
   async function index({ userId }, res) {
-    let result = await Entity.view({ userId });
-    if (result.length == 0) {
-      result = { message: 'No element Found' };
+    try {
+      const result = await Entity.view({ userId });
+      return handleResult(res, result);
+    } catch (err) {
+      return handleError(res, err);
     }
-    return res.status(200).send(result);
-  };
+  }
 
   async function show({ params, userId }, res) {
-    let result = await Entity.view({ userId, _id: params.id });
-    if (result.length == 0) {
-      result = { message: 'No element Found' };
+    try {
+      const result = await Entity.view({ userId, _id: params.id });
+      return handleResult(res, result);
+    } catch (err) {
+      return handleError(res, err);
     }
-    return res.status(200).send(result);
-  };
+  }
 
   async function showMe({ userId }, res) {
     try {
-      let result = await Entity.view({ _id: userId });
-      if (result.length == 0) {
-        result = { message: 'No element Found' };
-      }
-      return res.status(200).send(result);
-    } catch (e) {
-      logger.error(e.message);
-      return res.status(500).send({ message: e.message });
+      const result = await Entity.view({ _id: userId });
+      return handleResult(res, result);
+    } catch (err) {
+      return handleError(res, err);
     }
-  };
+  }
 
   async function create({ body, userId }, res) {
     try {
-      let create = await Entity.create({ ...body, userId });
-      return res.status(200).send(create);
+      const created = await Entity.create({ ...body, userId });
+      return res.status(201).send(created);
     } catch (err) {
-      logger.error(err.message);
-      return res.status(400).send({ message: err.message });
+      return handleError(res, err, 400);
     }
-  };
+  }
 
   async function update({ body, userId, params }, res) {
-    let updated = await Entity.findOneAndUpdate({ _id: params.id, userId }, body, { new: true });
-    if (!updated) {
-      return res.status(400).send({ message: 'No elements found to modify' });
+    try {
+      let updatedItem = await Entity.findOne({ _id: params.id, userId });
+
+      if (!updatedItem) {
+        return res.status(404).send(noModificationMessage);
+      }
+
+      updatedItem = { ...updatedItem, body };
+      await updatedItem.save();
+      return res.status(200).send(updatedItem);
+    } catch (err) {
+      return handleError(res, err, 400);
     }
-    return res.status(200).send(updated);
-  };
+  }
+
 
   async function updateMe({ body, userId }, res) {
-    let updated = await Entity.findOneAndUpdate({ _id: userId }, body, { new: true });
-    if (!updated) {
-      return res.status(400).send({ message: 'No elements found to modify' });
-    }
-    return res.status(200).send(updated);
-  };
+    try {
+      let result = await Entity.findOne({ _id: userId });
 
-  async function destroy({ body, userId, params }, res) {
-    let destroied = await Entity.deleteOne({ _id: params.id, userId }, body);
-    if (!destroied) {
-      return res.status(400).send({ message: 'Error during elimination of user' });
+      if (!result) {
+        return res.status(404).send(noModificationMessage);
+      }
+
+      result = { ...result, body };
+      await result.save();
+      return res.status(200).send(result);
+    } catch (err) {
+      return handleError(res, err, 400);
     }
-    return res.status(200).send({ message: 'Delete successfully' });
-  };
+  }
+
+  async function destroy({ userId, params }, res) {
+    try {
+      const { deletedCount } = await Entity.deleteOne({ _id: params.id, userId });
+      if (deletedCount === 0) {
+        return res.status(404).send({ message: 'No elements found to delete' });
+      }
+      return res.status(200).send(deleteSuccessMessage);
+    } catch (err) {
+      return handleError(res, err, 400);
+    }
+  }
 
   async function destroyMe({ userId }, res) {
-    let destroied = await Entity.deleteOne({ _id: userId });
-    if (!destroied) {
-      return res.status(400).send({ message: 'Error during elimination of user' });
+    try {
+      const { deletedCount } = await Entity.deleteOne({ _id: userId });
+      if (deletedCount === 0) {
+        return res.status(404).send({ message: 'No elements found to delete' });
+      }
+      return res.status(200).send(deleteSuccessMessage);
+    } catch (err) {
+      return handleError(res, err, 400);
     }
-    return res.status(200).send({ message: 'Delete successfully' });
   }
 
   return {
-    index: index,
-    show: show,
-    showMe: showMe,
-    create: create,
-    update: update,
-    updateMe: updateMe,
-    destroy: destroy,
-    destroyMe: destroyMe
+    index,
+    show,
+    showMe,
+    create,
+    update,
+    updateMe,
+    destroy,
+    destroyMe
   };
 };

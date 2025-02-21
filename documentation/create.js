@@ -20,7 +20,7 @@ function createFolder(name) {
   };
 }
 
-function createItem(info) {
+function createItem(info, authType = 'bearer') {
   let postmanRequest = [];
   // This string will be parsed to create header
   const rawHeaderString =
@@ -53,21 +53,22 @@ function createItem(info) {
         url: baseUrl + element.url,
         method: element.method,
         body: body,
-        auth: null,
+        auth: {
+          'type': authType,
+          'basic': [
+            { key: 'username', value: '{{user_name}}', 'type': 'string' },
+            { key: 'password', value: '{{user_password}}', 'type': 'string' }],
+          'bearer': [
+            {
+              'key': 'token',
+              'value': '{{token}}',
+              'type': 'string'
+            }
+          ]
+        },
       }
     });
   });
-  // auth: {
-  //   'type': 'bearer',
-  //     'basic': [],
-  //       'bearer': [
-  //         {
-  //           'key': 'token',
-  //           'value': '{{token}}',
-  //           'type': 'string'
-  //         }
-  //       ]
-  // }
   return postmanRequest;
 }
 

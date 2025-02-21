@@ -1,19 +1,27 @@
+// Funzione di utilità per controllare se un campo è un array di oggetti
+const isArrayOfObjects = (field) =>
+  Array.isArray(field.type) && field.type.length > 0 && field.type[0]?.obj;
+
+// Funzione di utilità per capitalizzare i riferimenti
+const capitalizeRef = (name) =>
+  name.charAt(0).toUpperCase() + name.slice(1, -2);
+
 function schemaGeneration(entitySchema) {
-  Object.keys(entitySchema).forEach((element) => {
-    const field = entitySchema[element];
+  Object.entries(entitySchema).forEach(([element, field]) => {
 
-    if (field.virtual) delete field.virtual;
-    if (field.virtualPopulation) delete field.virtualPopulation;
+    // Rimozione campi virtuali
+    delete field.virtual;
+    delete field.virtualPopulation;
 
-
-    if (field.type.schemaName === 'ObjectId') {
+    // Aggiunge ref per ObjectId
+    if (field.type?.schemaName === 'ObjectId') {
       field.ref = capitalizeRef(element);
     }
 
-    if (Array.isArray(field.type) && field.type.length > 0 && field.type[0]?.obj) {
-      Object.keys(field.type[0].obj).forEach((sub) => {
-        const subField = field.type[0].obj[sub];
-        if (subField.type.schemaName === 'ObjectId') {
+    // Gestione degli array di oggetti nidificati
+    if (isArrayOfObjects(field)) {
+      Object.entries(field.type[0].obj).forEach(([sub, subField]) => {
+        if (subField.type?.schemaName === 'ObjectId') {
           subField.ref = capitalizeRef(sub);
         }
       });
@@ -26,21 +34,14 @@ function schemaGeneration(entitySchema) {
 function createPopulate(entitySchema) {
   const populate = [];
 
-  Object.keys(entitySchema).forEach((element) => {
-    const field = entitySchema[element];
-
-    // Se il campo ha una ref, lo popoleremo
-    if (!_.isNil(field.ref) && !field.virtual) {
+  Object.entries(entitySchema).forEach(([element, field]) => {
+    if (field.ref && !field.virtual) {
       populate.push({ path: element });
     }
 
-    // Se il campo è un array di oggetti (come 'ingridients')
-    if (Array.isArray(field.type) && field.type.length > 0 && field.type[0]?.obj) {
-      Object.keys(field.type[0].obj).forEach((sub) => {
-        const subField = field.type[0].obj[sub];
-
-        // Se c'è un riferimento (ref) anche nel campo annidato, lo popoliamo
-        if (!_.isNil(subField.ref)) {
+    if (isArrayOfObjects(field)) {
+      Object.entries(field.type[0].obj).forEach(([sub, subField]) => {
+        if (subField.ref) {
           populate.push({ path: `${element}.${sub}`, model: subField.ref });
         }
       });
@@ -50,36 +51,31 @@ function createPopulate(entitySchema) {
   return populate;
 }
 
+function createVirtuals(entitySchema) {
+  const virtuals = [];
 
-function createVirtual(entitySchema) {
-  const populate = [];
-
-  Object.keys(entitySchema).forEach((element) => {
-    const field = entitySchema[element];
-
-    // Se il campo ha una ref, lo popoleremo
-    if (!_.isNil(field.ref) && !field.virtual) {
-      populate.push({ path: element });
+  Object.entries(entitySchema).forEach(([elementName, field]) => {
+    if (field.virtualPopulation) {
+      virtuals.push({
+        as: elementName.slice(0, -2),
+        options: field.virtualPopulation.options,
+        autoPopulate: field.virtualPopulation.odinAutoPopulation
+      });
     }
 
-    // Se il campo è un array di oggetti (come 'ingridients')
-    if (Array.isArray(field.type) && field.type.length > 0 && field.type[0]?.obj) {
-      Object.keys(field.type[0].obj).forEach((sub) => {
-        const subField = field.type[0].obj[sub];
-
-        // Se c'è un riferimento (ref) anche nel campo annidato, lo popoliamo
-        if (!_.isNil(subField.ref)) {
-          populate.push({ path: `${element}.${sub}`, model: subField.ref });
+    if (isArrayOfObjects(field)) {
+      Object.entries(field.type[0].obj).forEach(([subName, subField]) => {
+        if (subField.virtualPopulation) {
+          virtuals.push({
+            as: subName.slice(0, -2),
+            options: subField.virtualPopulation,
+            autoPopulate: field.virtualPopulation.odinAutoPopulation
+          });
         }
       });
     }
   });
-
-  return populate;
+  return virtuals;
 }
 
-function capitalizeRef(name) {
-  return name.charAt(0).toUpperCase() + name.slice(1, -2);
-}
-
-module.exports = { schemaGeneration, createPopulate, createVirtual };
+module.exports = { schemaGeneration, createPopulate, createVirtuals };
