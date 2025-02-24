@@ -60,8 +60,9 @@ module.exports = function FunctionGeneration(Entity) {
       if (!updatedItem) {
         return res.status(404).send(noModificationMessage);
       }
-
-      updatedItem = { ...updatedItem, body };
+      for (let val in body) {
+        updatedItem[val] = body[val];
+      }
       await updatedItem.save();
       return res.status(200).send(updatedItem);
     } catch (err) {
@@ -78,7 +79,9 @@ module.exports = function FunctionGeneration(Entity) {
         return res.status(404).send(noModificationMessage);
       }
 
-      result = { ...result, body };
+      for (let val in body) {
+        result[val] = body[val];
+      }
       await result.save();
       return res.status(200).send(result);
     } catch (err) {
