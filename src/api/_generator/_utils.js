@@ -1,3 +1,5 @@
+const { Schema } = require('mongoose');
+
 // Funzione di utilità per controllare se un campo è un array di oggetti
 const isArrayOfObjects = (field) =>
   Array.isArray(field.type) && field.type.length > 0 && field.type[0]?.obj;
@@ -7,8 +9,8 @@ const capitalizeRef = (name) =>
   name.charAt(0).toUpperCase() + name.slice(1, -2);
 
 function schemaGeneration(entitySchema) {
+  let virtuals = createVirtuals(entitySchema);
   Object.entries(entitySchema).forEach(([element, field]) => {
-
     // Rimozione campi virtuali
     delete field.virtual;
     delete field.virtualPopulation;
@@ -27,27 +29,38 @@ function schemaGeneration(entitySchema) {
       });
     }
   });
+  let schema = new Schema(entitySchema);
 
-  return entitySchema;
-}
-
-function createPopulate(entitySchema) {
-  const populate = [];
-
-  Object.entries(entitySchema).forEach(([element, field]) => {
-    if (field.ref && !field.virtual) {
-      populate.push({ path: element });
-    }
-
-    if (isArrayOfObjects(field)) {
-      Object.entries(field.type[0].obj).forEach(([sub, subField]) => {
-        if (subField.ref) {
-          populate.push({ path: `${element}.${sub}`, model: subField.ref });
-        }
-      });
-    }
+  virtuals.forEach(val => {
+    schema.virtual(val.as, val.options);
   });
 
+  schema.set('toJSON', { virtuals: true });
+  schema.set('toObject', { virtuals: true });
+
+  return { schema, virtuals };
+}
+
+function createPopulate(entitySchema, virtuals) {
+  const populate = [];
+
+  virtuals.forEach(val => {
+    populate.push({ path: val.as });
+  });
+
+  // Object.entries(entitySchema).forEach(([element, field]) => {
+  //   if (field.ref && !field.virtual) {
+  //     populate.push({ path: element });
+  //   }
+
+  //   if (isArrayOfObjects(field)) {
+  //     Object.entries(field.type[0].obj).forEach(([sub, subField]) => {
+  //       if (subField.ref) {
+  //         populate.push({ path: `${element}.${sub}`, model: subField.ref });
+  //       }
+  //     });
+  //   }
+  // });
   return populate;
 }
 
@@ -57,7 +70,7 @@ function createVirtuals(entitySchema) {
   Object.entries(entitySchema).forEach(([elementName, field]) => {
     if (field.virtualPopulation) {
       virtuals.push({
-        as: elementName.slice(0, -2),
+        as: field.virtualPopulation.as || field.virtualPopulation.options.ref,
         options: field.virtualPopulation.options,
         autoPopulate: field.virtualPopulation.odinAutoPopulation
       });

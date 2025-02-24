@@ -1,4 +1,4 @@
-const { schemaGeneration, createPopulate, createVirtuals } = require('./_utils');
+const { schemaGeneration, createPopulate } = require('./_utils');
 
 function ModelGenerator(mongoose) {
   return function (modelParams) {
@@ -9,7 +9,7 @@ function ModelGenerator(mongoose) {
       extensionFunction // funzione (schema)=>{}
     } = modelParams;
 
-    let schema = schemaGeneration(entitySchema);
+    let { schema, virtuals } = schemaGeneration(entitySchema);
 
     if (extensionFunction) {
       extensionFunction(schema);
@@ -22,8 +22,7 @@ function ModelGenerator(mongoose) {
     let model = mongoose.model(modelName, schema);
 
     const view = async (filter = {}) => {
-      return await model.find(filter).populate(createPopulate(entitySchema));
-      // return await model.find(filter);
+      return await model.find(filter).populate(createPopulate(entitySchema, virtuals));
     };
 
     model.view = view;
