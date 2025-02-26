@@ -67,7 +67,8 @@ const model = ModelGenerator(mongoose)(
   {
     schema,
     collectionName: 'users',
-    modelName: 'User'
+    modelName: 'User',
+    extensionFunction: () => { }
   }
 );
 

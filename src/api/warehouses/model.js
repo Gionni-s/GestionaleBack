@@ -13,6 +13,17 @@ let schema = {
   userId: {
     type: Schema.ObjectId,
     required: true,
+
+    virtualPopulation: {
+      odinAutoPopulation: true,
+      as: 'User',
+      options: {
+        ref: 'User',
+        foreignField: '_id',
+        localField: 'userId',
+        justOne: true,
+      },
+    },
   },
   default: {
     type: Boolean,
@@ -25,7 +36,8 @@ const model = ModelGenerator(mongoose)(
   {
     schema,
     collectionName: 'warehouses',
-    modelName: 'Warehouse'
+    modelName: 'Warehouse',
+    extensionFunction: () => { }
   }
 );
 

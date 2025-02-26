@@ -39,5 +39,5 @@ app.use('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  logger.info(`\x1B[0;34mExpress:\x1B[0m Server listening on port\x1B[0;32mh ${port}\x1B[0m, in ${env} mode`);
+  logger.info(`\x1B[0;34mExpress:\x1B[0m Server listening on port\x1B[0;32m ${port}\x1B[0m, in ${env} mode`);
 });

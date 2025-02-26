@@ -82,7 +82,7 @@ function createVirtuals(entitySchema) {
           virtuals.push({
             as: subName.slice(0, -2),
             options: subField.virtualPopulation,
-            autoPopulate: field.virtualPopulation.odinAutoPopulation
+            autoPopulate: subField.virtualPopulation.odinAutoPopulation
           });
         }
       });

@@ -13,6 +13,17 @@ let schema = {
   userId: {
     type: Schema.ObjectId,
     required: true,
+
+    virtualPopulation: {
+      odinAutoPopulation: true,
+      as: 'User',
+      options: {
+        ref: 'User',
+        foreignField: '_id',
+        localField: 'userId',
+        justOne: true,
+      },
+    },
   }
 };
 
@@ -21,7 +32,8 @@ const model = ModelGenerator(mongoose)(
   {
     schema,
     collectionName: 'locations',
-    modelName: 'Location'
+    modelName: 'Location',
+    extensionFunction: () => { }
   }
 );
 

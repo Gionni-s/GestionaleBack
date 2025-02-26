@@ -5,7 +5,7 @@ const { actions } = require('./controller');
 const router = express.Router();
 
 /**
- * @api {get} /users Login
+ * @api {get} /users show all Users
  * @apiName GetUser
  * @apiGroup User
  *
@@ -14,7 +14,7 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: false }), actions.show);
+router.get('/', token({ required: true }), actions.show);
 
 /**
  * @api {get} /users/login Login

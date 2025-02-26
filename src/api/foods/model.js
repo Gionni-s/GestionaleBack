@@ -15,11 +15,12 @@ const schema = {
     virtual: true,
     virtualPopulation: {
       odinAutoPopulation: true,
+      as: 'User',
       options: {
         ref: 'User',
-        foreignField: 'userId',
-        localField: '_id',
-        justOne: false,
+        foreignField: '_id',
+        localField: 'userId',
+        justOne: true,
       },
     },
   }
@@ -29,7 +30,8 @@ const model = ModelGenerator(mongoose)(
   {
     schema,
     collectionName: 'foods',
-    modelName: 'Food'
+    modelName: 'Food',
+    extensionFunction: () => { }
   }
 );
 
