@@ -28,7 +28,7 @@ module.exports = function FunctionGeneration(Entity) {
 
   async function show({ params, userId }, res) {
     try {
-      const result = await Entity.find({ userId, _id: params.id });
+      const result = await Entity.findOne({ userId, _id: params.id });
       return handleResult(res, result);
     } catch (err) {
       return handleError(res, err);
@@ -37,7 +37,7 @@ module.exports = function FunctionGeneration(Entity) {
 
   async function showMe({ userId }, res) {
     try {
-      const result = await Entity.find({ _id: userId });
+      const result = await Entity.findOne({ _id: userId });
       return handleResult(res, result);
     } catch (err) {
       return handleError(res, err);

@@ -38,6 +38,9 @@ let schema = {
       },
     },
   },
+  note: {
+    type: String
+  },
   userId: {
     type: Schema.ObjectId,
     required: true,
