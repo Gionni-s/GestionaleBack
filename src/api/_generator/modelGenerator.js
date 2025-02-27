@@ -21,12 +21,15 @@ function ModelGenerator(mongoose) {
 
     let model = mongoose.model(modelName, schema);
 
-    const view = async (filter = {}) => {
-      const populate = createPopulate(entitySchema, virtuals);
-      return await model.find(filter).populate(populate);
+    const populate = createPopulate(entitySchema, virtuals);
+
+    model.find = function (filter = {}) {
+      return Object.getPrototypeOf(this).find.call(this, filter).populate(populate);
     };
 
-    model.view = view;
+    model.findOne = function (filter = {}) {
+      return Object.getPrototypeOf(this).findOne.call(this, filter).populate(populate);
+    };
 
     return model;
   };
