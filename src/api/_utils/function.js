@@ -34,7 +34,7 @@ const generateBulkOperations = (data, operation = 'insert') => {
         bulkOps.push({ deleteOne: { filter: { _id: item._id } } });
         break;
       default:
-        throw new Error('Invalid operation. Use ' + insert + ', ' + update + ', or ' + delete +'');
+        throw new Error('Invalid operation. Use insert , update  or  delete ');
     }
   });
 
