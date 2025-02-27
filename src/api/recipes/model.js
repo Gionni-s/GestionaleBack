@@ -1,12 +1,21 @@
 const { default: mongoose } = require('mongoose');
 const ModelGenerator = require('../_generator/modelGenerator');
-
 const Schema = require('mongoose').Schema;
 
 let alimentiSchema = new Schema({
   foodId: {
     type: Schema.ObjectId,
     required: true,
+    // virtualPopulation: {
+    //   odinAutoPopulation: true,
+    //   as: 'food',
+    //   options: {
+    //     ref: 'Food',
+    //     foreignField: '_id',
+    //     localField: 'foodId',
+    //     justOne: true,
+    //   },
+    // }
   },
   quantity: {
     type: Number,
@@ -42,7 +51,6 @@ let schema = {
   userId: {
     type: Schema.ObjectId,
     required: true,
-
     virtualPopulation: {
       odinAutoPopulation: true,
       as: 'User',
