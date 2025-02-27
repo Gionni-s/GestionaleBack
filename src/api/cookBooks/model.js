@@ -1,7 +1,5 @@
-const { default: mongoose } = require('mongoose');
+const { default: mongoose, Schema } = require('mongoose');
 const ModelGenerator = require('../_generator/modelGenerator');
-
-const Schema = require('mongoose').Schema;
 
 let schema = {
   name: {
@@ -14,7 +12,6 @@ let schema = {
     type: Schema.ObjectId,
     required: true,
 
-    virtual: true,
     virtualPopulation: {
       odinAutoPopulation: true,
       as: 'User',

@@ -1,27 +1,5 @@
-const { default: mongoose } = require('mongoose');
+const { default: mongoose, Schema } = require('mongoose');
 const ModelGenerator = require('../_generator/modelGenerator');
-const Schema = require('mongoose').Schema;
-
-let alimentiSchema = new Schema({
-  foodId: {
-    type: Schema.ObjectId,
-    required: true,
-    // virtualPopulation: {
-    //   odinAutoPopulation: true,
-    //   as: 'food',
-    //   options: {
-    //     ref: 'Food',
-    //     foreignField: '_id',
-    //     localField: 'foodId',
-    //     justOne: true,
-    //   },
-    // }
-  },
-  quantity: {
-    type: Number,
-    required: true
-  }
-});
 
 let schema = {
   name: {
@@ -31,8 +9,20 @@ let schema = {
     lowercase: true,
   },
   ingridients: {
-    type: [alimentiSchema],
-    required: true
+    type: [Object],
+    virtual: true,
+    virtualPopulation: {
+      odinAutoPopulation: true,
+      options: {
+        ref: 'Recipe-Ingridients',
+        foreignField: 'recipeId',
+        localField: '_id',
+        justOne: false,
+        options: {
+          path: 'food'
+        }
+      },
+    }
   },
   cookbookId: {
     type: Schema.ObjectId,

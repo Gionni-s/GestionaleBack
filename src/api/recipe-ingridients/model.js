@@ -2,11 +2,27 @@ const { default: mongoose, Schema } = require('mongoose');
 const ModelGenerator = require('../_generator/modelGenerator');
 
 let schema = {
-  name: {
-    type: String,
+  quantity: {
+    type: Number,
+    required: true
+  },
+  recipeId: {
+    type: Schema.ObjectId,
+    required: true
+  },
+  foodId: {
+    type: Schema.ObjectId,
     required: true,
-    trim: true,
-    lowercase: true,
+    virtualPopulation: {
+      odinAutoPopulation: true,
+      as: 'food',
+      options: {
+        ref: 'Food',
+        foreignField: '_id',
+        localField: 'foodId',
+        justOne: false,
+      },
+    }
   },
   userId: {
     type: Schema.ObjectId,
@@ -22,19 +38,15 @@ let schema = {
         justOne: true,
       },
     },
-  },
-  default: {
-    type: Boolean,
-    required: true,
-    default: false
   }
 };
+
 
 const model = ModelGenerator(mongoose)(
   {
     schema,
-    collectionName: 'warehouses',
-    modelName: 'Warehouse',
+    collectionName: 'recipe-ingridients',
+    modelName: 'Recipe-Ingridients',
     extensionFunction: () => { }
   }
 );

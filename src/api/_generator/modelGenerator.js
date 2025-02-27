@@ -22,7 +22,8 @@ function ModelGenerator(mongoose) {
     let model = mongoose.model(modelName, schema);
 
     const view = async (filter = {}) => {
-      return await model.find(filter).populate(createPopulate(entitySchema, virtuals));
+      const populate = createPopulate(entitySchema, virtuals);
+      return await model.find(filter).populate(populate);
     };
 
     model.view = view;

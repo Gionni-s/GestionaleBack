@@ -1,7 +1,7 @@
-const { default: { mongoose }, Schema } = require('mongoose');
+const { default: { mongoose } } = require('mongoose');
 const { RolesEnum } = require('../_utils/enum');
 const ModelGenerator = require('../_generator/modelGenerator');
-const generateHexColor = require('../_utils/function');
+const { generateHexColor } = require('../_utils/function');
 
 const schema = {
   name: {

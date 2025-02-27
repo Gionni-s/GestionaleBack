@@ -10,6 +10,14 @@ const capitalizeRef = (name) =>
 
 function schemaGeneration(entitySchema) {
   let virtuals = createVirtuals(entitySchema);
+
+  //rimozione dei campi dallo schema se sono dei campi virtuali
+  Object.keys(entitySchema).forEach(key => {
+    if (entitySchema[key].virtual) {
+      delete entitySchema[key];
+    }
+  });
+
   Object.entries(entitySchema).forEach(([element, field]) => {
     // Rimozione campi virtuali
     delete field.virtual;
@@ -29,7 +37,7 @@ function schemaGeneration(entitySchema) {
       });
     }
   });
-  let schema = new Schema(entitySchema);
+  let schema = new Schema(entitySchema, { timestamps: { createdAt: 'createAt' } });
 
   virtuals.forEach(val => {
     schema.virtual(val.as, val.options);
@@ -45,22 +53,8 @@ function createPopulate(entitySchema, virtuals) {
   const populate = [];
 
   virtuals.forEach(val => {
-    populate.push({ path: val.as });
+    populate.push({ path: val.as, populate: val.populate ? val.populate : undefined });
   });
-
-  // Object.entries(entitySchema).forEach(([element, field]) => {
-  //   if (field.ref && !field.virtual) {
-  //     populate.push({ path: element });
-  //   }
-
-  //   if (isArrayOfObjects(field)) {
-  //     Object.entries(field.type[0].obj).forEach(([sub, subField]) => {
-  //       if (subField.ref) {
-  //         populate.push({ path: `${element}.${sub}`, model: subField.ref });
-  //       }
-  //     });
-  //   }
-  // });
   return populate;
 }
 
@@ -70,21 +64,11 @@ function createVirtuals(entitySchema) {
   Object.entries(entitySchema).forEach(([elementName, field]) => {
     if (field.virtualPopulation) {
       virtuals.push({
-        as: field.virtualPopulation.as || field.virtualPopulation.options.ref,
+        as: field.virtual ? elementName : field.virtualPopulation.as || `${elementName.slice(0, -2)}`,
         options: field.virtualPopulation.options,
-        autoPopulate: field.virtualPopulation.odinAutoPopulation
-      });
-    }
-
-    if (isArrayOfObjects(field)) {
-      Object.entries(field.type[0].obj).forEach(([subName, subField]) => {
-        if (subField.virtualPopulation) {
-          virtuals.push({
-            as: subName.slice(0, -2),
-            options: subField.virtualPopulation,
-            autoPopulate: subField.virtualPopulation.odinAutoPopulation
-          });
-        }
+        autoPopulate: field.virtualPopulation.odinAutoPopulation,
+        populate: field.virtualPopulation.options.options ?
+          field.virtualPopulation.options.options : undefined
       });
     }
   });

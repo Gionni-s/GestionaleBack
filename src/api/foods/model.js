@@ -12,7 +12,6 @@ const schema = {
     type: Schema.ObjectId,
     required: true,
 
-    virtual: true,
     virtualPopulation: {
       odinAutoPopulation: true,
       as: 'User',

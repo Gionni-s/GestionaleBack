@@ -1,11 +1,11 @@
 const express = require('express');
-const { actions } = require('./controller');
 const { token } = require('../../services/token');
+const { actions } = require('./controller');
 
 const router = express.Router();
 
 /**
- * @api {get} /recipes Get All Recipes
+ * @api {get} /recipe-ingridients  Show all recipe-ingridients
  * @apiName GetUser
  * @apiGroup User
  *
@@ -17,7 +17,7 @@ const router = express.Router();
 router.get('/', token({ required: true }), actions.index);
 
 /**
- * @api {get} /recipes/reserch Search Recipe from food's ID
+ * @api {get} /recipe-ingridients/:id Select Specific Recipe-ingridient
  * @apiName GetUser
  * @apiGroup User
  *
@@ -26,34 +26,10 @@ router.get('/', token({ required: true }), actions.index);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/reserch', token({ required: true }), actions.searchRecipe);
+router.get('/:id', token({ require: true }), actions.show);
 
 /**
- * @api {get} /recipes/expiring-food Return recipe with expiring foods
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.get('/expiring-foods', token({ required: true }), actions.searchRecipeForExpiringFoods);
-
-/**
- * @api {get} /recipes/:id get Specific recipe
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.get('/:id', token({ required: true }), actions.show);
-
-/**
- * @api {post} /recipes Create a recipe
+ * @api {post} /recipe-ingridients Create Recipe-ingridient
  * @apiName GetUser
  * @apiGroup User
  *
@@ -65,7 +41,7 @@ router.get('/:id', token({ required: true }), actions.show);
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /recipes/:id Update a recipe
+ * @api {put} /recipe-ingridients/:id Update Recipe-ingridient
  * @apiName GetUser
  * @apiGroup User
  *
@@ -74,10 +50,10 @@ router.post('/', token({ required: true }), actions.create);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.put('/:id', token({ required: true }), actions.update);
+router.put('/', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /recipes/:id Delete a recipe
+ * @api {delete} /recipe-ingridients/:id Delete Recipe-ingridient
  * @apiName GetUser
  * @apiGroup User
  *
@@ -86,6 +62,7 @@ router.put('/:id', token({ required: true }), actions.update);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.delete('/:id', token({ required: true }), actions.destroy);
+router.delete('/', token({ required: true }), actions.destroy);
+
 
 module.exports = router;

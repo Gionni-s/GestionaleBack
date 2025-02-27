@@ -7,4 +7,39 @@ function generateHexColor() {
   return color;
 }
 
-module.exports = generateHexColor;
+const generateBulkOperations = (data, operation = 'insert') => {
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new Error('Data must be a non-empty array');
+  }
+
+  const bulkOps = [];
+
+  data.forEach(item => {
+    switch (operation) {
+      case 'insert':
+        bulkOps.push({ insertOne: { document: item } });
+        break;
+      case 'update':
+        if (!item._id) throw new Error('Update operations require _id');
+        bulkOps.push({
+          updateOne: {
+            filter: { _id: item._id },
+            update: { $set: item.data },
+            upsert: true
+          }
+        });
+        break;
+      case 'delete':
+        if (!item._id) throw new Error('Delete operations require _id');
+        bulkOps.push({ deleteOne: { filter: { _id: item._id } } });
+        break;
+      default:
+        throw new Error('Invalid operation. Use ' + insert + ', ' + update + ', or ' + delete +'');
+    }
+  });
+
+  return bulkOps;
+};
+
+
+module.exports = { generateHexColor, generateBulkOperations };
