@@ -6,11 +6,17 @@
   "scripts": {
     "test": "jest --silent",
     "dev": "nodemon .",
+    "lint": "eslint --fix",
     "docs": "npm run docs:dummy && npm run docs:apiDoc",
     "docs:apiDoc": "node ./documentation/index.js",
     "docs:dummy": "node ./documentation/dummyCreation/index.js",
     "migrate-up": "npx migrate-mongo up",
     "migrate-down": "npx migrate-mongo down"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix"
+    ]
   },
   "author": "",
   "license": "ISC",
