@@ -29,7 +29,7 @@ let schema = {
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'CookBook',
+      as: 'cookBook',
       options: {
         ref: 'Cookbook',
         foreignField: '_id',
@@ -43,7 +43,7 @@ let schema = {
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'User',
+      as: 'user',
       options: {
         ref: 'User',
         foreignField: '_id',

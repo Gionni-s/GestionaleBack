@@ -15,7 +15,7 @@ let schema = {
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'Food',
+      as: 'food',
       options: {
         ref: 'Food',
         foreignField: '_id',
@@ -29,7 +29,7 @@ let schema = {
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'Location',
+      as: 'location',
       options: {
         ref: 'Location',
         foreignField: '_id',
@@ -43,7 +43,7 @@ let schema = {
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'Warehouse',
+      as: 'warehouse',
       options: {
         ref: 'Warehouse',
         foreignField: '_id',
@@ -58,7 +58,7 @@ let schema = {
 
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'User',
+      as: 'user',
       options: {
         ref: 'User',
         foreignField: '_id',

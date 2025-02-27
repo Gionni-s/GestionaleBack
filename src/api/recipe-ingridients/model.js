@@ -20,7 +20,7 @@ let schema = {
         ref: 'Food',
         foreignField: '_id',
         localField: 'foodId',
-        justOne: false,
+        justOne: true,
       },
     }
   },

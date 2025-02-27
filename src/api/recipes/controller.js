@@ -1,7 +1,7 @@
 const FunctionGeneration = require('../_generator/function.js');
 const Entity = require('./model');
 const WarehouseEntities = require('../werehouseEntities/model');
-const recipeIngridients = require('../recipe-ingridients/model');
+const RecipeIngridients = require('../recipe-ingridients/model');
 const moment = require('moment');
 const { generateBulkOperations } = require('../_utils/function.js');
 
@@ -16,18 +16,53 @@ actions.create = async ({ body, userId }, res) => {
     const ingridients = bodyCopy.ingridients.map(ing => ({ ...ing, userId, recipeId: recipe._id }));
     const bulkOps = generateBulkOperations(ingridients);
 
-    await recipeIngridients.bulkWrite(bulkOps);
-    const newRecipe = await Entity.view({ _id: recipe._id });
+    await RecipeIngridients.bulkWrite(bulkOps);
+    const newRecipe = await Entity.find({ _id: recipe._id, userId });
     return res.status(200).send(newRecipe);
   } catch (e) {
-    console.log(e)
     logger.error(e.message);
     return res.status(500).send(e.message);
   }
 };
 
-actions.update = ({ params: { id }, userId, body }, res) => {
-  return res.status(200).send('endpoint in implementazione');
+actions.update = async ({ params: { id }, userId, body }, res) => {
+  try {
+    const bodyClone = { ...body };
+    delete bodyClone.ingridients;
+
+    await Entity.updateOne({ _id: id, userId }, bodyClone);
+
+    const existingIngredients = await RecipeIngridients.find({ recipeId: id, userId });
+
+    if (_.isEmpty(body.ingridients)) {
+      await RecipeIngridients.deleteMany({ recipeId: id, userId });
+    } else {
+      const ingredientsArray = body.ingridients.map(ing => ({
+        ...ing,
+        recipeId: id,
+        userId
+      }));
+
+
+      if (!_.isEmpty(existingIngredients)) {
+        await RecipeIngridients.deleteMany({ recipeId: id, userId });
+      }
+      await RecipeIngridients.insertMany(ingredientsArray);
+    }
+
+    const updatedRecipe = await Entity.findOne({ _id: id, userId });
+
+    return res.status(200).json(updatedRecipe);
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).send(e.message);
+  }
+};
+
+actions.destroy = async ({ params: { id }, userId }, res) => {
+  await Entity.deleteOne({ _id: id, userId });
+  await RecipeIngridients.deleteMany({ recipeId: id, userId });
+  return res.status(200).send('Item successfully deleted');
 };
 
 actions.searchRecipe = async ({ query: { foodIds } }, res) => {
@@ -64,7 +99,7 @@ actions.searchRecipeForExpiringFoods = async ({ query: { fromDate, toDate }, use
       { foodId: 1 }
     );
     const foodIds = warehouseEntity.map(val => val.foodId);
-    const result = await Entity.view({ 'ingridients.foodId': { $in: foodIds } });
+    const result = await Entity.find({ 'ingridients.foodId': { $in: foodIds } });
     return res.status(200).send(result);
   } catch (e) {
     logger.error(e.message);
