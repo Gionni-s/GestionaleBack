@@ -23,12 +23,12 @@ function ModelGenerator(mongoose) {
 
     const populate = createPopulate(entitySchema, virtuals);
 
-    model.find = function (filter = {}) {
-      return Object.getPrototypeOf(this).find.call(this, filter).populate(populate);
+    model.find = function (filter = {}, projections = {}, options = {}) {
+      return Object.getPrototypeOf(this).find.call(this, filter, projections, options).populate(populate);
     };
 
-    model.findOne = function (filter = {}) {
-      return Object.getPrototypeOf(this).findOne.call(this, filter).populate(populate);
+    model.findOne = function (filter = {}, projections = {}, options = {}) {
+      return Object.getPrototypeOf(this).findOne.call(this, filter, projections, options).populate(populate);
     };
 
     return model;

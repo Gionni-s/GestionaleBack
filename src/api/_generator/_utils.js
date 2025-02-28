@@ -53,7 +53,8 @@ function createPopulate(entitySchema, virtuals) {
   const populate = [];
 
   virtuals.forEach(val => {
-    populate.push({ path: val.as, populate: val.populate ? val.populate : undefined });
+    const populateBody = { path: val.as, populate: val?.populate };
+    populate.push(populateBody);
   });
   return populate;
 }
@@ -63,12 +64,12 @@ function createVirtuals(entitySchema) {
 
   Object.entries(entitySchema).forEach(([elementName, field]) => {
     if (field.virtualPopulation) {
+      const virPop = field.virtualPopulation;
       virtuals.push({
-        as: field.virtual ? elementName : field.virtualPopulation.as || `${elementName.slice(0, -2)}`,
-        options: field.virtualPopulation.options,
-        autoPopulate: field.virtualPopulation.odinAutoPopulation,
-        populate: field.virtualPopulation.options.options ?
-          field.virtualPopulation.options.options : undefined
+        as: field.virtual ? elementName : virPop.as || `${elementName.slice(0, -2)}`,
+        options: virPop.options,
+        autoPopulate: virPop.odinAutoPopulation,
+        populate: virPop.options?.options
       });
     }
   });
