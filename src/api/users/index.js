@@ -1,6 +1,6 @@
-const express = require('express');
-const { token } = require('../../services/token');
-const { actions } = require('./controller');
+import express from 'express';
+import { token } from '../../services/token';
+import { actions } from './controller';
 
 const router = express.Router();
 
@@ -77,4 +77,4 @@ router.post('/', token({ required: false }), actions.createUser);
  */
 router.put('/me', token({ required: true }), actions.updateMe);
 
-module.exports = router;
+export default router;

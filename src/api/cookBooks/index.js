@@ -1,6 +1,10 @@
-const express = require('express');
-const { actions } = require('./controller');
-const { token } = require('../../services/token');
+import express from 'express';
+import { actions } from './controller';
+import { bodySchema } from './model';
+import { token } from '../../services/token';
+import { middleware as query } from 'querymen';
+
+console.log(bodySchema);
 
 const router = express.Router();
 
@@ -14,7 +18,7 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: true }), actions.index);
+router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
  * @api {get} /cookBooks/:id Get Specific Book
@@ -64,4 +68,4 @@ router.put('/:id', token({ required: true }), actions.update);
  */
 router.delete('/:id', token({ required: true }), actions.destroy);
 
-module.exports = router;
+export default router;

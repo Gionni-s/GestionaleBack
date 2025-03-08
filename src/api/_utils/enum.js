@@ -1,6 +1,13 @@
-const RolesEnum = {
+export const RolesEnum = {
   USER: 'user',
   ADMIN: 'admin',
 };
 
-module.exports = { RolesEnum };
+export const RecipeIngridientMeasurementUnitEnum = {
+  KG: 'kg',
+  G: 'g',
+  L: 'l',
+  ML: 'ml'
+};
+
+export const recipeIngridientMeasurement = Object.values(RecipeIngridientMeasurementUnitEnum);

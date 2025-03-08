@@ -1,9 +1,9 @@
-const FunctionGeneration = require('../_generator/function.js');
-const Entity = require('./model');
-const WarehouseEntities = require('../werehouseEntities/model');
-const RecipeIngridients = require('../recipe-ingridients/model');
-const moment = require('moment');
-const { generateBulkOperations } = require('../_utils/function.js');
+import FunctionGeneration from '../_generator/function.js';
+import Entity from './model';
+import WarehouseEntities from '../werehouseEntities/model';
+import RecipeIngridients from '../recipe-ingridients/model';
+import moment from 'moment';
+import { generateBulkOperations } from '../_utils/function.js';
 
 let actions = FunctionGeneration(Entity);
 
@@ -107,6 +107,4 @@ actions.searchRecipeForExpiringFoods = async ({ query: { fromDate, toDate }, use
   }
 };
 
-module.exports = {
-  actions
-};
+export { actions };

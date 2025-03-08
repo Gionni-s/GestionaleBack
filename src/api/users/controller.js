@@ -1,11 +1,11 @@
-const FunctionGeneration = require('../_generator/function.js');
-const { createToken } = require('../../services/token');
-const { findUser, addUser } = require('./middleware/express');
-const Entity = require('./model');
-const UploadFile = require('../upload/model.js');
-const { showUser, showAll } = require('./middleware/aggregate.js');
-const fs = require('fs');
-const appRoute = require('app-root-path');
+import FunctionGeneration from '../_generator/function.js';
+import { createToken } from '../../services/token';
+import { findUser, addUser } from './middleware/express';
+import Entity from './model';
+import UploadFile from '../upload/model.js';
+import { showUser, showAll } from './middleware/aggregate.js';
+import fs from 'fs';
+import appRoute from 'app-root-path';
 
 let actions = FunctionGeneration(Entity);
 
@@ -134,4 +134,4 @@ actions.createUser = async (req, res) => {
   }
 };
 
-module.exports = { actions };
+export { actions };

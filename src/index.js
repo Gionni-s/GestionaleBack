@@ -1,3 +1,3 @@
-const app = require('./app');
+require('@babel/register');
 
-module.exports = app;
+exports = module.exports = require('./app');

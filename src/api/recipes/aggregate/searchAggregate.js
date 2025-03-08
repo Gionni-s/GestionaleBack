@@ -1,5 +1,6 @@
-const { Schema } = require('mongoose');
-const searchAggregate = (foodIds) => {
+import { Schema } from 'mongoose';
+
+export const searchAggregate = (foodIds) => {
   const validFoodIds = foodIds.filter(id => {
     try {
       return /^[0-9a-fA-F]{24}$/.test(id);
@@ -44,5 +45,3 @@ const searchAggregate = (foodIds) => {
     }
   ];
 };
-
-module.exports = { searchAggregate };

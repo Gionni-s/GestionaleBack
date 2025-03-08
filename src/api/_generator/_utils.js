@@ -8,7 +8,7 @@ const isArrayOfObjects = (field) =>
 const capitalizeRef = (name) =>
   name.charAt(0).toUpperCase() + name.slice(1, -2);
 
-function schemaGeneration(entitySchema) {
+export function schemaGeneration(entitySchema) {
   let virtuals = createVirtuals(entitySchema);
 
   //rimozione dei campi dallo schema se sono dei campi virtuali
@@ -49,7 +49,7 @@ function schemaGeneration(entitySchema) {
   return { schema, virtuals };
 }
 
-function createPopulate(entitySchema, virtuals) {
+export function createPopulate(entitySchema, virtuals) {
   const populate = [];
 
   virtuals.forEach(val => {
@@ -59,7 +59,7 @@ function createPopulate(entitySchema, virtuals) {
   return populate;
 }
 
-function createVirtuals(entitySchema) {
+export function createVirtuals(entitySchema) {
   const virtuals = [];
 
   Object.entries(entitySchema).forEach(([elementName, field]) => {
@@ -75,5 +75,3 @@ function createVirtuals(entitySchema) {
   });
   return virtuals;
 }
-
-module.exports = { schemaGeneration, createPopulate, createVirtuals };

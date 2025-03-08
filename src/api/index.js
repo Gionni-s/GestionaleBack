@@ -1,9 +1,9 @@
-const express = require('express');
-const { port, env } = require('../config');
-const cors = require('cors');
-const fs = require('fs');
-const appRoot = require('app-root-path');
-const path = require('path');
+import express from 'express';
+import { port, env } from '../config';
+import cors from 'cors';
+import fs from 'fs';
+import appRoot from 'app-root-path';
+import path from 'path';
 
 const app = express();
 
@@ -21,7 +21,7 @@ fs.readdirSync(appRoot.toString() + '/src/api')
   .filter(a => fs.statSync(a.module).isDirectory())
   .forEach(a => {
     if (fs.existsSync(path.join(a.module, '/index.js'))) {
-      app.use('/' + a.name, require(path.join(a.module, '/index.js')));
+      app.use('/' + a.name, require(path.join(a.module, '/index.js')).default);
     }
   });
 

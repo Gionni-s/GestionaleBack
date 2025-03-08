@@ -1,4 +1,4 @@
-function generateHexColor() {
+export function generateHexColor() {
   const hexChars = '0123456789ABCDEF';
   let color = '#';
   for (let i = 0; i < 6; i++) {
@@ -7,7 +7,7 @@ function generateHexColor() {
   return color;
 }
 
-const generateBulkOperations = (data, operation = 'insert') => {
+export const generateBulkOperations = (data, operation = 'insert') => {
   if (!Array.isArray(data) || data.length === 0) {
     throw new Error('Data must be a non-empty array');
   }
@@ -40,6 +40,3 @@ const generateBulkOperations = (data, operation = 'insert') => {
 
   return bulkOps;
 };
-
-
-module.exports = { generateHexColor, generateBulkOperations };

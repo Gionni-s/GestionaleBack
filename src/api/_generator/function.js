@@ -1,4 +1,4 @@
-module.exports = function FunctionGeneration(Entity) {
+export default function FunctionGeneration(Entity) {
   const notFoundMessage = { message: 'No element Found' };
   const noModificationMessage = { message: 'No elements found to modify' };
   const deleteSuccessMessage = { message: 'Delete successfully' };

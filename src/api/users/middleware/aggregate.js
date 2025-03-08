@@ -1,6 +1,6 @@
-const { default: mongoose } = require('mongoose');
+import mongoose from 'mongoose';
 
-const showUser = (id) => [
+export const showUser = (id) => [
   {
     $match: {
       _id: new mongoose.Types.ObjectId(id)
@@ -25,7 +25,7 @@ const showUser = (id) => [
   }
 ];
 
-const showAll = () => {
+export const showAll = () => {
   return [
     {
       $lookup: {
@@ -42,5 +42,3 @@ const showAll = () => {
     { $set: { profileImage: '$profileImage.file' } }
   ];
 };
-
-module.exports = { showUser, showAll };

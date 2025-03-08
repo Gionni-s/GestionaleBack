@@ -1,7 +1,7 @@
-const { default: { mongoose } } = require('mongoose');
-const { RolesEnum } = require('../_utils/enum');
-const ModelGenerator = require('../_generator/modelGenerator');
-const { generateHexColor } = require('../_utils/function');
+import mongoose from 'mongoose';
+import { RolesEnum } from '../_utils/enum';
+import ModelGenerator from '../_generator/modelGenerator';
+import { generateHexColor } from '../_utils/function';
 
 const schema = {
   name: {
@@ -72,4 +72,4 @@ const model = ModelGenerator(mongoose)(
   }
 );
 
-module.exports = model;
+export default model;

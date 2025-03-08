@@ -11,7 +11,13 @@ export default [
       }
     }
   },
-  { languageOptions: { globals: globals.node } },
+  {
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: globals.node
+    }
+  },
   pluginJs.configs.recommended,
   {
     rules: {

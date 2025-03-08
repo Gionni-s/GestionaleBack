@@ -1,8 +1,6 @@
-const Entity = require('./model.js');
-const FunctionGeneration = require('../_generator/function.js');
+import Entity from './model.js';
+import FunctionGeneration from '../_generator/function.js';
 
-let actions = FunctionGeneration(Entity);
+const actions = FunctionGeneration(Entity);
 
-module.exports = {
-  actions
-};
+export { actions };

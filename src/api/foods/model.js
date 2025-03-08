@@ -1,5 +1,5 @@
-const { default: { mongoose }, Schema } = require('mongoose');
-const ModelGenerator = require('../_generator/modelGenerator');
+import mongoose, { Schema } from 'mongoose';
+import ModelGenerator from '../_generator/modelGenerator';
 
 const schema = {
   name: {
@@ -34,6 +34,4 @@ const model = ModelGenerator(mongoose)(
   }
 );
 
-module.exports = model;
-
-// module.exports = Entity;
+export default model;

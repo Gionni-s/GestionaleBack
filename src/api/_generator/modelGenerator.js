@@ -1,6 +1,6 @@
-const { schemaGeneration, createPopulate } = require('./_utils');
+import { schemaGeneration, createPopulate } from './_utils';
 
-function ModelGenerator(mongoose) {
+export default function ModelGenerator(mongoose) {
   return function (modelParams) {
     const {
       schema: entitySchema,
@@ -34,5 +34,3 @@ function ModelGenerator(mongoose) {
     return model;
   };
 }
-
-module.exports = ModelGenerator;

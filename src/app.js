@@ -1,8 +1,8 @@
-const mongoose = require('./services/mongoose');
-const express = require('express');
-const http = require('http');
-const api = require('./api');
-const { mongo } = require('./config');
+import mongoose from './services/mongoose';
+import express from 'express';
+import http from 'http';
+import api from './api';
+import { mongo } from './config';
 
 const app = express(api);
 
@@ -19,4 +19,4 @@ setImmediate(async () => {
   }
 });
 
-module.exports = app;
+export default app;

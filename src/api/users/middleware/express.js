@@ -1,7 +1,7 @@
-const Entity = require('../model');
-const bcrypt = require('bcrypt');
+import Entity from '../model';
+import bcrypt from 'bcrypt';
 
-async function addUser({ name, surname, psw, mail, phone }) {
+export async function addUser({ name, surname, psw, mail, phone }) {
   let saltRounds = bcrypt.genSaltSync(10);
 
   //crypted password
@@ -29,7 +29,7 @@ async function addUser({ name, surname, psw, mail, phone }) {
   return risultato;
 }
 
-async function findUser({ mail, psw }) {
+export async function findUser({ mail, psw }) {
   let user = await Entity.findOne({ 'email': mail }, { password: 1 });
 
   if (_.isNil(user)) {
@@ -44,11 +44,6 @@ async function findUser({ mail, psw }) {
   return user;
 }
 
-async function deleteUser(user) {
+export async function deleteUser(user) {
   return (await Entity.deleteOne({ '_id': user['_id'] }));
 }
-module.exports = {
-  findUser,
-  addUser,
-  deleteUser
-};
