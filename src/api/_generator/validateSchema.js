@@ -1,16 +1,32 @@
+import { Schema } from 'querymen';
+
 export default function ValidateSchema(mongooseSchema) {
   let query = {};
 
   function parseSchema(schema, path = '') {
-    for (const [key, value] of Object.entries(schema)) {
-      const fullPath = path ? `${path}.${key}` : key;
+    if (schema.paths) {
+      for (const [key, pathConfig] of Object.entries(schema.paths)) {
+        const fullPath = path ? `${path}.${key}` : key;
 
-      if (value.instance) {
-        query[fullPath] = mapType(value.instance);
-      } else if (value.schema) {
-        parseSchema(value.schema, fullPath);
-      } else if (value.caster && value.caster.instance) {
-        query[fullPath] = `array<${mapType(value.caster.instance)}>`;
+        if (pathConfig.instance) {
+          query[fullPath] = mapType(pathConfig.instance);
+        } else if (pathConfig.schema) {
+          parseSchema(pathConfig.schema, fullPath);
+        } else if (pathConfig.caster && pathConfig.caster.instance) {
+          query[fullPath] = { type: `[${mapType(pathConfig.caster.instance)}]` };
+        }
+      }
+    }
+    else {
+      for (const [key, value] of Object.entries(schema)) {
+        const fullPath = path ? `${path}.${key}` : key;
+
+        if (value.type) {
+          const typeStr = value.type.name || (value.type.schemaName ? 'ObjectId' : value.type.toString());
+          query[fullPath] = { type: mapType(typeStr) };
+        } else if (typeof value === 'object' && !Array.isArray(value)) {
+          parseSchema(value, fullPath);
+        }
       }
     }
   }
@@ -21,7 +37,7 @@ export default function ValidateSchema(mongooseSchema) {
       'Number': 'number',
       'Boolean': 'boolean',
       'Date': 'date',
-      'ObjectId': 'objectId',
+      'SchemaObjectId': 'objectId',
       'Array': 'array',
       'Mixed': 'mixed'
     };
@@ -30,5 +46,5 @@ export default function ValidateSchema(mongooseSchema) {
 
   parseSchema(mongooseSchema);
 
-  return { create: {}, query };
+  return { create: {}, query: new Schema(query) };
 }
