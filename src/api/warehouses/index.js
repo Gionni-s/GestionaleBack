@@ -1,6 +1,8 @@
 import express from 'express';
 import { actions } from './controller';
 import { token } from '../../services/token';
+import { bodySchema } from './model';
+import { middleware as query } from 'querymen';
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: true }), actions.index);
+router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
  * @api {get} /warehouses/:id Get Specific warehouse
@@ -26,7 +28,7 @@ router.get('/', token({ required: true }), actions.index);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/:id', token({ required: true }), actions.show);
+router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
  * @api {post} /warehouses Create Warehouse

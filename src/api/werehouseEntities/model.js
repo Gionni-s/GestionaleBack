@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
+import ValidateSchema from '../_generator/validateSchema';
 
 let schema = {
   quantita: {
@@ -78,4 +79,5 @@ const model = ModelGenerator(mongoose)(
   }
 );
 
-module.exports = model;
+export const bodySchema = ValidateSchema(schema);
+export default model;

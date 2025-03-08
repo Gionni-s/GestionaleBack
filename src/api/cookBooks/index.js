@@ -4,8 +4,6 @@ import { bodySchema } from './model';
 import { token } from '../../services/token';
 import { middleware as query } from 'querymen';
 
-console.log(bodySchema);
-
 const router = express.Router();
 
 /**
@@ -30,7 +28,7 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/:id', token({ required: true }), actions.show);
+router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
  * @api {post} /cookBooks/:id Create Book

@@ -1,6 +1,8 @@
 import express from 'express';
 import { actions } from './controller';
 import { token } from '../../services/token';
+import { middleware as query } from 'querymen';
+import { bodySchema } from './model';
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: true }), actions.index);
+router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
  * @api {get} /foods/:id Request Food information
@@ -26,7 +28,7 @@ router.get('/', token({ required: true }), actions.index);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/:id', token({ required: true }), actions.show);
+router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
  * @api {post} /foods Create Food

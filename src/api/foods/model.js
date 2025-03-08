@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
+import ValidateSchema from '../_generator/validateSchema';
 
 const schema = {
   name: {
@@ -34,4 +35,5 @@ const model = ModelGenerator(mongoose)(
   }
 );
 
+export const bodySchema = ValidateSchema(schema);
 export default model;

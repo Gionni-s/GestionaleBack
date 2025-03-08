@@ -1,6 +1,8 @@
 import express from 'express';
 import { actions } from './controller';
 import { token } from '../../services/token';
+import { bodySchema } from './model';
+import { middleware as query } from 'querymen';
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: true }), actions.index);
+router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
  * @api {get} /recipes/reserch Search Recipe from food's ID
@@ -26,7 +28,7 @@ router.get('/', token({ required: true }), actions.index);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/reserch', token({ required: true }), actions.searchRecipe);
+router.get('/reserch', query(bodySchema.query), token({ required: true }), actions.searchRecipe);
 
 /**
  * @api {get} /recipes/expiring-food Return recipe with expiring foods
@@ -38,7 +40,8 @@ router.get('/reserch', token({ required: true }), actions.searchRecipe);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/expiring-foods', token({ required: true }), actions.searchRecipeForExpiringFoods);
+router.get('/expiring-foods',
+  query(bodySchema.query), token({ required: true }), actions.searchRecipeForExpiringFoods);
 
 /**
  * @api {get} /recipes/:id get Specific recipe
@@ -50,7 +53,7 @@ router.get('/expiring-foods', token({ required: true }), actions.searchRecipeFor
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/:id', token({ required: true }), actions.show);
+router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
  * @api {post} /recipes Create a recipe

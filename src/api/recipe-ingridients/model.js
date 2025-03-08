@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
 import { recipeIngridientMeasurement, RecipeIngridientMeasurementUnitEnum } from '../_utils/enum';
+import ValidateSchema from '../_generator/validateSchema';
 
 let schema = {
   quantity: {
@@ -57,4 +58,5 @@ const model = ModelGenerator(mongoose)(
   }
 );
 
+export const bodySchema = ValidateSchema(schema);
 export default model;

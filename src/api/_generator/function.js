@@ -17,18 +17,18 @@ export default function FunctionGeneration(Entity) {
     return res.status(200).send(result);
   };
 
-  async function index({ userId }, res) {
+  async function index({ querymen: { query, select, cursor }, userId }, res) {
     try {
-      const result = await Entity.find({ userId });
+      const result = await Entity.find({ ...query, userId }, select, cursor);
       return handleResult(res, result);
     } catch (err) {
       return handleError(res, err);
     }
   }
 
-  async function show({ params, userId }, res) {
+  async function show({ querymen: { query, select, cursor }, params, userId }, res) {
     try {
-      const result = await Entity.findOne({ userId, _id: params.id });
+      const result = await Entity.findOne({ ...query, userId, _id: params.id }, select, cursor);
       return handleResult(res, result);
     } catch (err) {
       return handleError(res, err);

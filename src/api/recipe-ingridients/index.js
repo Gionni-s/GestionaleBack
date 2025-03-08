@@ -1,6 +1,8 @@
 import express from 'express';
 import { token } from '../../services/token';
 import { actions } from './controller';
+import { bodySchema } from './model';
+import { middleware as query } from 'querymen';
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const router = express.Router();
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/', token({ required: true }), actions.index);
+router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
  * @api {get} /recipe-ingridients/:id Select Specific Recipe-ingridient
@@ -26,7 +28,7 @@ router.get('/', token({ required: true }), actions.index);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/:id', token({ require: true }), actions.show);
+router.get('/:id', query(bodySchema.query), token({ require: true }), actions.show);
 
 /**
  * @api {post} /recipe-ingridients Create Recipe-ingridient

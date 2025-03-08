@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { RolesEnum } from '../_utils/enum';
 import ModelGenerator from '../_generator/modelGenerator';
 import { generateHexColor } from '../_utils/function';
+import ValidateSchema from '../_generator/validateSchema';
 
 const schema = {
   name: {
@@ -33,7 +34,7 @@ const schema = {
     select: false
   },
   profileImage: {
-    type: mongoose.Types.ObjectId
+    type: Schema.ObjectId
   },
   role: {
     type: String,
@@ -72,4 +73,5 @@ const model = ModelGenerator(mongoose)(
   }
 );
 
+export const bodySchema = ValidateSchema(schema);
 export default model;
