@@ -52,7 +52,7 @@ router.post('/', token({ required: true }), actions.create);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.put('/', token({ required: true }), actions.update);
+router.put('/:id', token({ required: true }), actions.update);
 
 /**
  * @api {delete} /locations/:id Delete Location
@@ -64,7 +64,7 @@ router.put('/', token({ required: true }), actions.update);
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.delete('/', token({ required: true }), actions.destroy);
+router.delete('/:id', token({ required: true }), actions.destroy);
 
 
 export default router;
