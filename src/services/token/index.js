@@ -14,7 +14,7 @@ const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, 
     }
 
     //TODO: add role control for token
-    req.userId = verifyToken(token);
+    req.user = verifyToken(token);
     return next();
   } catch (err) {
     logger.error(err.message);
@@ -23,8 +23,9 @@ const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, 
 };
 
 function createToken(object) {
-  var token = jwt.sign(object, privateKey, { expiresIn: '7d' });
-  return { 'token': token };
+  var token = jwt.sign({ _id: object._id.toString() }, privateKey, { expiresIn: '7d' });
+  object.password = undefined;
+  return { 'token': token, 'user': object };
 }
 
 function verifyToken(token) {
@@ -35,7 +36,7 @@ function verifyToken(token) {
     throw new Error(err.message);
   }
 
-  return decoded['id'];
+  return decoded;
 }
 
 module.exports = {

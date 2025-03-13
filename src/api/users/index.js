@@ -17,18 +17,6 @@ const router = express.Router();
 router.get('/', token({ required: true }), actions.show);
 
 /**
- * @api {get} /users/login Login
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id User's unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- */
-router.get('/login', token({ required: false }), actions.login);
-
-/**
  * @api {get} /users/newToken Request New Token
  * @apiName GetUser
  * @apiGroup User
@@ -64,6 +52,18 @@ router.get('/me', token({ required: true }), actions.showMe);
  * @apiSuccess {String} lastname  Lastname of the User.
  */
 router.post('/', token({ required: false }), actions.createUser);
+
+/**
+ * @api {post} /users/login Login
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.post('/login', token({ required: false }), actions.login);
 
 /**
  * @api {put} /users/me Update user

@@ -9,7 +9,7 @@ import appRoute from 'app-root-path';
 
 let actions = FunctionGeneration(Entity);
 
-function basicAuth({ authorization: auth }) {
+function basicAuth(auth) {
   const authorization = auth.split(' ')[1];
   const decript = (value) => { return Buffer.from(value, 'base64').toString(); };
   const result = decript(authorization);
@@ -24,15 +24,15 @@ function convertImageToBase64(name) {
   return 'data:image/jpeg;base64,' + base64Image;
 }
 
-actions.login = async ({ headers }, res) => {
+actions.login = async ({ headers: { authorization } }, res) => {
   try {
-    if (!headers.authorization) {
-      throw ({ status: 404, message: 'Need to send username and password' });
+    if (!authorization) {
+      return res.status(404).send({ status: 404, message: 'Need to send username and password' });
     }
-    const { mail, psw } = basicAuth(headers);
+    const { mail, psw } = basicAuth(authorization);
     let user = await findUser({ mail, psw });
     await Entity.updateOne({ _id: user._id }, { $set: { lastLogin: new Date() } });
-    return res.status(200).send(createToken({ 'id': user._id }));
+    return res.status(200).send(createToken(user));
   } catch (err) {
     logger.error(err.message);
     return res.status(err.status || 500).send({ code: err.code || 9000, message: err.message });

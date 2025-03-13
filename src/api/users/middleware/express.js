@@ -30,7 +30,7 @@ export async function addUser({ name, surname, psw, mail, phone }) {
 }
 
 export async function findUser({ mail, psw }) {
-  let user = await Entity.findOne({ 'email': mail }, { password: 1 });
+  let user = await Entity.findOne({ 'email': mail }).select('+password');
 
   if (_.isNil(user)) {
     throw ({ code: 1000, status: 201, message: '' });
