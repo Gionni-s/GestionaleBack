@@ -71,9 +71,9 @@ actions.show = async (req, res) => {
   }
 };
 
-actions.showMe = async ({ userId }, res) => {
+actions.showMe = async ({ user }, res) => {
   try {
-    let result = (await Entity.aggregate(showUser(userId)))[0];
+    let result = (await Entity.aggregate(showUser({ userId: user._id })))[0];
     if (!result || result.length == 0) {
       result = { message: 'No element Found' };
     }
@@ -84,13 +84,16 @@ actions.showMe = async ({ userId }, res) => {
   }
 };
 
-actions.updateMe = async ({ body, userId }, res) => {
+actions.updateMe = async ({ body, user }, res) => {
   let image = body.profileImage;
   let updateImage =
-    await UploadFile.findOneAndUpdate({ userId, type: 'profileImage' }, { file: image }, { new: true });
+    await UploadFile.findOneAndUpdate({
+      userId: user._id,
+      type: 'profileImage'
+    }, { file: image }, { new: true });
 
   body.profileImage = updateImage._id;
-  let updated = await Entity.findOneAndUpdate({ _id: userId }, body, { new: true });
+  let updated = await Entity.findOneAndUpdate({ _id: userId._id }, body, { new: true });
   if (!updated) {
     return res.status(400).send({ message: 'no items found to modify' });
   }

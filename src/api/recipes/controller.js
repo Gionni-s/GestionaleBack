@@ -7,17 +7,17 @@ import { generateBulkOperations } from '../_utils/function.js';
 
 let actions = FunctionGeneration(Entity);
 
-actions.create = async ({ body, userId }, res) => {
+actions.create = async ({ body, user }, res) => {
   try {
     const bodyCopy = { ...body };
     delete body.ingridients;
 
-    const recipe = await Entity.create({ ...body, userId });
-    const ingridients = bodyCopy.ingridients.map(ing => ({ ...ing, userId, recipeId: recipe._id }));
+    const recipe = await Entity.create({ ...body, userId: user._id });
+    const ingridients = bodyCopy.ingridients.map(ing => ({ ...ing, userId: user._id, recipeId: recipe._id }));
     const bulkOps = generateBulkOperations(ingridients);
 
     await RecipeIngridients.bulkWrite(bulkOps);
-    const newRecipe = await Entity.find({ _id: recipe._id, userId });
+    const newRecipe = await Entity.find({ _id: recipe._id, userId: user._id });
     return res.status(200).send(newRecipe);
   } catch (e) {
     logger.error(e.message);
@@ -25,17 +25,17 @@ actions.create = async ({ body, userId }, res) => {
   }
 };
 
-actions.update = async ({ params: { id }, userId, body }, res) => {
+actions.update = async ({ params: { id }, user, body }, res) => {
   try {
     const bodyClone = { ...body };
     delete bodyClone.ingridients;
 
-    await Entity.updateOne({ _id: id, userId }, bodyClone);
+    await Entity.updateOne({ _id: id, userId: user._id }, bodyClone);
 
-    const existingIngredients = await RecipeIngridients.find({ recipeId: id, userId });
+    const existingIngredients = await RecipeIngridients.find({ recipeId: id, userId: user._id });
 
     if (_.isEmpty(body.ingridients)) {
-      await RecipeIngridients.deleteMany({ recipeId: id, userId });
+      await RecipeIngridients.deleteMany({ recipeId: id, userId: user._id });
     } else {
       const ingredientsArray = body.ingridients.map(ing => ({
         ...ing,
@@ -45,12 +45,12 @@ actions.update = async ({ params: { id }, userId, body }, res) => {
 
 
       if (!_.isEmpty(existingIngredients)) {
-        await RecipeIngridients.deleteMany({ recipeId: id, userId });
+        await RecipeIngridients.deleteMany({ recipeId: id, userId: user._id });
       }
       await RecipeIngridients.insertMany(ingredientsArray);
     }
 
-    const updatedRecipe = await Entity.findOne({ _id: id, userId });
+    const updatedRecipe = await Entity.findOne({ _id: id, userId: user._id });
 
     return res.status(200).json(updatedRecipe);
   } catch (e) {
@@ -59,9 +59,9 @@ actions.update = async ({ params: { id }, userId, body }, res) => {
   }
 };
 
-actions.destroy = async ({ params: { id }, userId }, res) => {
-  await Entity.deleteOne({ _id: id, userId });
-  await RecipeIngridients.deleteMany({ recipeId: id, userId });
+actions.destroy = async ({ params: { id }, user }, res) => {
+  await Entity.deleteOne({ _id: id, userId: user._id });
+  await RecipeIngridients.deleteMany({ recipeId: id, userId: user._id });
   return res.status(200).send('Item successfully deleted');
 };
 
@@ -77,7 +77,7 @@ actions.searchRecipe = async ({ query: { foodIds } }, res) => {
 };
 
 // funzione che mi ritorna le ricette che contengono i cibi che stanno per scadere
-actions.searchRecipeForExpiringFoods = async ({ query: { fromDate, toDate }, userId }, res) => {
+actions.searchRecipeForExpiringFoods = async ({ query: { fromDate, toDate }, user }, res) => {
   try {
     if (_.isNil(fromDate)) {
       fromDate = moment().toDate();
@@ -94,7 +94,7 @@ actions.searchRecipeForExpiringFoods = async ({ query: { fromDate, toDate }, use
           $gte: today,
           $lte: tenDaysFromNow
         },
-        userId
+        userId: user._id
       },
       { foodId: 1 }
     );

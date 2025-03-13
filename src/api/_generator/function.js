@@ -17,45 +17,45 @@ export default function FunctionGeneration(Entity) {
     return res.status(200).send(result);
   };
 
-  async function index({ querymen: { query, select, cursor }, userId }, res) {
+  async function index({ querymen: { query, select, cursor }, user }, res) {
     try {
-      const result = await Entity.find({ ...query, userId }, select, cursor);
+      const result = await Entity.find({ ...query, userId: user._id }, select, cursor);
       return handleResult(res, result);
     } catch (err) {
       return handleError(res, err);
     }
   }
 
-  async function show({ querymen: { query, select, cursor }, params, userId }, res) {
+  async function show({ querymen: { query, select, cursor }, params, user }, res) {
     try {
-      const result = await Entity.findOne({ ...query, userId, _id: params.id }, select, cursor);
+      const result = await Entity.findOne({ ...query, userId: user._id, _id: params.id }, select, cursor);
       return handleResult(res, result);
     } catch (err) {
       return handleError(res, err);
     }
   }
 
-  async function showMe({ userId }, res) {
+  async function showMe({ user }, res) {
     try {
-      const result = await Entity.findOne({ _id: userId });
+      const result = await Entity.findOne({ _id: user._id });
       return handleResult(res, result);
     } catch (err) {
       return handleError(res, err);
     }
   }
 
-  async function create({ body, userId }, res) {
+  async function create({ body, user }, res) {
     try {
-      const created = await Entity.create({ ...body, userId });
+      const created = await Entity.create({ ...body, userId: user._id });
       return res.status(201).send(created);
     } catch (err) {
       return handleError(res, err, 400);
     }
   }
 
-  async function update({ body, userId, params }, res) {
+  async function update({ body, user, params }, res) {
     try {
-      let updatedItem = await Entity.findOne({ _id: params.id, userId });
+      let updatedItem = await Entity.findOne({ _id: params.id, userId: user._id });
 
       if (!updatedItem) {
         return res.status(404).send(noModificationMessage);
@@ -71,9 +71,9 @@ export default function FunctionGeneration(Entity) {
   }
 
 
-  async function updateMe({ body, userId }, res) {
+  async function updateMe({ body, user }, res) {
     try {
-      let result = await Entity.findOne({ _id: userId });
+      let result = await Entity.findOne({ _id: user._id });
 
       if (!result) {
         return res.status(404).send(noModificationMessage);
@@ -89,9 +89,9 @@ export default function FunctionGeneration(Entity) {
     }
   }
 
-  async function destroy({ userId, params }, res) {
+  async function destroy({ user, params }, res) {
     try {
-      const { deletedCount } = await Entity.deleteOne({ _id: params.id, userId });
+      const { deletedCount } = await Entity.deleteOne({ _id: params.id, userId: user._id });
       if (deletedCount === 0) {
         return res.status(404).send({ message: 'No elements found to delete' });
       }
@@ -101,9 +101,9 @@ export default function FunctionGeneration(Entity) {
     }
   }
 
-  async function destroyMe({ userId }, res) {
+  async function destroyMe({ user }, res) {
     try {
-      const { deletedCount } = await Entity.deleteOne({ _id: userId });
+      const { deletedCount } = await Entity.deleteOne({ _id: user._id });
       if (deletedCount === 0) {
         return res.status(404).send({ message: 'No elements found to delete' });
       }
