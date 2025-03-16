@@ -33,8 +33,19 @@ const schema = {
     minlength: 6,
     select: false
   },
-  profileImage: {
-    type: Schema.ObjectId
+  profileImageId: {
+    type: Schema.ObjectId,
+
+    virtualPopulation: {
+      odinAutoPopulation: true,
+      as: 'profileImage',
+      options: {
+        ref: 'uploads',
+        foreignField: '_id',
+        localField: 'profileImageId',
+        justOne: true,
+      },
+    },
   },
   role: {
     type: String,

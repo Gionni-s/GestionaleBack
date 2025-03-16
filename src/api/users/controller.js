@@ -3,7 +3,6 @@ import { createToken } from '../../services/token';
 import { findUser, addUser } from './middleware/express';
 import Entity from './model';
 import UploadFile from '../upload/model.js';
-import { showUser, showAll } from './middleware/aggregate.js';
 import fs from 'fs';
 import appRoute from 'app-root-path';
 
@@ -26,7 +25,7 @@ function convertImageToBase64(name) {
 
 actions.login = async ({ headers: { authorization } }, res) => {
   try {
-    if (!authorization) {
+    if (_.isNil(authorization)) {
       return res.status(404).send({ status: 404, message: 'Need to send username and password' });
     }
     const { mail, psw } = basicAuth(authorization);
@@ -60,8 +59,8 @@ actions.refreshToken = async (req, res) => {
 
 actions.show = async (req, res) => {
   try {
-    let result = (await Entity.aggregate(showAll()));
-    if (!result || result.length == 0) {
+    let result = await Entity.find();
+    if (_.isEmpty(result)) {
       result = { message: 'No element Found' };
     }
     return res.status(200).send(result);
@@ -73,8 +72,8 @@ actions.show = async (req, res) => {
 
 actions.showMe = async ({ user }, res) => {
   try {
-    let result = (await Entity.aggregate(showUser({ userId: user._id })))[0];
-    if (!result || result.length == 0) {
+    let result = await Entity.findOne({ _id: user._id });
+    if (!_.isEmpty(result)) {
       result = { message: 'No element Found' };
     }
     return res.status(200).send(result);
@@ -94,7 +93,7 @@ actions.updateMe = async ({ body, user }, res) => {
 
   body.profileImage = updateImage._id;
   let updated = await Entity.findOneAndUpdate({ _id: userId._id }, body, { new: true });
-  if (!updated) {
+  if (_.isNil(updated)) {
     return res.status(400).send({ message: 'no items found to modify' });
   }
   return res.status(200).send(updated);
@@ -107,7 +106,7 @@ actions.createUser = async (req, res) => {
     let { name, surname, phone, psw, mail, profileImage } = req.body;
 
     let exist = await Entity.find({ 'email': mail });
-    if (exist.length >= 1) {
+    if (!_.isEmpty(exist)) {
       throw ({ code: 1000, status: 400, message: 'Utente già presente' });
     }
     result = await addUser({ name, surname, phone, psw, mail });
