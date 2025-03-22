@@ -11,3 +11,9 @@ export const RecipeIngridientMeasurementUnitEnum = {
 };
 
 export const recipeIngridientMeasurement = Object.values(RecipeIngridientMeasurementUnitEnum);
+
+export const AmountTypeEnum = {
+  EUR: '€',
+};
+
+export const amountType = Object.values(AmountTypeEnum);

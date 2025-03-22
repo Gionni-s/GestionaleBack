@@ -73,7 +73,7 @@ actions.show = async (req, res) => {
 actions.showMe = async ({ user }, res) => {
   try {
     let result = await Entity.findOne({ _id: user._id });
-    if (!_.isEmpty(result)) {
+    if (_.isEmpty(result)) {
       result = { message: 'No element Found' };
     }
     return res.status(200).send(result);
@@ -92,7 +92,7 @@ actions.updateMe = async ({ body, user }, res) => {
     }, { file: image }, { new: true });
 
   body.profileImage = updateImage._id;
-  let updated = await Entity.findOneAndUpdate({ _id: userId._id }, body, { new: true });
+  let updated = await Entity.findOneAndUpdate({ _id: user._id }, body, { new: true });
   if (_.isNil(updated)) {
     return res.status(400).send({ message: 'no items found to modify' });
   }
@@ -125,7 +125,7 @@ actions.createUser = async (req, res) => {
     if (result) {
       logger.info('Utente inserito correttamente');
       let user = await findUser({ mail, psw });
-      return res.status(200).send(createToken({ 'id': (user)['_id'] }));
+      return res.status(200).send(createToken({ '_id': (user)['_id'] }));
     }
     throw ({ code: 1000, status: 400, message: 'Utente non inserito' });
   } catch (err) {
