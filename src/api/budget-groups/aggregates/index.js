@@ -36,6 +36,9 @@ export const kpiAggregate = (user) => [
       name: '$name',
       total: { $ifNull: ['$budgets.total', 0] },
       max: '$max',
+      remaining: {
+        $subtract: [{ $ifNull: ['$max', 0] }, { $ifNull: ['$budgets.total', 0] }]
+      },
       userId: '$userId'
     }
   }
