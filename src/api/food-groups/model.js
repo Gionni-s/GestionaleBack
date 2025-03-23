@@ -9,20 +9,6 @@ const schema = {
     trim: true,
     lowercase: true,
   },
-  foodGroupId: {
-    type: Schema.ObjectId,
-    required: true,
-    virtualPopulation: {
-      odinAutoPopulation: true,
-      as: 'FoodGroups',
-      options: {
-        ref: 'Food-Group',
-        foreignField: '_id',
-        localField: 'foodGroupId',
-        justOne: true,
-      },
-    },
-  },
   userId: {
     type: Schema.ObjectId,
     required: true,
@@ -43,8 +29,8 @@ const schema = {
 const model = ModelGenerator(mongoose)(
   {
     schema,
-    collectionName: 'foods',
-    modelName: 'Food',
+    collectionName: 'food-groups',
+    modelName: 'Food-Group',
     extensionFunction: () => { }
   }
 );

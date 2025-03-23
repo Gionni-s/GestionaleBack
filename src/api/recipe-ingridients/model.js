@@ -53,7 +53,7 @@ const model = ModelGenerator(mongoose)(
   {
     schema,
     collectionName: 'recipe-ingridients',
-    modelName: 'Recipe-Ingridients',
+    modelName: 'Recipe-Ingridient',
     extensionFunction: () => { }
   }
 );

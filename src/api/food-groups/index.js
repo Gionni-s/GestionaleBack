@@ -7,7 +7,7 @@ import { bodySchema } from './model';
 const router = express.Router();
 
 /**
- * @api {get} /foods Request All Foods
+ * @api {get} /food-groups Request All Food-group-groups
  * @apiName GetUser
  * @apiGroup User
  *
@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /foods/:id Request Foods information
+ * @api {get} /food-groups/:id Request Food-group information
  * @apiName GetUser
  * @apiGroup User
  *
@@ -31,7 +31,7 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
- * @api {post} /foods Create Foods
+ * @api {post} /food-groups Create Food-group
  * @apiName GetUser
  * @apiGroup User
  *
@@ -43,7 +43,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /foods/:id Update Foods information
+ * @api {put} /food-groups/:id Update Food-group information
  * @apiName GetUser
  * @apiGroup User
  *
@@ -55,7 +55,7 @@ router.post('/', token({ required: true }), actions.create);
 router.put('/:id', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /foods/:id Delete Foods
+ * @api {delete} /food-groups/:id Delete Food-group
  * @apiName GetUser
  * @apiGroup User
  *

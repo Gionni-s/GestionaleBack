@@ -15,12 +15,12 @@ let schema = {
     virtualPopulation: {
       odinAutoPopulation: true,
       options: {
-        ref: 'Recipe-Ingridients',
+        ref: 'Recipe-Ingridient',
         foreignField: 'recipeId',
         localField: '_id',
         justOne: false,
         options: {
-          path: 'food'
+          path: 'foodGroup'
         }
       },
     }

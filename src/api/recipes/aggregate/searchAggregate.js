@@ -20,7 +20,7 @@ export const searchAggregate = (foodIds) => {
     { $unwind: '$ingridients' },
     {
       $lookup: {
-        from: 'foods',
+        from: 'food-group',
         localField: 'ingridients.foodId',
         foreignField: '_id',
         as: 'foodDetails'

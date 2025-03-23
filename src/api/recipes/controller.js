@@ -40,7 +40,7 @@ actions.update = async ({ params: { id }, user, body }, res) => {
       const ingredientsArray = body.ingridients.map(ing => ({
         ...ing,
         recipeId: id,
-        userId
+        userId: user._id
       }));
 
 

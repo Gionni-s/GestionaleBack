@@ -3,24 +3,29 @@ import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
 
 let schema = {
+  name: {
+    type: String,
+    required: true
+  },
   quantita: {
     type: Number,
-    required: true
+    required: true,
+    default: 1
   },
   scadenza: {
     type: Date,
     required: true
   },
-  foodId: {
+  foodGroupId: {
     type: Schema.ObjectId,
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'food',
+      as: 'foodGroup',
       options: {
-        ref: 'Food',
+        ref: 'Food-Group',
         foreignField: '_id',
-        localField: 'foodId',
+        localField: 'foodGroupId',
         justOne: true,
       },
     },
