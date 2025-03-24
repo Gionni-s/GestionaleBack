@@ -14,7 +14,7 @@ const schema = {
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'FoodGroups',
+      as: 'foodGroup',
       options: {
         ref: 'Food-Group',
         foreignField: '_id',

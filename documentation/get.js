@@ -2,7 +2,7 @@ const fs = require('fs');
 const appRoute = require('app-root-path');
 const { parsePostmanInfo } = require('./parser');
 const _ = require('lodash');
-;
+
 function getFoldersName() {
   return fs.readdirSync(appRoute.toString() + '/src/api')
     .filter(a => !a.startsWith('_') && !a.endsWith('.js'));
