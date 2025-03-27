@@ -6,10 +6,11 @@ export default function ModelGenerator(mongoose) {
       schema: entitySchema,
       collectionName,
       modelName,
-      extensionFunction // funzione (schema)=>{}
+      timeSeries = {},
+      extensionFunction, // funzione (schema)=>{}
     } = modelParams;
 
-    let { schema, virtuals } = schemaGeneration(entitySchema);
+    let { schema, virtuals } = schemaGeneration(entitySchema, timeSeries);
 
     if (extensionFunction) {
       extensionFunction(schema);

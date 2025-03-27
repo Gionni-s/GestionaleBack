@@ -8,7 +8,7 @@ const isArrayOfObjects = (field) =>
 const capitalizeRef = (name) =>
   name.charAt(0).toUpperCase() + name.slice(1, -2);
 
-export function schemaGeneration(entitySchema) {
+export function schemaGeneration(entitySchema, timeSeries) {
   let virtuals = createVirtuals(entitySchema);
 
   //rimozione dei campi dallo schema se sono dei campi virtuali
@@ -37,7 +37,7 @@ export function schemaGeneration(entitySchema) {
       });
     }
   });
-  let schema = new Schema(entitySchema, { timestamps: { createdAt: 'createAt' } });
+  let schema = new Schema(entitySchema, { ...timeSeries, timestamps: { createdAt: 'createdAt' } });
 
   virtuals.forEach(val => {
     schema.virtual(val.as, val.options);
