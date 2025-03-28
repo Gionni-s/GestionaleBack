@@ -1,11 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
+import { budgeGroupExpirationInterval, BudgetGroupExpirationIntervalEnum } from '../_utils/enum';
 
 let schema = {
-  budgetGroupTemplateId: {
-    type: Schema.ObjectId
-  },
   name: {
     type: String,
     required: true,
@@ -16,13 +14,16 @@ let schema = {
     type: Number,
     default: 0
   },
-  validationPeriod: {
+  resetPeriod: {
     type: {
-      start: {
-        type: Date
+      number: {
+        type: Number,
+        default: 1
       },
-      end: {
-        type: Date
+      interval: {
+        type: String,
+        enum: budgeGroupExpirationInterval,
+        default: BudgetGroupExpirationIntervalEnum.MONTHLY
       }
     }
   },
@@ -46,8 +47,8 @@ let schema = {
 const model = ModelGenerator(mongoose)(
   {
     schema,
-    collectionName: 'budget-groups',
-    modelName: 'Budget-Group',
+    collectionName: 'budget-groups-template',
+    modelName: 'Budget-Group-Template',
     extensionFunction: () => { }
   }
 );
