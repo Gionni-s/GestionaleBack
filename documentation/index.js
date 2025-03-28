@@ -1,8 +1,9 @@
 const { createCollection, createItem, createFolder } = require('./create');
 const { getFoldersName, getPostmanInfo, getCallInfo } = require('./get');
 const saveFile = require('./saveFile');
-const { appName } = require('../src/config.js');
+const { appName, postmanApi } = require('../src/config.js');
 const _ = require('lodash');
+const { generatePostman } = require('./postman/index.js');
 
 const postmanCollection = createCollection(appName, false);
 
@@ -26,5 +27,11 @@ for (let name in folderCollection) {
   postmanCollection.items.add(folderCollection[name]);
 }
 const collectionJSON = postmanCollection.toJSON();
+
+if (!_.isNil(postmanApi)) {
+  generatePostman(collectionJSON);
+} else {
+  logger.error('Postman api key not present');
+}
 
 saveFile(collectionJSON);

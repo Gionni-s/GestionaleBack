@@ -43,7 +43,7 @@ function createItem(info, authType = 'bearer') {
           raw: '',
         };
       } catch (error) {
-        console.error(`Error reading file ${filePath}:`, error);
+        logger.error(`Error reading file ${filePath}:`, error);
       }
     }
     postmanRequest.push({
