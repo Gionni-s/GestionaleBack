@@ -20,6 +20,7 @@ const config = {
     port: process.env.PORT || 9000,
     privateKey: requireProcessEnv('PRIVATE_KEY'),
     env: requireProcessEnv('ENV'),
+    postmanApi: process.env.POSTMAN_API ?? undefined,
     mongo: {
       createMongo: requireProcessEnv('CREATE_MONGO') === 'true',
       options: {

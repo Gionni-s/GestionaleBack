@@ -5,14 +5,14 @@ function saveFile(collectionJSON) {
   let dir = appRoute.toString() + '/docs';
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
-    console.log('Create folder --> ' + dir);
+    logger.info('Create folder --> ' + dir);
   } else {
-    console.log('Update file ' + dir);
+    logger.info('Update file ' + dir);
   }
   // Create a colleciton.json file. It can be imported to postman
   fs.writeFile(dir + '/postman.json', JSON.stringify(collectionJSON), (err) => {
-    if (err) { console.log(err); }
-    console.log('File saved');
+    if (err) { logger.error(err); }
+    logger.info('File saved');
   });
 }
 

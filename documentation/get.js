@@ -28,7 +28,7 @@ function getPostmanInfo(names) {
 
       val[name].push(...apiComments);
     } catch (err) {
-      console.error(`Errore nella lettura del file per ${name}:`, err);
+      logger.error(`Errore nella lettura del file per ${name}:`, err);
     }
   });
   return val;
