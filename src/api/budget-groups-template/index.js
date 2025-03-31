@@ -7,7 +7,7 @@ import { middleware as query } from 'querymen';
 const router = express.Router();
 
 /**
- * @api {get} /budgets/ get All Budgets
+ * @api {get} /budget-groups/ get All Boods
  * @apiName GetUser
  * @apiGroup User
  *
@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /budgets/kpi get kpi BudgetGroup
+ * @api {get} /budget-groups/kpi get All Boods
  * @apiName GetUser
  * @apiGroup User
  *
@@ -31,7 +31,19 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
 router.get('/kpi', query(bodySchema.query), token({ required: true }), actions.kpi);
 
 /**
- * @api {get} /budgets/:id Get Specific Budget
+ * @api {get} /budgets/chart get All Budgets
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User's unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
+router.get('/chart', query(bodySchema.query), token({ required: true }), actions.getChart);
+
+/**
+ * @api {get} /budget-groups/:id Get Specific budget-group
  * @apiName GetUser
  * @apiGroup User
  *
@@ -43,7 +55,7 @@ router.get('/kpi', query(bodySchema.query), token({ required: true }), actions.k
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
- * @api {post} /budgets/:id Create Budget
+ * @api {post} /budget-groups/:id Create budget-group
  * @apiName GetUser
  * @apiGroup User
  *
@@ -55,7 +67,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /budgets/:id Update Budget
+ * @api {put} /budget-groups/:id Update budget-group
  * @apiName GetUser
  * @apiGroup User
  *
@@ -67,7 +79,7 @@ router.post('/', token({ required: true }), actions.create);
 router.put('/:id', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /budgets/:id Destroy Budget
+ * @api {delete} /budget-groups/:id Destroy budget-group
  * @apiName GetUser
  * @apiGroup User
  *

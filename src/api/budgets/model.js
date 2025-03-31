@@ -22,6 +22,9 @@ let schema = {
   beneficiary: {
     type: String
   },
+  groupTemplateId: {
+    type: Schema.ObjectId,
+  },
   groupId: {
     type: Schema.ObjectId,
     virtualPopulation: {

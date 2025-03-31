@@ -34,19 +34,21 @@ try {
   console.log('Output directory already exists');
 }
 
-_.forEach(allModels, model => {
-  let toWrite = '';
-  let randomObject = dummy(model, {
-    autoDetect: false,
-    ignore: ignoredFields,
-    returnDate: true
-  });
-  toWrite += JSON.stringify(randomObject, null, 2);
 
-  fs.writeFile(path.join(entityDir, model.modelName + '.json'), toWrite, function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    console.log(model.modelName + ' file was saved!');
-  });
-});
+// non funziona con sotto schemi, genera errore
+// _.forEach(allModels, model => {
+//   let toWrite = '';
+//   let randomObject = dummy(model, {
+//     autoDetect: false,
+//     ignore: ignoredFields,
+//     returnDate: true
+//   });
+//   toWrite += JSON.stringify(randomObject, null, 2);
+
+//   fs.writeFile(path.join(entityDir, model.modelName + '.json'), toWrite, function (err) {
+//     if (err) {
+//       return console.log(err);
+//     }
+//     console.log(model.modelName + ' file was saved!');
+//   });
+// });

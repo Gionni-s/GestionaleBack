@@ -17,3 +17,12 @@ export const AmountTypeEnum = {
 };
 
 export const amountType = Object.values(AmountTypeEnum);
+
+export const BudgetGroupExpirationIntervalEnum = {
+  DAY: 'day',
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year'
+};
+
+export const budgeGroupExpirationInterval = Object.values(BudgetGroupExpirationIntervalEnum);
