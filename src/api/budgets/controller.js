@@ -9,7 +9,6 @@ const actions = FunctionGeneration(Entity);
 
 actions.create = async ({ body, user }, res) => {
   try {
-    console.log(body);
     const groupTemplate = await BudgetGroupTemplate.findOne({ _id: body.groupId }); //group id in creazione è il group template id
     if (_.isNil(groupTemplate)) {
       return res.status(404).send({ message: 'no Group template found with id:' + body.groupId });
@@ -45,7 +44,7 @@ actions.kpi = async ({ query: { kpi }, user }, res) => {
     return res.status(200).send([]);
   }
 
-  let budgetGroup = await BudgetGroup.aggregate(getKpiAggregate(kpi.split(','), user._id));
+  let budgetGroup = await BudgetGroupTemplate.aggregate(getKpiAggregate(kpi.split(','), user._id));
 
   return res.status(200).send(budgetGroup);
 };
