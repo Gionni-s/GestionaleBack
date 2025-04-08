@@ -1,7 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
-import { budgeGroupExpirationInterval, BudgetGroupExpirationIntervalEnum } from '../_utils/enum';
+import {
+  budgeGroupExpirationInterval,
+  BudgetGroupExpirationIntervalEnum,
+  budgetGroupType,
+  BudgetGroupTypeEnum
+} from '../_utils/enum';
 
 const resetPeriodSchemaToBuild = new mongoose.Schema({
   number: {
@@ -30,6 +35,11 @@ let schema = {
   },
   resetPeriod: {
     type: resetPeriodSchema
+  },
+  type: {
+    type: String,
+    enum: budgetGroupType,
+    default: BudgetGroupTypeEnum.EXPENSE,
   },
   userId: {
     type: Schema.ObjectId,

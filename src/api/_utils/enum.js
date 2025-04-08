@@ -26,3 +26,10 @@ export const BudgetGroupExpirationIntervalEnum = {
 };
 
 export const budgeGroupExpirationInterval = Object.values(BudgetGroupExpirationIntervalEnum);
+
+export const BudgetGroupTypeEnum = {
+  EXPENSE: 'expense',
+  SAVING: 'saving'
+};
+
+export const budgetGroupType = Object.values(BudgetGroupTypeEnum);

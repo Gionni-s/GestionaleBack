@@ -17,7 +17,7 @@ let schema = {
   amountType: {
     type: String,
     enum: amountType,
-    defualt: AmountTypeEnum.EUR,
+    default: AmountTypeEnum.EUR,
   },
   beneficiary: {
     type: String
