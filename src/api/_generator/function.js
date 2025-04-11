@@ -12,7 +12,7 @@ export default function FunctionGeneration(Entity) {
   // Funzione di utilità per gestire i risultati
   const handleResult = (res, result) => {
     if (!result || (Array.isArray(result) && result.length === 0)) {
-      return res.status(404).send(notFoundMessage);
+      return res.status(200).send(notFoundMessage);
     }
     return res.status(200).send(result);
   };

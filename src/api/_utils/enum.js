@@ -33,3 +33,10 @@ export const BudgetGroupTypeEnum = {
 };
 
 export const budgetGroupType = Object.values(BudgetGroupTypeEnum);
+
+export const ShoppingListElementStatusEnum = {
+  BOUGHT: 'bought',
+  TO_BUY: 'toBuy'
+};
+
+export const shoppingListElement = Object.values(ShoppingListElementStatusEnum);

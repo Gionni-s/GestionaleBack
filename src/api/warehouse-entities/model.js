@@ -7,25 +7,25 @@ let schema = {
     type: String,
     required: true
   },
-  quantita: {
+  quantity: {
     type: Number,
     required: true,
     default: 1
   },
-  scadenza: {
+  expirationDate: {
     type: Date,
     required: true
   },
-  foodGroupId: {
+  foodId: {
     type: Schema.ObjectId,
     required: true,
     virtualPopulation: {
       odinAutoPopulation: true,
-      as: 'foodGroup',
+      as: 'food',
       options: {
-        ref: 'Food-Group',
+        ref: 'Food',
         foreignField: '_id',
-        localField: 'foodGroupId',
+        localField: 'foodId',
         justOne: true,
       },
     },

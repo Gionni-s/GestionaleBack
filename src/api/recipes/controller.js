@@ -1,6 +1,6 @@
 import FunctionGeneration from '../_generator/function.js';
 import Entity from './model';
-import WarehouseEntities from '../werehouseEntities/model';
+import WarehouseEntities from '../warehouse-entities/model.js';
 import RecipeIngridients from '../recipe-ingridients/model';
 import moment from 'moment';
 import { generateBulkOperations } from '../_utils/function.js';
