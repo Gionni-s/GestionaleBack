@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
+import { removeMinLevel } from './middleware';
 
 const schema = {
   name: {
@@ -45,7 +46,12 @@ const model = ModelGenerator(mongoose)(
     schema,
     collectionName: 'foods',
     modelName: 'Food',
-    extensionFunction: () => { }
+    extensionFunction: (schema) => {
+
+      schema.pre('deleteOne', { document: false, query: true }, removeMinLevel);
+
+      schema.pre('deleteOne', { document: true, query: false }, removeMinLevel);
+    }
   }
 );
 
