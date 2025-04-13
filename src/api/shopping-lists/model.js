@@ -6,7 +6,18 @@ import { addShoppingElement } from './middleware';
 
 let schema = {
   foodId: {
-    type: Schema.ObjectId
+    type: Schema.ObjectId,
+
+    virtualPopulation: {
+      odinAutoPopulation: true,
+      as: 'food',
+      options: {
+        ref: 'Food',
+        foreignField: '_id',
+        localField: 'foodId',
+        justOne: true,
+      },
+    },
   },
   quantity: {
     type: Number
