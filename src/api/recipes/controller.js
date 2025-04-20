@@ -1,7 +1,7 @@
 import FunctionGeneration from '../_generator/function.js';
 import Entity from './model';
 import WarehouseEntities from '../warehouse-entities/model.js';
-import RecipeIngridients from '../recipe-ingridients/model';
+import RecipeIngredients from '../recipe-ingredients/model';
 import moment from 'moment';
 import { generateBulkOperations } from '../_utils/function.js';
 
@@ -10,13 +10,13 @@ let actions = FunctionGeneration(Entity);
 actions.create = async ({ body, user }, res) => {
   try {
     const bodyCopy = { ...body };
-    delete body.ingridients;
+    delete body.ingredients;
 
     const recipe = await Entity.create({ ...body, userId: user._id });
-    const ingridients = bodyCopy.ingridients.map(ing => ({ ...ing, userId: user._id, recipeId: recipe._id }));
-    const bulkOps = generateBulkOperations(ingridients);
+    const ingredients = bodyCopy.ingredients.map(ing => ({ ...ing, userId: user._id, recipeId: recipe._id }));
+    const bulkOps = generateBulkOperations(ingredients);
 
-    await RecipeIngridients.bulkWrite(bulkOps);
+    await RecipeIngredients.bulkWrite(bulkOps);
     const newRecipe = await Entity.find({ _id: recipe._id, userId: user._id });
     return res.status(200).send(newRecipe);
   } catch (e) {
@@ -28,16 +28,16 @@ actions.create = async ({ body, user }, res) => {
 actions.update = async ({ params: { id }, user, body }, res) => {
   try {
     const bodyClone = { ...body };
-    delete bodyClone.ingridients;
+    delete bodyClone.ingredients;
 
     await Entity.updateOne({ _id: id, userId: user._id }, bodyClone);
 
-    const existingIngredients = await RecipeIngridients.find({ recipeId: id, userId: user._id });
+    const existingIngredients = await RecipeIngredients.find({ recipeId: id, userId: user._id });
 
-    if (_.isEmpty(body.ingridients)) {
-      await RecipeIngridients.deleteMany({ recipeId: id, userId: user._id });
+    if (_.isEmpty(body.ingredients)) {
+      await RecipeIngredients.deleteMany({ recipeId: id, userId: user._id });
     } else {
-      const ingredientsArray = body.ingridients.map(ing => ({
+      const ingredientsArray = body.ingredients.map(ing => ({
         ...ing,
         recipeId: id,
         userId: user._id
@@ -45,9 +45,9 @@ actions.update = async ({ params: { id }, user, body }, res) => {
 
 
       if (!_.isEmpty(existingIngredients)) {
-        await RecipeIngridients.deleteMany({ recipeId: id, userId: user._id });
+        await RecipeIngredients.deleteMany({ recipeId: id, userId: user._id });
       }
-      await RecipeIngridients.insertMany(ingredientsArray);
+      await RecipeIngredients.insertMany(ingredientsArray);
     }
 
     const updatedRecipe = await Entity.findOne({ _id: id, userId: user._id });
@@ -61,14 +61,14 @@ actions.update = async ({ params: { id }, user, body }, res) => {
 
 actions.destroy = async ({ params: { id }, user }, res) => {
   await Entity.deleteOne({ _id: id, userId: user._id });
-  await RecipeIngridients.deleteMany({ recipeId: id, userId: user._id });
+  await RecipeIngredients.deleteMany({ recipeId: id, userId: user._id });
   return res.status(200).send('Item successfully deleted');
 };
 
 actions.searchRecipe = async ({ query: { foodIds } }, res) => {
   try {
     const foodIdsJson = JSON.parse(foodIds);
-    const result = await Entity.find({ 'ingridients.foodId': { $in: foodIdsJson } });
+    const result = await Entity.find({ 'ingredients.foodId': { $in: foodIdsJson } });
     return res.status(200).send({ foodIdsJson, result });
   } catch (e) {
     logger.error(e.message);
@@ -99,7 +99,7 @@ actions.searchRecipeForExpiringFoods = async ({ query: { fromDate, toDate }, use
       { foodId: 1 }
     );
     const foodIds = warehouseEntity.map(val => val.foodId);
-    const result = await Entity.find({ 'ingridients.foodId': { $in: foodIds } });
+    const result = await Entity.find({ 'ingredients.foodId': { $in: foodIds } });
     return res.status(200).send(result);
   } catch (e) {
     logger.error(e.message);

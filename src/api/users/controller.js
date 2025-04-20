@@ -47,7 +47,6 @@ actions.refreshToken = async (req, res) => {
       var token = createToken({ 'id': (user[0])['_id'] });
       return res.status(200).send(token);
     } else if (user.length > 1) {
-      ;
       throw ({ code: 1000, status: 400, message: 'Ci sono più utenti con le stesse caratteristiche' });
     }
     return res.status(500).send('Nessun Utente trovato');

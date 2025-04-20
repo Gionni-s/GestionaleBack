@@ -9,13 +9,13 @@ let schema = {
     trim: true,
     lowercase: true,
   },
-  ingridients: {
+  ingredients: {
     type: [Object],
     virtual: true,
     virtualPopulation: {
       odinAutoPopulation: true,
       options: {
-        ref: 'Recipe-Ingridient',
+        ref: 'Recipe-Ingredient',
         foreignField: 'recipeId',
         localField: '_id',
         justOne: false,
