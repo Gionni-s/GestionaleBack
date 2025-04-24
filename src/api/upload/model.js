@@ -14,16 +14,16 @@ let schema = {
     type: Schema.ObjectId,
     required: true,
 
-    virtualPopulation: {
-      odinAutoPopulation: true,
-      as: 'User',
-      options: {
-        ref: 'User',
-        foreignField: '_id',
-        localField: 'userId',
-        justOne: true,
-      },
-    },
+    // virtualPopulation: {
+    //   odinAutoPopulation: true,
+    //   as: 'User',
+    //   options: {
+    //     ref: 'User',
+    //     foreignField: '_id',
+    //     localField: 'userId',
+    //     justOne: true,
+    //   },
+    // },
   }
 };
 

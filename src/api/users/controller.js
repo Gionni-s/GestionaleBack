@@ -83,14 +83,14 @@ actions.showMe = async ({ user }, res) => {
 };
 
 actions.updateMe = async ({ body, user }, res) => {
-  let image = body.profileImage;
+  let image = body.profileImage.file;
   let updateImage =
     await UploadFile.findOneAndUpdate({
       userId: user._id,
       type: 'profileImage'
     }, { file: image }, { new: true });
 
-  body.profileImage = updateImage._id;
+  body.profileImageId = updateImage._id;
   let updated = await Entity.findOneAndUpdate({ _id: user._id }, body, { new: true });
   if (_.isNil(updated)) {
     return res.status(400).send({ message: 'no items found to modify' });
