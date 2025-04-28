@@ -40,7 +40,7 @@ const schema = {
       odinAutoPopulation: true,
       as: 'profileImage',
       options: {
-        ref: 'uploads',
+        ref: 'Upload',
         foreignField: '_id',
         localField: 'profileImageId',
         justOne: true,
