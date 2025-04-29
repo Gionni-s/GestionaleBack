@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
+import { createEvent, removeEvent } from './middleware';
 
 let schema = {
   name: {
@@ -80,7 +81,12 @@ const model = ModelGenerator(mongoose)(
     schema,
     collectionName: 'warehouseEntities',
     modelName: 'WarehouseEntity',
-    extensionFunction: () => { }
+    extensionFunction: (schema) => {
+      schema.pre('save', createEvent);
+
+      schema.pre('deleteOne', { document: false, query: true }, removeEvent);
+      schema.pre('deleteOne', { document: true, query: false }, removeEvent);
+    }
   }
 );
 
