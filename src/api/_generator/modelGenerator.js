@@ -7,7 +7,7 @@ export default function ModelGenerator(mongoose) {
       collectionName,
       modelName,
       timeSeries = {},
-      extensionFunction, // funzione (schema)=>{}
+      extensionFunction, // function (schema) => {}
     } = modelParams;
 
     let { schema, virtuals } = schemaGeneration(entitySchema, timeSeries);
@@ -16,20 +16,25 @@ export default function ModelGenerator(mongoose) {
       extensionFunction(schema);
     }
 
+    const populate = createPopulate(entitySchema, virtuals);
+
+    schema.methods.view = async function () {
+      const populated = await this.populate(populate);
+      return populated.toObject({ virtuals: true, getters: true, setters: true });
+    };
+
     if (mongoose.models[modelName]) {
       delete mongoose.models[modelName];
     }
 
-    let model = mongoose.model(modelName, schema);
-
-    const populate = createPopulate(entitySchema, virtuals);
+    const model = mongoose.model(modelName, schema, collectionName);
 
     model.find = function (filter = {}, projections = {}, options = {}) {
-      return Object.getPrototypeOf(this).find.call(this, filter, projections, options).populate(populate);
+      return mongoose.Model.find.call(this, filter, projections, options);
     };
 
     model.findOne = function (filter = {}, projections = {}, options = {}) {
-      return Object.getPrototypeOf(this).findOne.call(this, filter, projections, options).populate(populate);
+      return mongoose.Model.findOne.call(this, filter, projections, options);
     };
 
     return model;

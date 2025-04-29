@@ -1,26 +1,23 @@
 export default function FunctionGeneration(Entity) {
-  const notFoundMessage = { message: 'No element Found' };
   const noModificationMessage = { message: 'No elements found to modify' };
   const deleteSuccessMessage = { message: 'Delete successfully' };
 
-  // Funzione di utilità per gestire gli errori
   const handleError = (res, err, statusCode = 500) => {
     logger.error(err.message);
     return res.status(statusCode).send({ message: err.message });
   };
 
-  // Funzione di utilità per gestire i risultati
-  const handleResult = (res, result) => {
-    if (!result || (Array.isArray(result) && result.length === 0)) {
-      return res.status(200).send(notFoundMessage);
-    }
-    return res.status(200).send(result);
-  };
-
   async function index({ querymen: { query, select, cursor }, user }, res) {
     try {
       const result = await Entity.find({ ...query, userId: user._id }, select, cursor);
-      return handleResult(res, result);
+
+      const populatedResult = [];
+      for (const item of result) {
+        const view = await item.view();
+        populatedResult.push(view);
+      }
+
+      return res.status(200).send(populatedResult);
     } catch (err) {
       return handleError(res, err);
     }
@@ -29,7 +26,15 @@ export default function FunctionGeneration(Entity) {
   async function show({ querymen: { query, select, cursor }, params, user }, res) {
     try {
       const result = await Entity.findOne({ ...query, userId: user._id, _id: params.id }, select, cursor);
-      return handleResult(res, result);
+
+      const populatedResult = [];
+
+      for (const item of result) {
+        const view = await item.view();
+        populatedResult.push(view);
+      }
+
+      return res.status(200).send(result);
     } catch (err) {
       return handleError(res, err);
     }
@@ -38,7 +43,15 @@ export default function FunctionGeneration(Entity) {
   async function showMe({ user }, res) {
     try {
       const result = await Entity.findOne({ _id: user._id });
-      return handleResult(res, result);
+
+      const populatedResult = [];
+
+      for (const item of result) {
+        const view = await item.view();
+        populatedResult.push(view);
+      }
+
+      return res.status(200).send(populatedResult);
     } catch (err) {
       return handleError(res, err);
     }
@@ -47,7 +60,10 @@ export default function FunctionGeneration(Entity) {
   async function create({ body, user }, res) {
     try {
       const created = await Entity.create({ ...body, userId: user._id });
-      return res.status(201).send(created);
+
+      const populatedResult = await created.view();
+
+      return res.status(201).send(populatedResult);
     } catch (err) {
       return handleError(res, err, 400);
     }
@@ -64,7 +80,15 @@ export default function FunctionGeneration(Entity) {
         updatedItem[val] = body[val];
       }
       await updatedItem.save();
-      return res.status(200).send(updatedItem);
+
+      const populatedResult = [];
+
+      for (const item of updatedItem) {
+        const view = await item.view();
+        populatedResult.push(view);
+      }
+
+      return res.status(200).send(populatedResult);
     } catch (err) {
       return handleError(res, err, 400);
     }
@@ -83,7 +107,15 @@ export default function FunctionGeneration(Entity) {
         result[val] = body[val];
       }
       await result.save();
-      return res.status(200).send(result);
+
+      const populatedResult = [];
+
+      for (const item of result) {
+        const view = await item.view();
+        populatedResult.push(view);
+      }
+
+      return res.status(200).send(populatedResult);
     } catch (err) {
       return handleError(res, err, 400);
     }
