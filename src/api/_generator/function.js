@@ -76,17 +76,14 @@ export default function FunctionGeneration(Entity) {
       if (!updatedItem) {
         return res.status(404).send(noModificationMessage);
       }
+
       for (let val in body) {
         updatedItem[val] = body[val];
       }
+
+      const populatedResult = await updatedItem.view();
+
       await updatedItem.save();
-
-      const populatedResult = [];
-
-      for (const item of updatedItem) {
-        const view = await item.view();
-        populatedResult.push(view);
-      }
 
       return res.status(200).send(populatedResult);
     } catch (err) {
@@ -106,7 +103,6 @@ export default function FunctionGeneration(Entity) {
       for (let val in body) {
         result[val] = body[val];
       }
-      await result.save();
 
       const populatedResult = [];
 
@@ -114,6 +110,8 @@ export default function FunctionGeneration(Entity) {
         const view = await item.view();
         populatedResult.push(view);
       }
+
+      await result.save();
 
       return res.status(200).send(populatedResult);
     } catch (err) {
