@@ -20,7 +20,7 @@ let schema = {
         localField: '_id',
         justOne: false,
         options: {
-          path: 'foodGroup'
+          populate: 'food',
         }
       },
     }

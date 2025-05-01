@@ -12,7 +12,7 @@ export default function ModelGenerator(mongoose) {
 
     let { schema, virtuals } = schemaGeneration(entitySchema, timeSeries);
 
-    if (extensionFunction) {
+    if (!_.isNil(extensionFunction)) {
       extensionFunction(schema);
     }
 
