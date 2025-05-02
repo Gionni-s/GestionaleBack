@@ -7,7 +7,7 @@ import { middleware as query } from 'querymen';
 const router = express.Router();
 
 /**
- * @api {get} /cookBooks/ get All Boods
+ * @api {get} /cook-books/ get All Boods
  * @apiName GetUser
  * @apiGroup User
  *
@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /cookBooks/:id Get Specific Book
+ * @api {get} /cook-books/:id Get Specific Book
  * @apiName GetUser
  * @apiGroup User
  *
@@ -31,7 +31,7 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
- * @api {post} /cookBooks/:id Create Book
+ * @api {post} /cook-books/:id Create Book
  * @apiName GetUser
  * @apiGroup User
  *
@@ -43,7 +43,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /cookBooks/:id Update Book
+ * @api {put} /cook-books/:id Update Book
  * @apiName GetUser
  * @apiGroup User
  *
@@ -55,7 +55,7 @@ router.post('/', token({ required: true }), actions.create);
 router.put('/:id', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /cookBooks/:id Destroy Book
+ * @api {delete} /cook-books/:id Destroy Book
  * @apiName GetUser
  * @apiGroup User
  *

@@ -7,7 +7,7 @@ import { middleware as query } from 'querymen';
 const router = express.Router();
 
 /**
- * @api {get} /shopping-list-elements/ get All shopping-list Element Elements
+ * @api {get} /shopping-lists/ get All shopping-list Elements
  * @apiName GetUser
  * @apiGroup User
  *
@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /shopping-list-elements/:id Get Specific shopping-list Element
+ * @api {get} /shopping-lists/:id Get Specific shopping-list Element
  * @apiName GetUser
  * @apiGroup User
  *
@@ -31,7 +31,7 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
- * @api {post} /shopping-list-elements/:id Create shopping-list Element
+ * @api {post} /shopping-lists/:id Create shopping-list Element
  * @apiName GetUser
  * @apiGroup User
  *
@@ -43,7 +43,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /shopping-list-elements/:id Update shopping-list Element
+ * @api {put} /shopping-lists/:id Update shopping-list Element
  * @apiName GetUser
  * @apiGroup User
  *
@@ -55,7 +55,7 @@ router.post('/', token({ required: true }), actions.create);
 router.put('/:id', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /shopping-list-elements/:id Destroy shopping-list Element
+ * @api {delete} /shopping-lists/:id Destroy shopping-list Element
  * @apiName GetUser
  * @apiGroup User
  *

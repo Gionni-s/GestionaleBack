@@ -2,7 +2,7 @@ const { default: mongoose } = require('mongoose');
 const User = require('../src/api/users/controller');
 const Recipe = require('../src/api/recipes/controller');
 const Food = require('../src/api/foods/controller');
-const CookBook = require('../src/api/cookBooks/controller');
+const CookBook = require('../src/api/cook-books/controller');
 const logger = require('../src/services/logger');
 const mongoUrl = require('../src/config').mongo.uri;
 

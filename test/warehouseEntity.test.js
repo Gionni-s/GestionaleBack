@@ -4,7 +4,7 @@ const Warehouse = require('../src/api/werehouses/controller');
 const Food = require('../src/api/foods/controller');
 const Location = require('../src/api/locations/controller');
 const WarehouseEntity =
-  require('../src/api/werehouseEntities/controller');
+  require('../src/api/warehouse-entities/controller');
 const mongoUrl = require('../src/config').mongo.uri;
 const logger = require('../src/services/logger');
 

@@ -7,7 +7,7 @@ import { middleware as query } from 'querymen';
 const router = express.Router();
 
 /**
- * @api {get} /recipe-ingridients  Show all recipe-ingridients
+ * @api {get} /recipe-ingredients  Show all recipe-ingredients
  * @apiName GetUser
  * @apiGroup User
  *
@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /recipe-ingridients/:id Select Specific Recipe-ingridient
+ * @api {get} /recipe-ingredients/:id Select Specific Recipe-ingredient
  * @apiName GetUser
  * @apiGroup User
  *
@@ -31,7 +31,7 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
 router.get('/:id', query(bodySchema.query), token({ require: true }), actions.show);
 
 /**
- * @api {post} /recipe-ingridients Create Recipe-ingridient
+ * @api {post} /recipe-ingredients Create Recipe-ingredient
  * @apiName GetUser
  * @apiGroup User
  *
@@ -43,7 +43,7 @@ router.get('/:id', query(bodySchema.query), token({ require: true }), actions.sh
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /recipe-ingridients/:id Update Recipe-ingridient
+ * @api {put} /recipe-ingredients/:id Update Recipe-ingredient
  * @apiName GetUser
  * @apiGroup User
  *
@@ -55,7 +55,7 @@ router.post('/', token({ required: true }), actions.create);
 router.put('/', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /recipe-ingridients/:id Delete Recipe-ingridient
+ * @api {delete} /recipe-ingredients/:id Delete Recipe-ingredient
  * @apiName GetUser
  * @apiGroup User
  *

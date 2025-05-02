@@ -7,7 +7,7 @@ import { middleware as query } from 'querymen';
 const router = express.Router();
 
 /**
- * @api {get} /budget-groups/ get All Boods
+ * @api {get} /budget-groups-template/ get All Boods
  * @apiName GetUser
  * @apiGroup User
  *
@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /budget-groups/kpi get All Boods
+ * @api {get} /budget-groups-template/kpi get All Boods
  * @apiName GetUser
  * @apiGroup User
  *
@@ -43,7 +43,7 @@ router.get('/kpi', query(bodySchema.query), token({ required: true }), actions.k
 router.get('/chart', query(bodySchema.query), token({ required: true }), actions.getChart);
 
 /**
- * @api {get} /budget-groups/:id Get Specific budget-group
+ * @api {get} /budget-groups-template/:id Get Specific budget-group
  * @apiName GetUser
  * @apiGroup User
  *
@@ -55,7 +55,7 @@ router.get('/chart', query(bodySchema.query), token({ required: true }), actions
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
- * @api {post} /budget-groups/:id Create budget-group
+ * @api {post} /budget-groups-template/:id Create budget-group
  * @apiName GetUser
  * @apiGroup User
  *
@@ -67,7 +67,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /budget-groups/:id Update budget-group
+ * @api {put} /budget-groups-template/:id Update budget-group
  * @apiName GetUser
  * @apiGroup User
  *
@@ -79,7 +79,7 @@ router.post('/', token({ required: true }), actions.create);
 router.put('/:id', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /budget-groups/:id Destroy budget-group
+ * @api {delete} /budget-groups-template/:id Destroy budget-group
  * @apiName GetUser
  * @apiGroup User
  *

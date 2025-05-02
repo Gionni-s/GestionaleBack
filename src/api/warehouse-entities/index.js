@@ -7,7 +7,7 @@ import { middleware as query } from 'querymen';
 const router = express.Router();
 
 /**
- * @api {get} /werehouseEntities Get All warehouseEntity
+ * @api {get} /warehouse-entities Get All warehouseEntity
  * @apiName GetUser
  * @apiGroup User
  *
@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /werehouseEntities/:id Get specific warehouseEntity
+ * @api {get} /warehouse-entities/:id Get specific warehouseEntity
  * @apiName GetUser
  * @apiGroup User
  *
@@ -31,7 +31,7 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
 /**
- * @api {post} /werehouseEntities Create WarehouseEntity
+ * @api {post} /warehouse-entities Create WarehouseEntity
  * @apiName GetUser
  * @apiGroup User
  *
@@ -43,7 +43,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
 router.post('/', token({ required: true }), actions.create);
 
 /**
- * @api {put} /werehouseEntities/:id Update WarehouseEntity
+ * @api {put} /warehouse-entities/:id Update WarehouseEntity
  * @apiName GetUser
  * @apiGroup User
  *
@@ -55,7 +55,7 @@ router.post('/', token({ required: true }), actions.create);
 router.put('/:id', token({ required: true }), actions.update);
 
 /**
- * @api {delete} /werehouseEntities/:id Delete WarehouseEntity
+ * @api {delete} /warehouse-entities/:id Delete WarehouseEntity
  * @apiName GetUser
  * @apiGroup User
  *

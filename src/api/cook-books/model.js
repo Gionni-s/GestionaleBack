@@ -29,7 +29,7 @@ let schema = {
 const model = ModelGenerator(mongoose)(
   {
     schema,
-    collectionName: 'cookBooks',
+    collectionName: 'cook-books',
     modelName: 'Cookbook',
     extensionFunction: () => { }
   }
