@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "develop"]
   pull_request:
-    branches: ["master"]
+    branches: ["master", "develop"]
 
 jobs:
   build:
@@ -13,15 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # - name: Install dependencies
-      #   run: npm ci
-
-      # - name: Test
-      #   run: npm run test
+      - name: Set Docker tag based on branch
+        id: vars
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "DOCKER_TAG=${{ secrets.APP_NAME }}" >> $GITHUB_ENV
+          else
+            echo "DOCKER_TAG=${{ secrets.APP_NAME }}-DEV" >> $GITHUB_ENV
+          fi
 
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile --tag ${{secrets.APP_NAME}}:latest
+          docker build . --file Dockerfile --tag ${{ env.DOCKER_TAG }}:latest
 
       - name: Log in to DockerHub
         uses: docker/login-action@v2
@@ -31,8 +34,8 @@ jobs:
 
       - name: Push to DockerHub
         run: |
-          docker tag ${{secrets.APP_NAME}}:latest ${{ secrets.DOCKER_USERNAME }}/${{secrets.APP_NAME}}:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{secrets.APP_NAME}}:latest
+          docker tag ${{ env.DOCKER_TAG }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_TAG }}:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_TAG }}:latest
 
       - name: Trigger deployment on Render via Deploy Hook
         run: |
