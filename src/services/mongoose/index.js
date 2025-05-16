@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const { mongo } = require('../../config.js');
 
-mongoose.connection.on('sucess', err => {
-  logger.info('MongoDB connection sucess: ' + err);
+mongoose.connection.on('success', err => {
+  logger.info('MongoDB connection success: ' + err);
 });
 
 

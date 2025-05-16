@@ -4,7 +4,7 @@ import Event from '../../events/model';
 export async function createEvent(next) {
   if (this.isNew) {
     const event = {
-      title: 'Scandeza: ' + this.name,
+      title: 'Scadenza: ' + this.name,
       start: this.expirationDate,
       endDate: this.expirationDate,
       isAllDay: true,
@@ -20,7 +20,7 @@ export async function createEvent(next) {
     return next();
   }
 
-  event.title = 'Scandeza: ' + this.name;
+  event.title = 'Scadenza: ' + this.name;
   event.start = this.expirationDate;
   event.endDate = this.expirationDate;
   event.isAllDay = true;

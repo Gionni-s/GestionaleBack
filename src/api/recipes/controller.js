@@ -76,7 +76,6 @@ actions.searchRecipe = async ({ query: { foodIds } }, res) => {
   }
 };
 
-// funzione che mi ritorna le ricette che contengono i cibi che stanno per scadere
 actions.searchRecipeForExpiringFoods = async ({ query: { fromDate, toDate }, user }, res) => {
   try {
     if (_.isNil(fromDate)) {

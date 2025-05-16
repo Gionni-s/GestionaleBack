@@ -63,12 +63,12 @@ export function createVirtuals(entitySchema) {
 
   Object.entries(entitySchema).forEach(([elementName, field]) => {
     if (field.virtualPopulation) {
-      const virPop = field.virtualPopulation;
+      const virtualPop = field.virtualPopulation;
       virtuals.push({
-        as: field.virtual ? elementName : virPop.as || `${elementName.slice(0, -2)}`,
-        options: virPop.options,
-        autoPopulate: virPop.odinAutoPopulation,
-        populate: virPop.options?.options?.populate
+        as: field.virtual ? elementName : virtualPop.as || `${elementName.slice(0, -2)}`,
+        options: virtualPop.options,
+        autoPopulate: virtualPop.odinAutoPopulation,
+        populate: virtualPop.options?.options?.populate
       });
     }
   });

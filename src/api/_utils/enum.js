@@ -3,14 +3,14 @@ export const RolesEnum = {
   ADMIN: 'admin',
 };
 
-export const RecipeIngridientMeasurementUnitEnum = {
+export const RecipeIngredientMeasurementUnitEnum = {
   KG: 'kg',
   G: 'g',
   L: 'l',
   ML: 'ml'
 };
 
-export const recipeIngridientMeasurement = Object.values(RecipeIngridientMeasurementUnitEnum);
+export const recipeIngredientMeasurement = Object.values(RecipeIngredientMeasurementUnitEnum);
 
 export const AmountTypeEnum = {
   EUR: '€',

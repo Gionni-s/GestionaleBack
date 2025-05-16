@@ -12,16 +12,16 @@ export const searchAggregate = (foodIds) => {
   return [
     {
       $match: {
-        'ingridients.foodId': {
+        'ingredients.foodId': {
           $in: validFoodIds
         }
       }
     },
-    { $unwind: '$ingridients' },
+    { $unwind: '$ingredients' },
     {
       $lookup: {
         from: 'food-group',
-        localField: 'ingridients.foodId',
+        localField: 'ingredients.foodId',
         foreignField: '_id',
         as: 'foodDetails'
       }
@@ -33,11 +33,11 @@ export const searchAggregate = (foodIds) => {
         name: { $first: '$name' },
         bookId: { $first: '$bookId' },
         userId: { $first: '$userId' },
-        ingridients: {
+        ingredients: {
           $push: {
             _id: '$foodDetails._id',
             name: '$foodDetails.name',
-            quantity: '$ingridients.quantity'
+            quantity: '$ingredients.quantity'
           }
         },
         __v: { $first: '$__v' }

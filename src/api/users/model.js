@@ -23,7 +23,7 @@ const schema = {
     match: /^\S+@\S+\.\S+$/,
     unique: true
   },
-  isConfimer: {
+  isConfirmed: {
     type: Boolean,
     default: false
   },

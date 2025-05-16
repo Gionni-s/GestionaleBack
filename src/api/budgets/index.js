@@ -14,7 +14,7 @@ const router = express.Router();
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
@@ -26,7 +26,7 @@ router.get('/', query(bodySchema.query), token({ required: true }), actions.inde
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/kpi', query(bodySchema.query), token({ required: true }), actions.kpi);
 
@@ -38,7 +38,7 @@ router.get('/kpi', query(bodySchema.query), token({ required: true }), actions.k
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
@@ -50,7 +50,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.post('/', token({ required: true }), actions.create);
 
@@ -62,7 +62,7 @@ router.post('/', token({ required: true }), actions.create);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.put('/:id', token({ required: true }), actions.update);
 
@@ -74,7 +74,7 @@ router.put('/:id', token({ required: true }), actions.update);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.delete('/:id', token({ required: true }), actions.destroy);
 

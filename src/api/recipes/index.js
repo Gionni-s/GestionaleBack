@@ -14,21 +14,21 @@ const router = express.Router();
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/', query(bodySchema.query), token({ required: true }), actions.index);
 
 /**
- * @api {get} /recipes/reserch Search Recipe from food's ID
+ * @api {get} /recipes/research Search Recipe from food's ID
  * @apiName GetUser
  * @apiGroup User
  *
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
-router.get('/reserch', query(bodySchema.query), token({ required: true }), actions.searchRecipe);
+router.get('/research', query(bodySchema.query), token({ required: true }), actions.searchRecipe);
 
 /**
  * @api {get} /recipes/expiring-food Return recipe with expiring foods
@@ -38,7 +38,7 @@ router.get('/reserch', query(bodySchema.query), token({ required: true }), actio
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/expiring-foods',
   query(bodySchema.query), token({ required: true }), actions.searchRecipeForExpiringFoods);
@@ -51,7 +51,7 @@ router.get('/expiring-foods',
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/:id', query(bodySchema.query), token({ required: true }), actions.show);
 
@@ -63,7 +63,7 @@ router.get('/:id', query(bodySchema.query), token({ required: true }), actions.s
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.post('/', token({ required: true }), actions.create);
 
@@ -75,7 +75,7 @@ router.post('/', token({ required: true }), actions.create);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.put('/:id', token({ required: true }), actions.update);
 
@@ -87,7 +87,7 @@ router.put('/:id', token({ required: true }), actions.update);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.delete('/:id', token({ required: true }), actions.destroy);
 

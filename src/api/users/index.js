@@ -12,7 +12,7 @@ const router = express.Router();
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/', token({ required: true }), actions.show);
 
@@ -24,7 +24,7 @@ router.get('/', token({ required: true }), actions.show);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/newToken', token({ required: true }), actions.refreshToken);
 
@@ -36,7 +36,7 @@ router.get('/newToken', token({ required: true }), actions.refreshToken);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.get('/me', token({ required: true }), actions.showMe);
 
@@ -49,7 +49,7 @@ router.get('/me', token({ required: true }), actions.showMe);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.post('/', token({ required: false }), actions.createUser);
 
@@ -61,7 +61,7 @@ router.post('/', token({ required: false }), actions.createUser);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.post('/login', token({ required: false }), actions.login);
 
@@ -73,7 +73,7 @@ router.post('/login', token({ required: false }), actions.login);
  * @apiParam {Number} id User's unique ID.
  *
  * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {String} last name  Last name of the User.
  */
 router.put('/me', token({ required: true }), actions.updateMe);
 

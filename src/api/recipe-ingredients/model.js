@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
-import { recipeIngridientMeasurement, RecipeIngridientMeasurementUnitEnum } from '../_utils/enum';
+import { recipeIngredientMeasurement, RecipeIngredientMeasurementUnitEnum } from '../_utils/enum';
 import ValidateSchema from '../_generator/validateSchema';
 
 const schema = {
@@ -10,8 +10,8 @@ const schema = {
   },
   measurementUnit: {
     type: String,
-    enum: recipeIngridientMeasurement,
-    default: RecipeIngridientMeasurementUnitEnum.g
+    enum: recipeIngredientMeasurement,
+    default: RecipeIngredientMeasurementUnitEnum.g
   },
   recipeId: {
     type: Schema.ObjectId,
