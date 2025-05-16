@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { privateKey } = require('../../config');
 
 const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, next) => {
@@ -23,13 +23,13 @@ const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, 
 };
 
 function createToken(object) {
-  var token = jwt.sign({ _id: object._id.toString() }, privateKey, { expiresIn: '7d' });
+  const token = jwt.sign({ _id: object._id.toString() }, privateKey, { expiresIn: '7d' });
   object.password = undefined;
-  return { 'token': token, 'user': object };
+  return { token, 'user': object };
 }
 
 function verifyToken(token) {
-  var decoded = undefined;
+  let decoded = undefined;
   try {
     decoded = jwt.verify(token.split(' ')[1], privateKey);
   } catch (err) {

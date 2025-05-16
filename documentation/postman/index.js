@@ -42,7 +42,7 @@ export class Postman {
       headers: { 'X-Api-Key': postmanApi }
     });
 
-    if (!name) return response.data.workspaces;
+    if (!name) {return response.data.workspaces;}
 
     return (
       response.data.workspaces.find(
@@ -53,7 +53,7 @@ export class Postman {
 
   // Create Collection
   static async createCollection(name, items = [], events = [], workspaceId) {
-    if (_.isNil(workspaceId)) throw new Error('workspaceId can\'t be undefined');
+    if (_.isNil(workspaceId)) {throw new Error('workspaceId can\'t be undefined');}
     await this.deleteCollectionByName(name, workspaceId);
 
     const collectionData = {
@@ -83,7 +83,7 @@ export class Postman {
 
   // Get Collection
   static async getCollection(name, workspaceId) {
-    if (_.isNil(workspaceId)) throw new Error('workspaceId can\'t be undefined');
+    if (_.isNil(workspaceId)) {throw new Error('workspaceId can\'t be undefined');}
 
     const response = await axios.get(
       `https://api.getpostman.com/collections?workspace=${workspaceId}`,
@@ -127,7 +127,7 @@ export class Postman {
 
   // Create Environment
   static async createEnvironment(name, variables = [], workspaceId) {
-    if (_.isNil(workspaceId)) throw new Error('workspaceId can\'t be undefined');
+    if (_.isNil(workspaceId)) {throw new Error('workspaceId can\'t be undefined');}
 
     const exists = this.getEnvironments(workspaceId);
     if (!_.isEmpty(exists)) {

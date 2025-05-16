@@ -7,7 +7,7 @@ const capitalizeRef = (name) =>
   name.charAt(0).toUpperCase() + name.slice(1, -2);
 
 export function schemaGeneration(entitySchema, timeSeries) {
-  let virtuals = createVirtuals(entitySchema);
+  const virtuals = createVirtuals(entitySchema);
 
   Object.keys(entitySchema).forEach(key => {
     if (entitySchema[key].virtual) {
@@ -31,7 +31,7 @@ export function schemaGeneration(entitySchema, timeSeries) {
       });
     }
   });
-  let schema = new Schema(entitySchema, { ...timeSeries, timestamps: { createdAt: 'createdAt' } });
+  const schema = new Schema(entitySchema, { ...timeSeries, timestamps: { createdAt: 'createdAt' } });
 
   virtuals.forEach(val => {
     schema.virtual(val.as, val.options);

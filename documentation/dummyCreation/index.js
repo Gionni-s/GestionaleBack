@@ -5,7 +5,7 @@ const dummy = require('mongoose-dummy');
 const appRoot = require('app-root-path');
 require('@babel/register');
 
-let allModels = {};
+const allModels = {};
 
 const docsDir = path.join(appRoot.toString(), './docs');
 const entityDir = docsDir + '/entities';

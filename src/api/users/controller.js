@@ -5,7 +5,7 @@ import Entity from './model';
 import UploadFile from '../upload/model.js';
 import { basicAuth, convertImageToBase64 } from './utils/index.js';
 
-let actions = FunctionGeneration(Entity);
+const actions = FunctionGeneration(Entity);
 
 actions.login = async ({ headers: { authorization } }, res) => {
   try {
@@ -13,7 +13,7 @@ actions.login = async ({ headers: { authorization } }, res) => {
       return res.status(404).send({ status: 404, message: 'Need to send username and password' });
     }
     const { mail, psw } = basicAuth(authorization);
-    let user = await findUser({ mail, psw });
+    const user = await findUser({ mail, psw });
     await Entity.updateOne({ _id: user._id }, { $set: { lastLogin: new Date() } });
     return res.status(200).send(createToken(user));
   } catch (err) {
@@ -22,15 +22,15 @@ actions.login = async ({ headers: { authorization } }, res) => {
   }
 };
 
-actions.refreshToken = async (req, res) => {
+actions.refreshToken = async ({ mail, psw }, res) => {
   try {
     //TODO: ripensare questa funzione
-    let user = await findUser({ mail, psw });
+    const user = await findUser({ mail, psw });
 
-    if (user.length == 1) {
-      var token = createToken({ 'id': (user[0])['_id'] });
+    if (user.length === 1) {
+      const token = createToken({ 'id': (user[0])['_id'] });
       return res.status(200).send(token);
-    } else if (user.length > 1) {
+    } if (user.length > 1) {
       throw ({ code: 1000, status: 400, message: 'Ci sono più utenti con le stesse caratteristiche' });
     }
     return res.status(500).send('Nessun Utente trovato');
@@ -67,15 +67,15 @@ actions.showMe = async ({ user }, res) => {
 };
 
 actions.updateMe = async ({ body, user }, res) => {
-  let image = body.profileImage.file;
-  let updateImage =
+  const image = body.profileImage.file;
+  const updateImage =
     await UploadFile.findOneAndUpdate({
       userId: user._id,
       type: 'profileImage'
     }, { file: image }, { new: true });
 
   body.profileImageId = updateImage._id;
-  let updated = await Entity.findOneAndUpdate({ _id: user._id }, body, { new: true });
+  const updated = await Entity.findOneAndUpdate({ _id: user._id }, body, { new: true });
   if (_.isNil(updated)) {
     return res.status(400).send({ message: 'no items found to modify' });
   }
@@ -86,9 +86,9 @@ actions.createUser = async (req, res) => {
   let result;
   let imageUpload;
   try {
-    let { name, surname, phone, psw, mail, profileImage } = req.body;
+    const { name, surname, phone, psw, mail, profileImage } = req.body;
 
-    let exist = await Entity.find({ 'email': mail });
+    const exist = await Entity.find({ 'email': mail });
     if (!_.isEmpty(exist)) {
       throw ({ code: 1000, status: 400, message: 'Utente già presente' });
     }
@@ -107,13 +107,13 @@ actions.createUser = async (req, res) => {
 
     if (result) {
       logger.info('Utente inserito correttamente');
-      let user = await findUser({ mail, psw });
+      const user = await findUser({ mail, psw });
       return res.status(200).send(createToken({ '_id': (user)['_id'] }));
     }
     throw ({ code: 1000, status: 400, message: 'Utente non inserito' });
   } catch (err) {
-    if (result) await Entity.deleteOne({ _id: result._id }, {});
-    if (imageUpload) await UploadFile.deleteOne({ _id: imageUpload._id }, {});
+    if (result) {await Entity.deleteOne({ _id: result._id }, {});}
+    if (imageUpload) {await UploadFile.deleteOne({ _id: imageUpload._id }, {});}
     logger.error(err.message);
     return res.status(err.status || 500).send({ code: err.code || 9000, message: err.message });
   }

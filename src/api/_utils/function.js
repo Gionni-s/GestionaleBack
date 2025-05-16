@@ -20,7 +20,7 @@ export const generateBulkOperations = (data, operation = 'insert') => {
         bulkOps.push({ insertOne: { document: item } });
         break;
       case 'update':
-        if (!item._id) throw new Error('Update operations require _id');
+        if (!item._id) {throw new Error('Update operations require _id');}
         bulkOps.push({
           updateOne: {
             filter: { _id: item._id },
@@ -30,7 +30,7 @@ export const generateBulkOperations = (data, operation = 'insert') => {
         });
         break;
       case 'delete':
-        if (!item._id) throw new Error('Delete operations require _id');
+        if (!item._id) {throw new Error('Delete operations require _id');}
         bulkOps.push({ deleteOne: { filter: { _id: item._id } } });
         break;
       default:

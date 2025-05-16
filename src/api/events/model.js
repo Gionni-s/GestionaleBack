@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
-import { eventFather } from '../_utils/enum';
 
 const schema = {
   title: {

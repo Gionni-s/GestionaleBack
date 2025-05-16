@@ -5,7 +5,7 @@ import RecipeIngredients from '../recipe-ingredients/model';
 import moment from 'moment';
 import { generateBulkOperations } from '../_utils/function.js';
 
-let actions = FunctionGeneration(Entity);
+const actions = FunctionGeneration(Entity);
 
 actions.create = async ({ body, user }, res) => {
   try {

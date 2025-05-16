@@ -1,4 +1,4 @@
-let ObjectID = require('mongoose').Types.ObjectId;
+const ObjectID = require('mongoose').Types.ObjectId;
 
 module.exports = {
   up(db) {

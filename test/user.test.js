@@ -12,7 +12,7 @@ afterEach(async () => {
   await mongoose.disconnect();
 });
 
-let user = {
+const user = {
   name: 'nome',
   surname: 'surname',
   psw: 'pswasd12Sa@',

@@ -44,7 +44,7 @@ actions.kpi = async ({ query: { kpi }, user }, res) => {
     return res.status(200).send([]);
   }
 
-  let budgetGroup = await BudgetGroupTemplate.aggregate(getKpiAggregate(kpi.split(','), user._id));
+  const budgetGroup = await BudgetGroupTemplate.aggregate(getKpiAggregate(kpi.split(','), user._id));
 
   return res.status(200).send(budgetGroup);
 };

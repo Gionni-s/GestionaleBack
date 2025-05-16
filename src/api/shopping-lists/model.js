@@ -4,7 +4,7 @@ import ValidateSchema from '../_generator/validateSchema';
 import { shoppingListElement, ShoppingListElementStatusEnum } from '../_utils/enum';
 import { addShoppingElement } from './middleware';
 
-let schema = {
+const schema = {
   foodId: {
     type: Schema.ObjectId,
 

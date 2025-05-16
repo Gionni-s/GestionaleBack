@@ -15,10 +15,10 @@ let createdUser;
 
 let werehouse;
 let warehouseEntity;
-let food = {
+const food = {
   name: 'temp',
 };
-let location = {
+const location = {
   name: 'temp',
 };
 
@@ -54,7 +54,7 @@ afterEach(async () => {
   await mongoose.disconnect();
 });
 
-let user = {
+const user = {
   name: 'nome',
   cognome: 'surname',
   password: 'psw',

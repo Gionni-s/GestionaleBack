@@ -3,7 +3,7 @@ import ModelGenerator from '../_generator/modelGenerator';
 import { recipeIngridientMeasurement, RecipeIngridientMeasurementUnitEnum } from '../_utils/enum';
 import ValidateSchema from '../_generator/validateSchema';
 
-let schema = {
+const schema = {
   quantity: {
     type: Number,
     required: true

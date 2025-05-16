@@ -3,7 +3,7 @@ import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
 import { amountType, AmountTypeEnum } from '../_utils/enum';
 
-let schema = {
+const schema = {
   name: {
     type: String,
     required: true,

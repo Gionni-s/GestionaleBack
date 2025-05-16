@@ -22,9 +22,7 @@ export class PdfGenerator {
    * @returns {string} The rendered HTML string.
    */
   renderTemplate(template, data) {
-    return template.replace(/<%=\s*(\w+)\s*%>/g, (_, key) => {
-      return data[key] !== undefined ? data[key] : '';
-    });
+    return template.replace(/<%=\s*(\w+)\s*%>/g, (_, key) => data[key] !== undefined ? data[key] : '');
   }
 
   /**
@@ -35,7 +33,7 @@ export class PdfGenerator {
    */
   parseHtml(html) {
     const tokens = [];
-    let cleaned = html
+    const cleaned = html
       .replace(/\n/g, '')
       .replace(/\s+</g, '<')
       .replace(/>\s+/g, '>');
@@ -81,14 +79,14 @@ export class PdfGenerator {
     const drawText = (text, options = {}) => {
       const { size = 12, bold = false, italic = false, indent = 0 } = options;
       let currentFont = font;
-      if (bold) currentFont = fontBold;
-      if (italic) currentFont = fontItalic;
+      if (bold) {currentFont = fontBold;}
+      if (italic) {currentFont = fontItalic;}
 
       const maxWidth = width - this.margin * 2;
       const words = text.split(' ');
       let line = '';
 
-      for (let word of words) {
+      for (const word of words) {
         const testLine = line + word + ' ';
         const testWidth = currentFont.widthOfTextAtSize(testLine, size);
         if (testWidth > maxWidth) {

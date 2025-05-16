@@ -153,9 +153,9 @@ class Excel {
       workbook.created = options.properties.created || new Date();
       workbook.modified = options.properties.modified || new Date();
 
-      if (options.properties.title) workbook.title = options.properties.title;
-      if (options.properties.subject) workbook.subject = options.properties.subject;
-      if (options.properties.keywords) workbook.keywords = options.properties.keywords;
+      if (options.properties.title) {workbook.title = options.properties.title;}
+      if (options.properties.subject) {workbook.subject = options.properties.subject;}
+      if (options.properties.keywords) {workbook.keywords = options.properties.keywords;}
     }
 
     workbook.calcProperties.fullCalcOnLoad = true;

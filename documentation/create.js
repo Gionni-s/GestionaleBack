@@ -4,7 +4,7 @@ function createCollection(name) {
   // This is the our postman collection
   const postmanCollection = new Collection({
     info: {
-      name: name
+      name
     },
     // Requests in this collection
     item: [],
@@ -15,13 +15,13 @@ function createCollection(name) {
 
 function createFolder(name) {
   return {
-    name: name,
+    name,
     item: []
   };
 }
 
 function createItem(info, authType = 'bearer') {
-  let postmanRequest = [];
+  const postmanRequest = [];
   // This string will be parsed to create header
   const rawHeaderString =
     'Authorization:\nContent-Type:application/json\ncache-control:no-cache\n';
@@ -36,7 +36,7 @@ function createItem(info, authType = 'bearer') {
 
   info.forEach(element => {
     let body = {};
-    if (element.method == 'post') {
+    if (element.method === 'post') {
       try {
         body = {
           mode: 'raw',
@@ -52,7 +52,7 @@ function createItem(info, authType = 'bearer') {
         header: requestHeader,
         url: baseUrl + element.url,
         method: element.method,
-        body: body,
+        body,
         auth: {
           'type': authType,
           'basic': [

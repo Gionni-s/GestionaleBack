@@ -9,19 +9,19 @@ const postmanCollection = createCollection(appName, false);
 
 const folderName = getFoldersName();
 
-let folderCollection = [];
+const folderCollection = [];
 folderName.forEach(element => {
   folderCollection[element] = createFolder(_.capitalize(element));
 });
 
-let postmanComment = getPostmanInfo(folderName);
+const postmanComment = getPostmanInfo(folderName);
 
 
 
-for (let name in folderCollection) {
-  let info = getCallInfo(postmanComment[name]);
+for (const name in folderCollection) {
+  const info = getCallInfo(postmanComment[name]);
   const postmanRequest = createItem(info);
-  for (let i in postmanRequest) {
+  for (const i in postmanRequest) {
     folderCollection[name].item.push(postmanRequest[i]);
   }
   postmanCollection.items.add(folderCollection[name]);

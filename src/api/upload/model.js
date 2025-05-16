@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
 
-let schema = {
+const schema = {
   file: {
     type: Object,
     required: true,

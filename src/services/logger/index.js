@@ -2,15 +2,11 @@ const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, printf } = format;
 const expressWinston = require('express-winston');
 
-// formatting console message 
-const consoleFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} ${level}: ${message}`;
-});
+// formatting console message
+const consoleFormat = printf(({ level, message, timestamp }) => `${timestamp} ${level}: ${message}`);
 
 // Define the log format for file
-const fileFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} ${level}: ${message}`;
-});
+const fileFormat = printf(({ level, message, timestamp }) => `${timestamp} ${level}: ${message}`);
 
 const logger = createLogger({
   format: combine(
@@ -42,7 +38,7 @@ const logger = createLogger({
   ]
 });
 
-/* eslint-disable */
+
 logger.expressLogger = expressWinston.logger({
   winstonInstance: logger,
   msg:

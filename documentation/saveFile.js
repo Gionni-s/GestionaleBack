@@ -2,7 +2,7 @@ const fs = require('fs');
 const appRoute = require('app-root-path');
 
 function saveFile(collectionJSON) {
-  let dir = appRoute.toString() + '/docs';
+  const dir = appRoute.toString() + '/docs';
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
     logger.info('Create folder --> ' + dir);

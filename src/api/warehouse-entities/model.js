@@ -3,7 +3,7 @@ import ModelGenerator from '../_generator/modelGenerator';
 import ValidateSchema from '../_generator/validateSchema';
 import { createEvent, removeEvent } from './middleware';
 
-let schema = {
+const schema = {
   name: {
     type: String,
     required: true

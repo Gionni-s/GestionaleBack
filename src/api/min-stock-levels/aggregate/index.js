@@ -3,8 +3,8 @@ export function aggregateWarehouseEntity(foodId, userId) {
     {
       $group: {
         _id: {
-          foodId: foodId,
-          userId: userId
+          foodId,
+          userId
         },
         totalAmount: {
           $sum: '$quantity'

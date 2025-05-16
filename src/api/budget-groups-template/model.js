@@ -22,7 +22,7 @@ const resetPeriodSchemaToBuild = new mongoose.Schema({
 
 const resetPeriodSchema = new Schema(resetPeriodSchemaToBuild, { _id: false, id: false });
 
-let schema = {
+const schema = {
   name: {
     type: String,
     required: true,

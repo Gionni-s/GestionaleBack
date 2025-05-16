@@ -1,9 +1,9 @@
 export async function addShoppingElement(foodId, quantity, userId) {
-  const shoppingListElement = await this.find({ foodId, userId: userId }).lean();
+  const shoppingListElement = await this.find({ foodId, userId }).lean();
 
   if (!_.isEmpty(shoppingListElement)) {
-    return;
+    return null;
   }
 
-  return await this.create({ foodId, quantity, userId: userId });
+  return await this.create({ foodId, quantity, userId });
 }

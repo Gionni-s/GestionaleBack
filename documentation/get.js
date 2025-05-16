@@ -9,7 +9,7 @@ function getFoldersName() {
 }
 
 function getPostmanInfo(names) {
-  let val = {};
+  const val = {};
 
   names.forEach(name => {
     val[name] = [];
@@ -22,7 +22,7 @@ function getPostmanInfo(names) {
 
       // Filtra i blocchi di commenti per includere solo quelli che contengono @api
       const apiComments = commentBlocks.filter(block => block.includes('@api'));
-      for (let i in apiComments) {
+      for (const i in apiComments) {
         apiComments[i] = parsePostmanInfo(apiComments[i]);
       }
 
@@ -35,7 +35,7 @@ function getPostmanInfo(names) {
 }
 
 function getCallInfo(val) {
-  let result = [];
+  const result = [];
   val.forEach(element => {
     let mainLine = element[0];
     mainLine = mainLine.split(' ');

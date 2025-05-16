@@ -1,7 +1,7 @@
 import { Schema } from 'querymen';
 
 export default function ValidateSchema(mongooseSchema) {
-  let query = {};
+  const query = {};
 
   function parseSchema(schema, path = '') {
     if (schema.paths) {

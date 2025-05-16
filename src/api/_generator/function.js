@@ -71,13 +71,13 @@ export default function FunctionGeneration(Entity) {
 
   async function update({ body, user, params }, res) {
     try {
-      let updatedItem = await Entity.findOne({ _id: params.id, userId: user._id });
+      const updatedItem = await Entity.findOne({ _id: params.id, userId: user._id });
 
       if (!updatedItem) {
         return res.status(404).send(noModificationMessage);
       }
 
-      for (let val in body) {
+      for (const val in body) {
         updatedItem[val] = body[val];
       }
 
@@ -94,13 +94,13 @@ export default function FunctionGeneration(Entity) {
 
   async function updateMe({ body, user }, res) {
     try {
-      let result = await Entity.findOne({ _id: user._id });
+      const result = await Entity.findOne({ _id: user._id });
 
       if (!result) {
         return res.status(404).send(noModificationMessage);
       }
 
-      for (let val in body) {
+      for (const val in body) {
         result[val] = body[val];
       }
 
