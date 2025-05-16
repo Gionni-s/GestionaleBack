@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const { privateKey } = require('../../config');
+import User from '../../api/users/model';
+import { roles as userRoles, RolesEnum } from '../../api/_utils/enum';
 
-const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, next) => {
+const token = ({ required, master, roles = [RolesEnum.USER] } = {}) => async (req, res, next) => {
   try {
     const token = req.headers.authorization;
 
@@ -13,8 +15,24 @@ const token = ({ required, master, roles /*= User.roles*/ } = {}) => (req, res, 
       return res.status(401).send('');
     }
 
-    //TODO: add role control for token
-    req.user = verifyToken(token);
+    const userToken = verifyToken(token);
+    const user = await User.findOne({ _id: userToken._id });
+    const userRole = _.get(user, 'role', undefined);
+
+    if (!userRole || !userRoles.includes(userRole)) {
+      return res.status(403).send('');
+    }
+
+    if (roles.length > 0) {
+      const userIndex = userRoles.indexOf(userRole);
+      const minAllowedIndex = Math.min(...roles.map(r => userRoles.indexOf(r)).filter(i => i >= 0));
+
+      if (userIndex < minAllowedIndex) {
+        return res.status(403).send('');
+      }
+    }
+
+    req.user = user;
     return next();
   } catch (err) {
     logger.error(err.message);
